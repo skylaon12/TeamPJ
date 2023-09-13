@@ -13,12 +13,5 @@
 </h1>
 
 <P>  The time on the server is ${serverTime}. </P>
-<a href="${cp}/guest/getList">방명록</a>
-<a href="${cp}/api/w">날짜확인하기</a>
-<a href="${cp}/api/address">주소검색하기</a>
-<a href="${cp}/api/login">카톡으로 로그인하기</a>
-<a href="${cp}/guest/testapi">ajax연습</a>
-
-
-</body>
+<a href="${cp}/board/list">게시판가기</a>
 </html>
