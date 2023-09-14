@@ -14,9 +14,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>MEET PLAY SHARE, 메가박스</title>
 
-<link rel="stylesheet" type="text/css" href="/resources/css/style.css"/>
-<link rel="stylesheet" type="text/css" href="/resources/css/list.css"/>
-<link rel="stylesheet" type="text/css" href="/resources/css/main_files/megabox.min.css" media="all">
+<link rel="stylesheet" type="text/css" href="../resources/css/style.css?ver=<%=System.currentTimeMillis()%>"/>
+<link rel="stylesheet" type="text/css" href="../resources/css/list.css?ver=<%=System.currentTimeMillis()%>"/>
+<link rel="stylesheet" type="text/css" href="../resources/css/main_files/megabox.min.css?ver=<%=System.currentTimeMillis()%>" media="all">
 
 
 
