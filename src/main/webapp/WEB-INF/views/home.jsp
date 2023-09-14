@@ -13,5 +13,5 @@
 </h1>
 
 <P>  The time on the server is ${serverTime}. </P>
-<a href="${cp}/board/list">게시판가기</a>
+<a href="${cp}/notice/list">게시판가기</a>
 </html>

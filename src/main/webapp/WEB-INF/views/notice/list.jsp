@@ -518,11 +518,10 @@
 		</div>
 		<div id="lists">
 		<c:forEach var="dto" items="${lists}"> <%-- BoardDTO : lists와 동일 EL로 받은것  --%>
-						
 			<dl>								<%-- EL로 받은것은 변수명을 게터로받지않고 그대로 사용 그렇다고 DAO의 게터세터를 지우면안됌. --%>
 				<dd class="num">${dto.p_id }</dd> 
 				<dd class="subject">
-				<a href="${articleUrl }&num=${dto.p_id }">
+				<a href="${articleUrl}${dto.p_id }">
 				${dto.p_title }</a>
 				</dd>
 				<dd class="name">${dto.p_writer }</dd>
