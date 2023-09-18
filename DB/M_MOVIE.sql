@@ -10,5 +10,8 @@ create table m_movie(
 
 alter table m_movie add foreign key(suitableage) references m_viewingclass(id);
 
-# api로 정보를 따와야 하나...? 알아 볼 필요가 있는듯
-select * from m_movie;
+# 0918 테스트 데이터 삽입
+insert into m_movie(name, poster_url, trailer_url, director, actress, suitableage)
+values('잠', 'sleep.jpg', 'https://www.youtube.com/watch?v=aRxQDCXnfOc', '유재선', '정유미, 이선균, 김금순, 김국희, 이경진, 윤경호', 3);
+insert into m_movie(name, poster_url, trailer_url, director, actress, suitableage)
+values('베니스 유령 살인사건', '베니스유령살인사건.jpg', 'https://www.youtube.com/watch?v=Zg1KtJqbCz8', '케네스 브래너', '양자경, 카일 앨런, 카밀 코탄, 제이미 도넌, 티나 페이, 주드 힐, 켈리 라일리', 2);
