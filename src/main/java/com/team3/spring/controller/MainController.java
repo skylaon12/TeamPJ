@@ -28,10 +28,12 @@ public class MainController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "/main", method = RequestMethod.GET)
-	public void home(Model m) {
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String home(Model m) {
 		log.info("컨트롤러 진입");
 		m.addAttribute("lists", service.getMovieList());
+		
+		return "main";
 	}
 	
 }

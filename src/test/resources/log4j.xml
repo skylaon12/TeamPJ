@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.peisia.spring">
+	<logger name="com.team3.spring">
 		<level value="info" />
 	</logger>
 	

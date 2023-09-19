@@ -24,6 +24,12 @@ public class BoardServiceImpl implements BoardService {
 		log.info("서비스 진입");
 		return mapper.list();
 	}
+	
+	// 쓰기
+	@Override
+	public void write(BoardVO gvo) {
+		mapper.write(gvo);
+	}
 
 	@Override
 	public int test() {

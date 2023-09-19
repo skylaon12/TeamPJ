@@ -1,5 +1,4 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
@@ -10,31 +9,85 @@
 
 <link rel="shortcut icon"
 	href="https://www.megabox.co.kr/static/pc/images/favicon.ico">
-
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <title>MEET PLAY SHARE, 메가박스</title>
 
-<link rel="stylesheet" type="text/css" href="../resources/css/style.css?ver=<%=System.currentTimeMillis()%>"/>
-<link rel="stylesheet" type="text/css" href="../resources/css/list.css?ver=<%=System.currentTimeMillis()%>"/>
-<link rel="stylesheet" type="text/css" href="../resources/css/main_files/megabox.min.css?ver=<%=System.currentTimeMillis()%>" media="all">
+<link rel="stylesheet" type="text/css" href="../resources/css/style.css"/>
+<link rel="stylesheet" type="text/css" href="../resources/css/list.css"/>
+<link rel="stylesheet" type="text/css" href="../resources/css/main_files/megabox.min.css" media="all">
 
 
-
+<script type="text/javascript" src="../resources/js/util.js"></script>
 <script type="text/javascript">
 
 	function sendIt(){
 		
-		var f = document.searchForm;
-		f.action = "<%=cp%>/movie/list";
-		f.submit();
-	}
+		var f = document.myForm;
 		
-	
+		str = f.p_title.value;
+		str = str.trim();
+		if(!str){
+			alert("\n제목을 입력하세요.");
+			f.p_title.focus();
+			return;
+		}
+		f.p_title.value = str;
+		
+		str = f.p_writer.value;
+		str = str.trim();
+		if(!str){
+			alert("\n이름을 입력하세요.");
+			f.p_writer.focus();
+			return;
+		}		
+		
+		/* if(!isValidKorean(str)){
+			alert("\n이름을 정확히 입력하세요.");
+			f.name.focus()
+			return;
+		}	*/	
+		f.p_writer.value = str;
+		
+		/* if(f.email.value){
+			if(!isValidEmail(f.email.value)){
+				alert("\n정상적인 E-Mail을 입력하세요.");
+				f.email.focus();
+				return;
+			}
+		}
+		*/
+		
+		str = f.p_text.value;
+		str = str.trim();
+		if(!str){
+			alert("\n내용을 입력하세요.");
+			f.p_text.focus();
+			return;
+		}
+		f.p_text.value = str;
+		
+		/*
+		str = f.pwd.value;
+		str = str.trim();
+		if(!str){
+			alert("\n패스워드를 입력하세요.");
+			f.pwd.focus();
+			return;
+		}
+		f.pwd.value = str;
+		*/
+		
+		f.action = "<%=cp%>/notice/write";
+		f.submit();
+		
+	}
+
 </script>
+
 
 </head>
 <body>
-
 
 <!-- header -->
 <header id="header">
@@ -48,34 +101,59 @@
         <div class="left-link">
             <a href="https://www.megabox.co.kr/benefit/viplounge" title="VIP LOUNGE">VIP LOUNGE</a>
             <a href="https://www.megabox.co.kr/benefit/membership" title="멤버십">멤버십</a>
-            <a href="http://localhost:8080/movie/list" title="고객센터">고객센터</a>
+            <a href="https://www.megabox.co.kr/support" title="고객센터">고객센터</a>
         </div>
-		
-		<!-- 세션작업(현우20220523) -->
+
         <div class="right-link">
-            <!-- 
-            세션 id가 없을 때 로그인/회원가입 을 보여주고
-            다른상황(otherwise)일때는 세션id / 로그아웃 / 마이 페이지를 보여줌
-             -->
-            <c:choose>
-            	
-            	<c:when test="${empty sessionScope.customInfo.id }">
-            		<a href="<%=cp%>/movie/login" title="로그인">로그인</a>
-            		<a href="<%=cp%>/movie/join" title="회원가입">회원가입</a>
-            	</c:when>     	
-            	 
-            	<c:otherwise>
-            		<a href="">${sessionScope.customInfo.id }님</a>
-            	 	<a href="<%=cp%>/movie/logout" title="로그아웃">로그아웃</a>
-            	 	<a href="<%=cp%>/movie/mypage" title="마이페이지">마이페이지</a>
-            	</c:otherwise>	 
-            </c:choose>        
-        </div> 
+            <!-- 로그인전 -->
+            <div class="before" style="">
+                <a href="javaScript:fn_viewLoginPopup(&#39;default&#39;,&#39;pc&#39;)" title="로그인">로그인</a>
+                <a href="https://www.megabox.co.kr/join" title="회원가입">회원가입</a>
+            </div>
+
+            <!-- 로그인후 -->
+            <div class="after" style="display:none">
+                <a href="https://www.megabox.co.kr/on/oh/ohg/MbLogin/mbLogout.do" class="" title="로그아웃">로그아웃</a>
+                <a href="https://www.megabox.co.kr/support/notice" class="notice" title="알림">알림</a>
+
+                <!-- layer-header-notice -->
+				<div class="layer-header-notice">
+					<div class="notice-wrap">
+						<p class="tit-notice">알림함</p>
+
+						<div class="count">
+							<p class="left">전체 <em class="totalCnt">0</em> 건</p>
+
+							<p class="right">* 최근 30일 내역만 노출됩니다.</p>
+						</div>
+
+						<!-- scroll -->
+						<div class="scroll m-scroll mCustomScrollbar _mCS_1 mCS_no_scrollbar"><div id="mCSB_1" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: none;" tabindex="0"><div id="mCSB_1_container" class="mCSB_container mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+							<ul class="list">
+								<li class="no-list">
+									알림 내역이 없습니다.
+								</li>
+							</ul>
+						</div><div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_vertical"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: none; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
+						<div class="notice-list-more">
+							<button type="button" class="button btn-more-notice-list">더보기 <i class="iconset ico-btn-more-arr"></i></button>
+						</div>
+						<!--// scroll -->
+						<button type="button" class="btn-close-header-notice">알림 닫기</button>
+					</div>
+					<!--// notice-wrap -->
+				<!--// layer-header-notice -->
+				</div>
+
+            </div>
+
+            <a href="https://www.megabox.co.kr/booking">빠른예매</a>
+        </div>
     </div>
     <!--// 2019-04-15 마크업 수정 : 고객요청  -->
 
     <div class="link-area">
-        <a href="#layer_sitemap" class="header-open-layer btn-layer-sitemap" title="사이트맵">사이트맵</a>
+        <a href="https://www.megabox.co.kr/support/notice#layer_sitemap" class="header-open-layer btn-layer-sitemap" title="사이트맵">사이트맵</a>
         <a href="https://www.megabox.co.kr/support/notice#layer_header_search" class="header-open-layer btn-layer-search" title="검색">검색</a>
         <a href="https://www.megabox.co.kr/booking/timetable" class="link-ticket" title="상영시간표">상영시간표</a>
         <a href="https://www.megabox.co.kr/support/notice#layer_mymega" class="header-open-layer btn-layer-mymega" title="나의 메가박스">나의 메가박스</a>
@@ -102,7 +180,7 @@
                     </ul>
                 </div>
             </li>
-            <li><a href="http://localhost:8080/booking_1" class="gnb-txt-reserve" title="예매">예매</a>
+            <li><a href="https://www.megabox.co.kr/booking" class="gnb-txt-reserve" title="예매">예매</a>
                 <div class="gnb-depth2">
                     <ul>
                         <li><a href="https://www.megabox.co.kr/booking" title="빠른예매">빠른예매</a></li>
@@ -155,8 +233,10 @@
     <!-- 레이어 : 사이트맵 -->
     
 
-	<div id="layer_sitemap" class="header-layer layer-sitemap">
-       
+
+
+<!-- 	<div id="layer_sitemap" class="header-layer layer-sitemap">
+        wrap
         <div class="wrap">
             <a href="https://www.megabox.co.kr/support/notice" class="link-acc" title="사이트맵 레이어 입니다.">사이트맵 레이어 입니다.</a>
 
@@ -290,8 +370,8 @@
                 <a href="https://www.megabox.co.kr/support/notice" class="layer-close" title="레이어닫기">레이어닫기</a>
             </div>
         </div>
-      
-    </div>
+        // wrap
+    </div> -->
     <!--// 레이어 : 사이트맵 -->
 
     <!-- 레이어 : 검색 -->
@@ -446,17 +526,17 @@
 				<nav id="lnb">
 					<p class="tit"><a href="https://www.megabox.co.kr/support" title="고객센터">고객센터</a></p>
 					<ul>
-						<li><a href="http://localhost:8080/movie/list" title="고객센터 홈">고객센터 홈</a></li>
-						<li ><a href="http://localhost:8080/movie/list" title="자주 묻는 질문">자주 묻는 질문</a></li>
-						<li class="on"><a href="http://localhost:8080/movie/list" title="공지사항">공지사항</a></li>
+						<li><a href="http://localhost:8080/list" title="고객센터 홈">고객센터 홈</a></li>
+						<li ><a href="http://localhost:8080/list" title="자주 묻는 질문">자주 묻는 질문</a></li>
+						<li ><a href="http://localhost:8080/list" title="공지사항">공지사항</a></li>
+						<li class="on"><a href="http://localhost:8080/created" title="1:1문의">1:1문의</a></li>
 						<li class="on"><a href="http://localhost:8080/movie/notice/write" title="[관리자] 공지사항 등록">[관리자] 공지사항 등록</a></li>
-						<li><a href="http://localhost:8080/movie/created2" title="1:1문의">1:1문의</a></li>
-						<li><a href="http://localhost:8080/movie/list" title="단체관람 및 대관문의">단체관람 및 대관문의</a></li>
-						<li><a href="http://localhost:8080/movie/list" title="분실물 문의">분실물 문의</a></li>
-						<li><a href="http://localhost:8080/movie/list" title="이용약관">이용약관</a></li>
-						<li><a href="http://localhost:8080/movie/list" title="위치기반서비스이용약관">위치기반서비스이용약관</a></li>
-						<li><a href="http://localhost:8080/movie/list" title="개인정보처리방침">개인정보처리방침</a></li>
-						<li><a href="http://localhost:8080/movie/list" style="border-radius: 0 0 10px 10px;" title="스크린배정수에관한기준">스크린배정수에관한기준</a></li>
+						<li><a href="http://localhost:8080/list" title="단체관람 및 대관문의">단체관람 및 대관문의</a></li>
+						<li><a href="http://localhost:8080/list" title="분실물 문의">분실물 문의</a></li>
+						<li><a href="http://localhost:8080/list" title="이용약관">이용약관</a></li>
+						<li><a href="http://localhost:8080/list" title="위치기반서비스이용약관">위치기반서비스이용약관</a></li>
+						<li><a href="http://localhost:8080/list" title="개인정보처리방침">개인정보처리방침</a></li>
+						<li><a href="http://localhost:8080/list" style="border-radius: 0 0 10px 10px;" title="스크린배정수에관한기준">스크린배정수에관한기준</a></li>
 					</ul>
 
 					<!-- 고객센터 메뉴일때만 출력 -->
@@ -471,136 +551,222 @@
 			</div>
 
 			<div id="contents" class="location-fixed">
-				<h2 class="tit">공지사항</h2>
+				<h2 class="tit">[관리자] 공지사항 등록</h2>
+				
+				<div class="mypage-infomation mb30">
+					<ul class="dot-list">
+						<li>공지사항 등록 테스트. </li>
+					</ul>
 
+					<div class="btn-group right">
+						<a href="http://localhost:8080/movie/notice/list" class="button purple" id="myQnaBtn" title="공지사항 이동">공지사항</a><!-- btn-layer-open -->
+					</div>
+				</div>
+				
+<!-- 
 				<div class="tab-block mb30">
 					<ul>
 						<li class="on tabBtn"><button type="button" class="btn tabBtn" data-no="" title="전체공지 보기">전체</button></li>
 						
-							<!-- <li class="tabBtn"><button type="button" class="btn" data-no="81" title="메가박스 공지 보기">메가박스 공지</button></li>
+							<li class="tabBtn"><button type="button" class="btn" data-no="81" title="메가박스 공지 보기">메가박스 공지</button></li>
 						
-							<li class="tabBtn"><button type="button" class="btn" data-no="82" title="지점 공지 보기">지점 공지</button></li> -->
+							<li class="tabBtn"><button type="button" class="btn" data-no="82" title="지점 공지 보기">지점 공지</button></li>
 						
 					</ul>
 				</div>
+				 -->
+				 
+				 
+				 
+				 <!--
+					<div class="agree-box">
+					<dl>
+						<dt>
+							<span class="bg-chk mr10">
+								<input type="checkbox" id="chk">
+								<label for="chk"><strong>개인정보 수집에 대한 동의</strong></label>
+							<span class="font-orange">[필수]</span></span>
 
-				
-<div id="bbsList">
+							
+						</dt>
+						<dd style="font-size:13px;">
+							귀하께서 문의하신 다음의 내역은 법률에 의거 개인정보 수집·이용에 대한 본인동의가 필요한 항목입니다.<br><br>
 
-	<!-- <div id="bbsList_title">
+							[개인정보의 수집 및 이용목적]<br>
+							회사는 1:1 문의 내역의 확인, 요청사항 처리 또는 완료 시 원활한 의사소통 경로 확보를 위해 수집하고 있습니다.<br><br>
+
+							[필수 수집하는 개인정보의 항목]<br>
+							이름, 휴대전화, 이메일, 문의내용<br><br>
+
+							[개인정보의 보유기간 및 이용기간]<br>
+							<span class="ismsimp">문의 접수 ~ 처리 완료 후 6개월<br>
+							(단, 관계법령의 규정에 의하여 보존 할 필요성이 있는 경우에는 관계 법령에 따라 보존)<br>
+							자세한 내용은 '개인정보 처리방침'을 확인하시기 바랍니다.</span>
+						</dd>
+					</dl>
+				</div>
+				-->
+				<br/>
+			<!--<p class="reset mt10">* 원활한 서비스 이용을 위한 최소한의 개인정보이므로 동의하지 않을 경우 서비스를 이용하실 수 없습니다</p>-->
+	<br/>
+	
+	
+
+<!-- <div id="bbs">
+	<div id="bbs_title">
 		게 시 판(boot jsp)
-	</div> -->
-	<div id="bbsList_header">
-		<div id="leftHeader">
-		<form action="" method="post" name="searchForm">
-			<select name="searchKey" class="selectField">
-				<option value="subject">제목</option>
-				<option value="name">작성자</option>
-				<option value="content">내용</option>
-			</select>
-			<input type="text" name="searchValue" class="textField"/>
-			<input type="button" value=" 검 색 " class="btn2" 	
-			onclick="sendIt()"/>		
-		</form>				
-		</div>
-		<div id="rightHeader">
-			
-		</div>	
 	</div>
-	<div id="bbsList_list">
-		<div id="title">
-			<dl>
-				<dt class="num">번호</dt>
-				<dt class="subject">제목</dt>
-				<dt class="name">작성자</dt>
-				<dt class="created">작성일</dt>
-				<dt class="hitCount">조회수</dt>
-			</dl>
-		</div>
-		<div id="lists">
-		<c:forEach var="dto" items="${lists}"> <%-- BoardDTO : lists와 동일 EL로 받은것  --%>
-			<dl>								<%-- EL로 받은것은 변수명을 게터로받지않고 그대로 사용 그렇다고 DAO의 게터세터를 지우면안됌. --%>
-				<dd class="num">${dto.p_id }</dd> 
-				<dd class="subject">
-				<a href="${articleUrl}${dto.p_id }">
-				${dto.p_title }</a>
-				</dd>
-				<dd class="name">${dto.p_writer }</dd>
-				<dd class="created">${dto.p_created }</dd>
-				<dd class="hitCount">${dto.p_hitcount }</dd>
-			</dl>
-		</c:forEach>
-		</div>
-		<div nav class="pagination" id="footer">
-			<c:if test="${dataCount!=0 }">
-				${pageIndexList }
-			</c:if>
-			<c:if test="${dataCount==0 }">
-				등록된 게시물이 없습니다.
-			</c:if>
-		
+	 -->
+	<form action="" method="post" name="myForm">
+	<div id="bbsCreated">
+		<table class="board-form va-m">
+							<colgroup>
+								<col style="width:150px;">
+								<col>
+								<col style="width:150px;">
+								<col>
+							</colgroup>
+							<tbody>
+								<!-- <tr>
+									<th scope="row">문의지점<em class="font-orange">*</em></th>
+									<td colspan="3">
+										<input type="radio" id="aq1" name="inqMclCd" value="QD01M01" data-cd="QD_BRCH_DIV_CD" checked="">
+										<label for="aq1">지점문의</label>
+
+										<div class="dropdown bootstrap-select small ml10 bs3"><select id="theater" class="small ml10" title="지역선택" tabindex="-98"><option class="bs-title-option" value=""></option>
+											<option value="">지역선택</option>
+											
+												<option value="10">서울</option>
+											
+												<option value="30">경기</option>
+											
+												<option value="35">인천</option>
+											
+												<option value="45">대전/충청/세종</option>
+											
+												<option value="55">부산/대구/경상</option>
+											
+												<option value="65">광주/전라</option>
+											
+												<option value="70">강원</option>
+											
+												<option value="80">제주</option>
+											
+										</select><button type="button" class="btn dropdown-toggle btn-default bs-placeholder" data-toggle="dropdown" role="button" data-id="theater" title="지역선택"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">지역선택</div></div> </div><span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open" role="combobox"><div class="inner open" role="listbox" aria-expanded="false" tabindex="-1"><ul class="dropdown-menu inner "></ul></div></div></div>
+										<div class="dropdown bootstrap-select disabled small ml10 bs3"><select name="brchNo" id="theater02" class="small ml10" title="극장선택" disabled="disabled" tabindex="-98"><option class="bs-title-option" value=""></option>
+											
+										<option value="">극장선택</option></select><button type="button" class="btn dropdown-toggle disabled bs-placeholder btn-default" data-toggle="dropdown" role="button" data-id="theater02" tabindex="-1" aria-disabled="true" title="극장선택"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">극장선택</div></div> </div><span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open dropdown-menu-right" role="combobox" style="max-height: 756.175px; overflow: hidden; min-height: 0px;"><div class="inner open" role="listbox" aria-expanded="false" tabindex="-1" style="max-height: 754.175px; overflow-y: auto; min-height: 0px;"><ul class="dropdown-menu inner "><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">극장선택</span></a></li></ul></div></div></div>
+
+										<input type="radio" id="aq2" name="inqMclCd" class="ml20" value="QD01M02" data-cd="QD_ETC_DIV_CD">
+										<label for="aq2">기타문의</label>
+									</td>
+								</tr>
+								<tr>
+									<th scope="row"><label for="ask-type">문의유형</label> <em class="font-orange">*</em></th>
+									<td colspan="3">
+										<div class="dropdown bootstrap-select small bs3 dropup"><select name="inqSclCd" id="ask-type" class="small" tabindex="-98">
+											
+										<option value="">문의유형 선택</option><option value="QDBR01">일반문의</option><option value="QDBR02">칭찬</option><option value="QDBR03">불만</option><option value="QDBR04">제안</option></select><button type="button" class="btn dropdown-toggle bs-placeholder btn-default" data-toggle="dropdown" role="button" data-id="ask-type" title="문의유형 선택"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">문의유형 선택</div></div> </div><span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open" role="combobox" style="overflow: hidden;"><div class="inner open" role="listbox" aria-expanded="false" tabindex="-1" style="overflow-y: auto;"><ul class="dropdown-menu inner "><li class="selected active"><a role="option" aria-disabled="false" tabindex="0" class="selected active" aria-selected="true"><span class="text">문의유형 선택</span></a></li><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">일반문의</span></a></li><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">칭찬</span></a></li><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">불만</span></a></li><li><a role="option" aria-disabled="false" tabindex="0" aria-selected="false"><span class="text">제안</span></a></li></ul></div></div></div>
+									</td>
+								</tr> -->
+								<tr>
+									<th scope="row"><label for="name">이름</label> <em class="font-orange">*</em></th>
+									<td><input type="text"  name ="p_writer" class="input-text w150px" value="" maxlength="15"></td>
+								</tr>
+								<tr>
+								
+									
+								</tr>
+										
+								
+								<tr>
+									<th scope="row"><label for="qnaCustInqTitle">제목</label> <em class="font-orange">*</em></th>
+									<td colspan="3"><input type="text" name="p_title"  class="input-text" maxlength="100"></td>
+								</tr>
+								<tr>
+									<th scope="row"><label for="textarea">내용</label> <em class="font-orange">*</em></th>
+									<td colspan="3">
+										<div class="textarea">
+											<textarea name="p_text" rows="5" cols="30" title="내용입력" placeholder="※ 공지사항 작성 테스트." class="input-textarea"></textarea>
+											<div class="util">
+												<p class="count">
+													<span id="textareaCnt">0</span> / 2000
+												</p>
+											</div>
+										</div>
+									</td>
+								</tr>
+								
+								<tr>
+	
+								</tr>
+								
+								
+								
+								<!-- 2019-02-14 사진첨부 마크업 수정 -->
+								<!-- <tr>
+									<th scope="row">사진첨부</th>
+									<td colspan="3">
+										<div class="upload-image-box">
+
+											<div class="info-txt">
+												<p>* JPEG, PNG 형식의 5M 이하의 파일만 첨부 가능합니다. (최대 5개)</p>
+
+												to 개발 : 이미지 추가가 5개가 되면 버튼 숨김
+												<button type="button" id="uploadBtn" class="btn-image-add"><span>파일선택</span></button>
+												// to 개발 : 이미지 추가가 5개가 되면 버튼 숨김
+												<p>* 개인정보가 포함된 이미지 등록은 자제하여 주시기 바랍니다.</p>
+											</div>
+
+											<div id="imgList"></div>
+
+										</div>
+									</td>
+								</tr> -->
+								<!--// 2019-02-14 사진첨부 마크업 수정 -->
+								
+								
+								
+							</tbody>
+						</table>
+	
 	</div>
 	
+	
+	<!-- 	<div class="bbsCreated_noLine">
+			<dl>
+				<dt>패스워드</dt>
+				<dd>
+				<input type="password" name="pwd" size="35" 
+				maxlength="7" class="boxTF"/>
+				&nbsp;(게시물 수정 및 삭제시 필요!!)
+				</dd>
+			</dl>		
+		</div>	 -->
+	
+	<br/>	<br/>	
+	<div id="bbsCreated_footer" align="center">
+		<input type="button" value=" 등록하기 " class="button purple large" onclick="sendIt();"/>
+		<input type="reset" value=" 다시입력 " class="button purple large" 
+		onclick="document.myForm.subject.focus();"/>
+		<input type="button" value=" 작성취소 " class="button purple large" 
+		onclick="javascript:location.href='<%=cp%>/notice/list';"/>
+	</div>
+	
+	</form>
+
+
+
+
 </div>
 
-				
 
-				
-			</div>
-		</div>
-	</div>
-	<!--// container -->
-   
-<!-- footer -->
-<footer id="footer">
-    <!-- footer-top -->
-    <div class="footer-top">
-        <div class="inner-wrap">
-            <ul class="fnb">
-                <li><a href="https://www.megabox.co.kr/megaboxinfo" title="회사소개 페이지로 이동">회사소개</a></li>
-                <li><a href="https://www.megabox.co.kr/recruit" title="인재채용 페이지로 이동">인재채용</a></li>
-                <li><a href="https://www.megabox.co.kr/socialcontribution" title="사회공헌 페이지로 이동">사회공헌</a></li>
-                <li><a href="https://www.megabox.co.kr/partner" title="제휴/광고/부대사업문의 페이지로 이동">제휴/광고/부대사업문의</a></li>
-                <li><a href="https://www.megabox.co.kr/support/terms" title="이용약관 페이지로 이동">이용약관</a></li>
-                <li><a href="https://www.megabox.co.kr/support/lcinfo" title="위치기반서비스 이용약관 페이지로 이동">위치기반서비스 이용약관</a></li>
-                <li class="privacy"><a href="https://www.megabox.co.kr/support/privacy" title="개인정보처리방침 페이지로 이동">개인정보처리방침</a></li>
-                <li><a href="https://jebo.joonganggroup.com/main.do" target="_blank" title="윤리경영 페이지로 이동">윤리경영</a></li>
-            </ul>
+<div class="quick-area" style="display: none;">
+	<a href="https://www.megabox.co.kr/support/inquiry" class="btn-go-top" title="top" style="position: fixed;">top</a>
+</div>
 
-            <a href="https://www.megabox.co.kr/support/notice#layer_looking_theater" class="btn-looking-theater" title="극장찾기"><i class="iconset ico-footer-search"></i> 극장찾기</a>
-        </div>
-    </div>
-    <!--// footer-top -->
 
-    <!-- footer-bottom -->
-    <div class="footer-bottom">
-        <div class="inner-wrap">
-            <div class="ci">MEGABOX : Life Theater</div>
 
-            <div class="footer-info">
-                <div>
-                    <address>서울특별시 마포구 월드컵로 240, 지상2층(성산동, 월드컵주경기장)</address>
-                    <p>ARS 1544-0070</p>
-                </div>
-                <p>대표자명 홍정인</p>
-                <p>· 개인정보보호책임자 공성진</p>
-                <p>· 사업자등록번호 211-86-59478</p>
-                <p>· 통신판매업신고번호 제 2020-서울마포-4545 호</p>
-                <p class="copy">COPYRIGHT © MegaboxJoongAng, Inc. All rights reserved</p>
-            </div>
-
-            <div class="footer-sns">
-            	<a href="https://www.youtube.com/onmegabox" target="_blank" title="MEGABOX 유튜브 페이지로 이동"><i class="iconset ico-youtubeN">유튜브</i></a>
-                <a href="http://instagram.com/megaboxon" target="_blank" title="MEGABOX 인스타그램 페이지로 이동"><i class="iconset ico-instagramN">인스타그램</i></a>
-                <a href="https://www.facebook.com/megaboxon" target="_blank" title="MEGABOX 페이스북 페이지로 이동"><i class="iconset ico-facebookN">페이스북</i></a>
-                <a href="https://twitter.com/megaboxon" target="_blank" title="MEGABOX 트위터 페이지로 이동"><i class="iconset ico-twitterN">트위터</i></a>
-            </div>
-        </div>
-    </div>
-    <!--// footer-bottom -->
-    <div id="layer_looking_theater" class="layer-looking-theater"></div>
-</footer>
-<!--// footer -->
 
 
 </body>

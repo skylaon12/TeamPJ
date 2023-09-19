@@ -7,6 +7,10 @@
 		SELECT P_ID, P_TITLE, P_WRITER, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT FROM BOARD
 	</select>
 	
+	<insert id="write">
+		INSERT INTO BOARD(P_WRITER, P_TITLE, P_TEXT) values (#{p_writer}, #{p_title}, #{p_text})
+	</insert>
+	
 	<select id="test" resultType="int">
 		SELECT COUNT(*) FROM BOARD
 	</select>

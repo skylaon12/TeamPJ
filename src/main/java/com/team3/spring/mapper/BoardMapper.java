@@ -8,6 +8,8 @@ public interface BoardMapper {
 	//  리스트
 	public ArrayList<BoardVO> list();
 	
+	public void write(BoardVO gvo);
+	
 	public int test();
 	
 }

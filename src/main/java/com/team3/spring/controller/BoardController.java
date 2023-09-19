@@ -1,12 +1,15 @@
 package com.team3.spring.controller;
 
 import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.team3.spring.service.BoardService;
+import com.team3.spring.vo.BoardVO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -26,6 +29,18 @@ public class BoardController {
 		String articleUrl = "article?p_id="; 
 		m.addAttribute("lists", service.list());
 		m.addAttribute("articleUrl",articleUrl);
+	}
+	
+	@PostMapping("/write")
+	public String write(BoardVO gvo) {
+		service.write(gvo);
+		
+		return "redirect:/notice/list";
+	}
+	
+	@GetMapping("/write")
+	public void write() {
+		
 	}
 	
 	@GetMapping("/article")
