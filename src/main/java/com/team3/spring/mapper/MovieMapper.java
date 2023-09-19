@@ -6,4 +6,5 @@ import com.team3.spring.vo.MovieVO;
 
 public interface MovieMapper {
 	public List<MovieVO> getList();
+	public MovieVO getMovie(int id);
 }

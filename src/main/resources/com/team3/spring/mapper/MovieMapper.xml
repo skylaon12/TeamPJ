@@ -6,4 +6,9 @@
 	<select id="getList" resultType="com.team3.spring.vo.MovieVO">
 		SELECT * FROM M_MOVIE
 	</select>
+	
+	<select id="getMovie" resultType="com.team3.spring.vo.MovieVO">
+		SELECT * FROM M_MOVIE WHERE ID = #{id}
+	</select>
+	
 </mapper>
