@@ -30,6 +30,11 @@ public class BoardServiceImpl implements BoardService {
 	public void write(BoardVO gvo) {
 		mapper.write(gvo);
 	}
+	
+	// 읽기
+	public BoardVO read(long p_id) {
+		return mapper.read(p_id);
+	}
 
 	@Override
 	public int test() {

@@ -11,6 +11,10 @@
 		INSERT INTO BOARD(P_WRITER, P_TITLE, P_TEXT) values (#{p_writer}, #{p_title}, #{p_text})
 	</insert>
 	
+	<select id="read" resultType="com.team3.spring.vo.BoardVO">
+		SELECT * FROM BOARD WHERE P_ID = #{p_id}
+	</select>
+	
 	<select id="test" resultType="int">
 		SELECT COUNT(*) FROM BOARD
 	</select>

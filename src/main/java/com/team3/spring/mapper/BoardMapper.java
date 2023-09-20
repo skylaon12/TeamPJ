@@ -10,6 +10,8 @@ public interface BoardMapper {
 	
 	public void write(BoardVO gvo);
 	
+	public BoardVO read(long p_id);
+	
 	public int test();
 	
 }

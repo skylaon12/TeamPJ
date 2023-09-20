@@ -69,7 +69,7 @@ a:hover { color: #fff; text-decoration: underline;}
 				
 				<div class="col">
 					<a href="${cp}/notice/list"><img alt="" src="resources/images/supports/ico-oneandone.png">
-						<p style="color:black;" class="mt-3">1:1 문의</p>
+						<p style="color:black;" class="mt-3">공지사항</p>
 					</a>
 				</div>
 				<div class="col"></div>

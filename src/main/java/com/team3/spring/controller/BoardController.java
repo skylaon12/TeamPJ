@@ -26,7 +26,7 @@ public class BoardController {
 	@GetMapping("/list")
 	public void getList(Model m) {
 		log.info("컨트롤러에서 호출 ==========");
-		String articleUrl = "article?p_id="; 
+		String articleUrl = "article?p_id=";
 		m.addAttribute("lists", service.list());
 		m.addAttribute("articleUrl",articleUrl);
 	}
@@ -44,8 +44,9 @@ public class BoardController {
 	}
 	
 	@GetMapping("/article")
-	public void article(Model m, @RequestParam("p_id")int p_id) {
-		
+	public void article(Model m, @RequestParam("p_id") Long p_id) {
+		log.info("컨트롤러 글번호 =======>>>"+p_id);
+		m.addAttribute("article", service.read(p_id));
 	}
 	
 
