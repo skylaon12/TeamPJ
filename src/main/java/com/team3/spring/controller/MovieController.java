@@ -22,11 +22,10 @@ public class MovieController {
 
 	private MovieListService service;
 	
-	@GetMapping("/movieDetail")
+	@GetMapping("/detail")
 	public void getList(Model m, @RequestParam("no") int id) {
 		log.info("영화 상세정보");
 		m.addAttribute("movie", service.getMovie(id));
-		
 	}
 	
 	

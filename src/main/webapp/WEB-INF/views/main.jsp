@@ -114,7 +114,7 @@ a:hover { color: #fff; text-decoration: underline;}
 					let output = "";
 					
 					output += "<div class='col-3 mt-5 mb-5' style='padding-left: 0px;'>";
-					output += "<a href='/movie/detail?no="+movie.id+"'>";
+					output += "<a href='${cp}/movie/detail?no="+movie.id+"'>";
 					output += "<img src = '"+poster+"'class='rounded card-img-top' style='width: 17rem; height:440px;'/>";
 					output += "</a>";
 					output += "<div class='d-flex mt-3'>";

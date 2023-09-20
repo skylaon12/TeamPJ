@@ -33,7 +33,6 @@ public class MovieServiceImpl implements MovieService {
 		}
 		
 		Movie2VO mvo = restTemplate.getForObject(uri, Movie2VO.class);
-		System.out.println("id : " + mvo.results.get(0).title);
 		
 		List<Item> movie = new ArrayList<Item>();
 		// 상위 4개만 가져오기
