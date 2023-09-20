@@ -31,5 +31,5 @@ public class MainController {
 		log.info("컨트롤러 진입");
 		return "main";
 	}
-	
+	// 소스트리 테스트
 }
