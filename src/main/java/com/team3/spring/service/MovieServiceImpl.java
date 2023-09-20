@@ -24,8 +24,6 @@ public class MovieServiceImpl implements MovieService {
 	
 	@Override
 	public List<Item> getTop4Movies() {
-		log.info("apikey : " + API_KEY);
-		log.info("api_url : " + API_URL);
 		URI uri = null;
 		RestTemplate restTemplate = new RestTemplate();
 		try {

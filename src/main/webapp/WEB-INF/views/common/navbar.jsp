@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="tags.jsp"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="cp" value="${pageContext.request.contextPath}" />
 <div id="header">
 	<div class="container">
 		<nav class="navbar navbar-expand-lg navbar-light bg-top p-0"
@@ -14,7 +15,7 @@
 				</ul>
 				<ul class="navbar-nav">
 					<c:if test="${empty LOGIN_USER }">
-						<li class="nav-item"><a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#modal-login-form">로그인</a></li>
+						<li class="nav-item"><a href="#" class="nav-link">로그인</a></li>
 						<li class="nav-item"><a href="#" class="nav-link">회원가입</a></li>
 					</c:if>
 					<c:if test="${not empty LOGIN_USER }">
@@ -29,18 +30,18 @@
 			<div class="collapse navbar-collapse justify-content-start">
 				<ul class="navbar-nav util-list">
 					<li class="nav-item"><a class="nav-link" href="#">
-						<img src="resources/images/nav/ico-sitemap.png"></a>
+						<img src="${cp}/resources/images/nav/ico-sitemap.png"></a>
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link" href="#"
 						id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						<img src="resources/images/nav/ico-search.png"></a>
+						<img src="${cp}/resources/images/nav/ico-search.png"></a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="">
 							<div class="search-box p-3">
 								<form action="">
 									<input class="form-control" type="search" name="keyword" value="" placeholder="영화를 검색하세요!" aria-label="Search">
 									<button class="btn btn-sm" type="button">
-										<img src="resources/images/nav/ico-search.png">
+										<img src="${cp}/resources/images/nav/ico-search.png">
 									</button>
 								</form>
 							</div>
@@ -63,15 +64,11 @@
 			<div class="collapse navbar-collapse justify-content-end">
 				<ul class="navbar-nav util-list">
 					<li class="nav-item"><a class="nav-link" href="#"><img
-							src="resources/images/nav/ico-schedule.png"></a></li>
+							src="${cp}/resources/images/nav/ico-schedule.png"></a></li>
 					<li class="nav-item"><a class="nav-link" href="#"><img
-							src="resources/images/nav/ico-mymega.png"></a></li>
+							src="${cp}/resources/images/nav/ico-mymega.png"></a></li>
 				</ul>
 			</div>
 		</nav>
 	</div>
 </div>
-<!-- 로그인 모달 -->
-<c:if test="${empty LOGIN_USER }">
-	<%@include file="loginFormModal.jsp"%>
-</c:if>
