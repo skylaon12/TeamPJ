@@ -31,5 +31,6 @@ public class ApiController {
 		List<Item> top4Movies = movieService.getTop4Movies();
         return ResponseEntity.ok(top4Movies);
 	}
-	
+
+	// 소스트리용 변경점
 }
