@@ -34,4 +34,5 @@ public class ApiController {
 
 	// 소스트리용 변경점
 	// register 기능 구성 완
+	// 테스트 완료
 }
