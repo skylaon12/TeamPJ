@@ -55,7 +55,7 @@
 					<li class="nav-item"><a class="nav-link" href="#">영화</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">예매</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">극장</a></li>
-					<li class="nav-item"><a class="nav-link" href="#" style="font-family: 'Alfa Slab One'; font-weight: 400;">SOL CINEMA</a></li>
+					<li class="nav-item"><a class="nav-link" href="${cp}/" style="font-family: 'Alfa Slab One'; font-weight: 400;">SOL CINEMA</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">이벤트</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">스토어</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">혜택</a></li>

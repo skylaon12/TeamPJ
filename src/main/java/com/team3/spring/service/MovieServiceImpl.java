@@ -5,13 +5,11 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.team3.spring.vo.Item;
-import com.team3.spring.vo.Movie2VO;
+import com.team3.spring.vo.MovieVO;
 
 import lombok.extern.log4j.Log4j;
 
@@ -24,6 +22,8 @@ public class MovieServiceImpl implements MovieService {
 	
 	@Override
 	public List<Item> getTop4Movies() {
+		log.info("apikey : " + API_KEY);
+		log.info("api_url : " + API_URL);
 		URI uri = null;
 		RestTemplate restTemplate = new RestTemplate();
 		try {
@@ -32,7 +32,8 @@ public class MovieServiceImpl implements MovieService {
 			e.printStackTrace();
 		}
 		
-		Movie2VO mvo = restTemplate.getForObject(uri, Movie2VO.class);
+		MovieVO mvo = restTemplate.getForObject(uri, MovieVO.class);
+		System.out.println("id : " + mvo.results.get(0).title);
 		
 		List<Item> movie = new ArrayList<Item>();
 		// 상위 4개만 가져오기
