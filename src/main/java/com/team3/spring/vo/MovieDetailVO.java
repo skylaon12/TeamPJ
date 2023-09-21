@@ -1,17 +1,21 @@
 package com.team3.spring.vo;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Item {
+public class MovieDetailVO {
 	public boolean adult;
+    public int budget;
+    public ArrayList<MovieDetailGenre> genres;
     public int id;
-    public String original_language;
     public String original_title;
     public String overview;
-    public double popularity;
     public String poster_path;
     public String release_date;
+    public int revenue;
+    public int runtime;
+    public String status;
     public String title;
     public double vote_average;
     public int vote_count;

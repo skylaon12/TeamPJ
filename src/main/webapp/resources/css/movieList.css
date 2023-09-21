@@ -1,0 +1,70 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+
+/* movie list */
+.nav-tabs .nav-link {
+	font-family: Noto Sans KR;
+	
+	color: black;
+    font-size: 18px;
+}
+
+.search-btn {
+	position: absolute;
+	margin-left: -55px;
+	top: 329px;
+	color: #4f5b66;
+}
+
+#movie-lists .poster p, span {
+	margin-bottom: 0;
+	color: black;
+}
+
+#movie-lists .poster p {
+	font-size: 20px;
+	color: black;
+}
+
+#movie-lists .btn-like {
+	border-color: #ebebeb;
+	background-color: white;
+}
+
+.poster {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+#searchMore {
+	border: 1px solid #eaeaea;
+	background-color: white;
+	font-size: 14px;
+}
+
+#no-review {
+	font-size: 18px;
+}
+
+#tagline {
+	font-weight: bold; 
+	font-size: 18px;
+	color: #503396;
+}
+
+.search-txt {
+	font-family: 'Nanum Gothic', sans-serif;
+}
+
+.title-txt {
+	width: 270px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.openDt-txt {
+	font-family: 'Nanum Gothic', sans-serif;
+}
