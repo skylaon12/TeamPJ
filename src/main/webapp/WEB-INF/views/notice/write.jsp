@@ -64,7 +64,6 @@
 	</script>
 </head>
 <body>
-
 	<!-- container -->
 	<div class="container has-lnb">
 		<div class="page-util fixed">
@@ -78,7 +77,6 @@
 	
 			</div>
 		</div>
-	
 		<div class="inner-wrap">
 			<div class="lnb-area addchat location-fixed">
 				<nav id="lnb">
