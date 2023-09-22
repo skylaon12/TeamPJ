@@ -33,10 +33,6 @@
 }
 
 .ticketing {
-<<<<<<< HEAD
-    position: relative;
-=======
->>>>>>> feature/영화_상세정보_api_연동
     top: 425px;
     left: 288px;
     width: 290px;
@@ -230,9 +226,6 @@
 	text-decoration: none;
 	color: white;
 }
-<<<<<<< HEAD
-
-=======
 .actors {
     display: flex;
     flex-wrap: wrap;
@@ -254,4 +247,3 @@
 .actor-info {
     text-align: center; /* 내부 텍스트 가운데 정렬 (선택적) */
 }
->>>>>>> feature/영화_상세정보_api_연동
