@@ -32,8 +32,21 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	// 읽기
+	@Override
 	public BoardVO read(long p_id) {
 		return mapper.read(p_id);
+	}
+	
+	// 삭제
+	@Override
+	public void del(long p_id) {
+		mapper.del(p_id);
+	}
+	
+	// 수정
+	@Override
+	public void modify(BoardVO gvo) {
+		mapper.modify(gvo);
 	}
 
 	@Override

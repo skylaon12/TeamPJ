@@ -43,11 +43,23 @@ public class BoardController {
 		
 	}
 	
-	@GetMapping("/article")
+	@GetMapping({"/article", "/modify"})
 	public void article(Model m, @RequestParam("p_id") Long p_id) {
-		log.info("컨트롤러 글번호 =======>>>"+p_id);
+		log.info("컨트롤러 글번호 읽기 =======>>>"+p_id);
 		m.addAttribute("article", service.read(p_id));
 	}
 	
+	@GetMapping("/del")
+	public String del(@RequestParam("p_id") Long p_id) {
+		log.info("컨트롤러 글번호 삭제 =======>>>"+p_id);
+		service.del(p_id);
+		return "redirect:/notice/list";
+	}
+	
+	@PostMapping("/modify")
+	public String modify(BoardVO gvo) {
+		service.modify(gvo);
+		return "redirect:/notice/list";
+	}	
 
 }
