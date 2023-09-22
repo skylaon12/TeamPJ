@@ -2,6 +2,10 @@ package com.team3.spring.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+<<<<<<< HEAD
+=======
+import java.util.ArrayList;
+>>>>>>> feature/영화_상세정보_api_연동
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,9 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
+<<<<<<< HEAD
 import com.team3.spring.vo.MovieDetailGenre;
 import com.team3.spring.vo.MovieDetailVO;
 import com.team3.spring.vo.MovieYoutubeResult;
+=======
+import com.team3.spring.vo.MovieActorCast;
+import com.team3.spring.vo.MovieActorVO;
+import com.team3.spring.vo.MovieDetailVO;
+>>>>>>> feature/영화_상세정보_api_연동
 import com.team3.spring.vo.MovieYoutubeVO;
 
 import lombok.AllArgsConstructor;
@@ -27,6 +37,7 @@ public class MovieController {
 
 	@GetMapping("/detail")
 	public void getList(Model m, @RequestParam("no") int id) {
+<<<<<<< HEAD
 		String API_KEY = "dfdad57da9c250e542f415cb5b4b16a1";		// api 키
 		String API_URL = "https://api.themoviedb.org/3/movie/" + id;// 공통 api url
 		String DETAIL_API_URL = API_URL + "?language=ko-KR&region=KR&api_key=" + API_KEY;// 영화상세정보 apiurl
@@ -34,28 +45,60 @@ public class MovieController {
 		String imageUrl = "https://image.tmdb.org/t/p/w500/";
 		URI detail_uri = null;
 		URI video_uri = null;
+=======
+		String API_KEY = "dfdad57da9c250e542f415cb5b4b16a1";
+		String API_URL = "https://api.themoviedb.org/3/movie/" + id;
+		String DETAIL_API_URL = API_URL + "?language=ko-KR&region=KR&api_key=" + API_KEY;
+		String ACTOR_API_URL = API_URL + "/credits?api_key=" + API_KEY;
+		String VIDEO_API_URL = API_URL + "/videos?api_key=" + API_KEY;
+		String IMAGE_URL = "https://image.tmdb.org/t/p/w500/";
+		URI detail_uri = null;
+		URI video_uri = null;
+		URI actor_uri = null;
+>>>>>>> feature/영화_상세정보_api_연동
 		RestTemplate resTemplate = new RestTemplate();
 		
 		
 		try {
 			detail_uri = new URI(DETAIL_API_URL);
 			video_uri = new URI(VIDEO_API_URL);
+<<<<<<< HEAD
+=======
+			actor_uri = new URI(ACTOR_API_URL);
+>>>>>>> feature/영화_상세정보_api_연동
 		}catch(URISyntaxException e) {
 			e.printStackTrace();
 		}
 		
 		MovieDetailVO dmvo = resTemplate.getForObject(detail_uri, MovieDetailVO.class);
 		MovieYoutubeVO ymvo = resTemplate.getForObject(video_uri, MovieYoutubeVO.class);
+<<<<<<< HEAD
 		
 		//이미지 url
 		imageUrl += dmvo.poster_path;
 		
+=======
+		MovieActorVO amvo = resTemplate.getForObject(actor_uri, MovieActorVO.class);
+		//이미지 url
+		String poster_url =  IMAGE_URL + dmvo.poster_path;
+		// actor 이미지 경로(최대 5명만 나오게 할거임)
+		ArrayList<MovieActorCast> actors = new ArrayList<MovieActorCast>();
+		for(int i=0; i < 5; i++) {
+			amvo.cast.get(i).setProfile_path(IMAGE_URL + amvo.cast.get(i).getProfile_path());
+			actors.add(amvo.cast.get(i));
+		}
+>>>>>>> feature/영화_상세정보_api_연동
 		//장르
 		String genre = "";
 		for(int i = 0; i < dmvo.genres.size(); i++) {
 			genre = genre + "/" + dmvo.genres.get(i).name;
 		}
+<<<<<<< HEAD
 		System.out.println(genre);	
+=======
+		
+		//
+>>>>>>> feature/영화_상세정보_api_연동
 		m.addAttribute("title", dmvo.title);
 		m.addAttribute("original_title", dmvo.original_title);
 		m.addAttribute("overview", dmvo.overview);
@@ -64,7 +107,12 @@ public class MovieController {
 		m.addAttribute("genre", genre);
 		m.addAttribute("voteAverage", dmvo.vote_average);
 		m.addAttribute("video", ymvo.results.get(0).key);
+<<<<<<< HEAD
 		m.addAttribute("poster", imageUrl);
+=======
+		m.addAttribute("poster", poster_url);
+		m.addAttribute("actors", actors);
+>>>>>>> feature/영화_상세정보_api_연동
 	}
 	
 	
