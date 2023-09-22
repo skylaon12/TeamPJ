@@ -86,7 +86,7 @@
 	        					<div class="actor-item">
 						            <img class="actor" alt="사진이 없습니다." src="${actor.profile_path}">
 						            <div class="actor-info">
-						                <span>${actor.original_name}</span>
+						                <span>${actor.original_name}</span><br>
 						                <span>배역 : ${actor.character}</span>
 						            </div>
 						        </div>
