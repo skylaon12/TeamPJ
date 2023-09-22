@@ -11,17 +11,10 @@
   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-<<<<<<< HEAD
-  	<link rel="stylesheet" href="../resources/css/movieDetail.css" />
-  	<link rel="stylesheet" href="../resources/css/movieList.css" />
-  	<link rel="stylesheet" href="../resources/css/navbar.css" />
-  	<link rel="stylesheet" href="../resources/css/common.css" />
-=======
   	<link rel="stylesheet" href="../resources/css/movieDetail.css?ver=<%=System.currentTimeMillis()%>" />
   	<link rel="stylesheet" href="../resources/css/movieList.css??ver=<%=System.currentTimeMillis()%>" />
   	<link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
   	<link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
->>>>>>> feature/영화_상세정보_api_연동
   	<link rel="icon" href="../resources/images/favicon.ico" type="image/x-icon">
 </head>
 <style>
@@ -36,20 +29,10 @@
 					<div class="col ms-3 mt-5 mb-5">
 						<h1 id="title">${title}</h1>
 						<p id="original-title">${original_title}</p>
-<<<<<<< HEAD
-						<button id='btn-${param.no }' class='btn btn-outline-light btn-like col-2 float-end' data-no='${param.no }' type='button'>
-							<img class='me-3' src='../resources/images/movie/unlike.png'><span style="color:white;" id="likeCount">0</span>
-						</button>
-						<div class="row" style="margin-top: 310px;">
-							<div class="col-3 rating-top">
-								<p>제목</p>
-								<span class="score">${title}</span>
-=======
 						<div class="row" style="margin-top: 310px;">
 							<div class="col-3 rating-top">
 								<p>개봉일</p>
 								<span class="score">${openDate}</span>
->>>>>>> feature/영화_상세정보_api_연동
 							</div>
 							<div class="col-3 score-top">
 								<p>관람 평점</p>
@@ -58,13 +41,8 @@
 						</div>
 					</div>
 					<div class="col mt-5 mb-5">
-<<<<<<< HEAD
-						<img class="rounded float-end" id="poster" src="${poster}" style="width: 18rem;">
-						<button type='button' class='ticketing btn btn-primary mt-3 float-end'><a href="#">예매</a></button>
-=======
 						<img class="rounded" id="poster" src="${poster}" style="width: 18rem;">
 						<button type='button' class='ticketing btn btn-primary mt-3'><a href="#">예매</a></button>
->>>>>>> feature/영화_상세정보_api_연동
 					</div>
 				</div>
 			</div>
@@ -101,11 +79,6 @@
 						<span id="tagline">${original_title}</span><br><br>
 						<span id="overview">${overview }</span><br>
 						<br><span>장르:${genre} | </span>
-<<<<<<< HEAD
-							<span id="runtime"></span> 상영시간:${runtime}분 | 개봉일: ${openDate}<br>
-							<span>출연진:
-						</span><span id="actors"></span>
-=======
 						<span id="runtime"></span> 상영시간:${runtime}분 | 개봉일: ${openDate}<br>
 						<span>출연진</span><br>
 						<div class="actors">
@@ -119,7 +92,6 @@
 						        </div>
 						    </c:forEach>
 						</div>
->>>>>>> feature/영화_상세정보_api_연동
 					</div>
 				</div>
 				
@@ -141,8 +113,5 @@
 <!-- 오류 모달 -->
 <%@include file="../common/errorModal.jsp"%>
 </body>
-<<<<<<< HEAD
-=======
 
->>>>>>> feature/영화_상세정보_api_연동
 </html>
