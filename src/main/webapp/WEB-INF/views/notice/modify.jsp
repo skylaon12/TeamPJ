@@ -28,6 +28,8 @@
 			
 			var f = document.myForm;
 			
+			num = f.p_id.value;
+			
 			str = f.p_title.value;
 			str = str.trim();
 			if(!str){
@@ -36,17 +38,6 @@
 				return;
 			}
 			f.p_title.value = str;
-			
-			str = f.p_writer.value;
-			str = str.trim();
-			if(!str){
-				alert("\n이름을 입력하세요.");
-				f.p_writer.focus();
-				return;
-			}		
-			
-			f.p_writer.value = str;
-			
 			
 			str = f.p_text.value;
 			str = str.trim();
@@ -57,7 +48,7 @@
 			}
 			f.p_text.value = str;
 			
-			f.action = "<%=cp%>/notice/write";
+			f.action = "<%=cp%>/notice/modify?p_id=" + num;
 			f.submit();
 			
 		}
@@ -65,6 +56,7 @@
 	</script>
 </head>
 <body>
+
 	<!-- container -->
 	<div class="container has-lnb">
 		<div class="page-util fixed">
@@ -73,11 +65,12 @@
 					<a href="${cp}" title="메인 페이지 이동"><span>Home</span></a>
 					<a href="https://www.megabox.co.kr/support" title="고객센터 페이지로 이동">고객센터</a>
 					<a href="list" title="공지사항 페이지로 이동">공지사항</a>
-					<a href="write" title="공지사항 등록">공지사항 등록</a>
+					<a href="article?p_id=${article.p_id}" title="글">${article.p_title }</a>
 				</div>
 	
 			</div>
 		</div>
+	
 		<div class="inner-wrap">
 			<div class="lnb-area addchat location-fixed">
 				<nav id="lnb">
@@ -98,7 +91,7 @@
 			</div>
 	
 			<div id="contents" class="location-fixed">
-				<h2 class="tit">[관리자] 공지사항 등록</h2>
+				<h2 class="tit">[관리자] 공지사항 수정</h2>
 	
 				<div class="btn-group right">
 					<a href="list" class="button purple" id="myQnaBtn" title="공지사항 이동">공지사항 메인</a><!-- btn-layer-open -->
@@ -116,23 +109,27 @@
 							
 							<tbody>
 								<tr>
+									<td><input type="hidden" name ="p_id" class="input-text w150px" value="${article.p_id }"></td>
+								</tr>
+								
+								<tr>
 									<th scope="row"><label for="name">이름</label> <em class="font-orange">*</em></th>
-									<td><input type="text"  name ="p_writer" class="input-text w150px" value="" maxlength="15"></td>
+									<td><input type="text" name ="p_writer" class="input-text w150px" value="${article.p_writer }" maxlength="15" readonly></td>
 								</tr>
 										
 								<tr>
 									<th scope="row"><label for="qnaCustInqTitle">제목</label> <em class="font-orange">*</em></th>
-									<td colspan="3"><input type="text" name="p_title"  class="input-text" maxlength="100"></td>
+									<td colspan="3"><input type="text" name="p_title" value="${article.p_title }" class="input-text" maxlength="100"></td>
 								</tr>
 								
 								<tr>
 									<th scope="row"><label for="textarea">내용</label> <em class="font-orange">*</em></th>
 									<td colspan="3">
 										<div class="textarea">
-											<textarea name="p_text" rows="5" cols="30" title="내용입력" placeholder="※ 공지사항 작성 테스트." class="input-textarea"></textarea>
+											<textarea name="p_text" rows="5" cols="30" title="내용입력" class="input-textarea">${article.p_text }</textarea>
 											<div class="util">
 												<p class="count">
-													<span id="textareaCnt">0</span> / 2000
+													
 												</p>
 											</div>
 										</div>
@@ -144,10 +141,8 @@
 				
 					<br/>	<br/>	
 					<div id="bbsCreated_footer" align="center">
-						<input type="button" value=" 등록하기 " class="button purple large" onclick="sendIt();"/>
-						<input type="reset" value=" 다시입력 " class="button purple large" 
-						onclick="document.myForm.subject.focus();"/>
-						<input type="button" value=" 작성취소 " class="button purple large" 
+						<input type="button" value=" 수정하기 " class="button purple large" onclick="sendIt();"/>
+						<input type="button" value=" 수정취소 " class="button purple large" 
 						onclick="javascript:location.href='<%=cp%>/notice/list';"/>
 					</div>
 				

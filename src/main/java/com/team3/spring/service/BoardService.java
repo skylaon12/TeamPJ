@@ -13,6 +13,10 @@ public interface BoardService {
 	
 	public BoardVO read(long p_id);
 	
+	public void del(long p_id);
+	
+	public void modify(BoardVO gvo);
+	
 	public int test();
 
 	

@@ -15,6 +15,14 @@
 		SELECT * FROM BOARD WHERE P_ID = #{p_id}
 	</select>
 	
+	<delete id="del">
+		DELETE FROM BOARD WHERE P_ID = #{p_id}
+	</delete>
+	
+	<update id="modify">
+		UPDATE BOARD SET P_TITLE = #{p_title}, P_TEXT = #{p_text} WHERE P_ID = #{p_id}
+	</update>
+	
 	<select id="test" resultType="int">
 		SELECT COUNT(*) FROM BOARD
 	</select>
