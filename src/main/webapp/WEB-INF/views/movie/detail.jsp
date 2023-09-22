@@ -79,17 +79,19 @@
 						<span id="tagline">${original_title}</span><br><br>
 						<span id="overview">${overview }</span><br>
 						<br><span>장르:${genre} | </span>
-							<span id="runtime"></span> 상영시간:${runtime}분 | 개봉일: ${openDate}<br>
-							<span>출연진</span><br>
-							<div class="actors">
-    							<c:forEach var="actor" items="${actors}">
-        							<div class="actor-item">
-            							<img class="actor" alt="사진이 없습니다." src="${actor.profile_path}">
-            							<span>${actor.original_name}</span><br>
-            							<span>배역 : ${actor.character}</span>
-        							</div>
-    							</c:forEach>
-							</div>
+						<span id="runtime"></span> 상영시간:${runtime}분 | 개봉일: ${openDate}<br>
+						<span>출연진</span><br>
+						<div class="actors">
+						    <c:forEach var="actor" items="${actors}">
+	        					<div class="actor-item">
+						            <img class="actor" alt="사진이 없습니다." src="${actor.profile_path}">
+						            <div class="actor-info">
+						                <span>${actor.original_name}</span>
+						                <span>배역 : ${actor.character}</span>
+						            </div>
+						        </div>
+						    </c:forEach>
+						</div>
 					</div>
 				</div>
 				
