@@ -42,7 +42,7 @@
 					</div>
 					<div class="col mt-5 mb-5">
 						<img class="rounded" id="poster" src="${poster}" style="width: 18rem;">
-						<button type='button' class='ticketing btn btn-primary mt-3'><a href="#">예매</a></button>
+						<button type='button' class='ticketing btn btn-primary mt-3'><a href="${cp}/ticketing/screenList">예매</a></button>
 					</div>
 				</div>
 			</div>
