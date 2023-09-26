@@ -42,7 +42,7 @@
 					</div>
 					<div class="col mt-5 mb-5">
 						<img class="rounded" id="poster" src="${poster}" style="width: 18rem;">
-						<button type='button' class='ticketing btn btn-primary mt-3'><a href="${cp}/ticketing/screenList">예매</a></button>
+						<button type='button' id="bookButton" class='ticketing btn btn-primary mt-3'>예매</button>
 					</div>
 				</div>
 			</div>
@@ -112,6 +112,24 @@
 <%@include file="../common/footer.jsp"%>
 <!-- 오류 모달 -->
 <%@include file="../common/errorModal.jsp"%>
+<script>
+	document.getElementById("bookButton").addEventListener("click",function(){
+		var movieInfo = {
+				title: "${title}",
+		        poster: "${poster}",
+		        openDate: "${openDate}",
+		        runtime: "${runtime}"
+		};
+		
+		var movieInfoJSON = JSON.stringify(movieInfo);
+
+		// 쿠키에 데이터 저장 (유효 기간 설정 가능)
+		document.cookie = "movieInfo=" + encodeURIComponent(movieInfoJSON) + "; expires=Thu, 01 Jan 2030 00:00:00 UTC; path=/";
+		
+		window.location.href="${cp}/ticketing/screenList";
+	});
+	
+</script>
 </body>
 
 </html>

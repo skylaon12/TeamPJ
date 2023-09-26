@@ -27,7 +27,6 @@ public class ApiController {
 	 
 	@GetMapping("/top4")
 	public ResponseEntity<List<Item>> getTop4Movies() {
-		log.info("컨트롤러 탐");
 		List<Item> top4Movies = movieService.getTop4Movies();
         return ResponseEntity.ok(top4Movies);
 	}
