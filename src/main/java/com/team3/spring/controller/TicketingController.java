@@ -1,14 +1,13 @@
 package com.team3.spring.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.team3.spring.service.MovieService;
-import com.team3.spring.vo.MovieBookDetailVO;
+import com.team3.spring.vo.MovieDetailVO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -23,11 +22,16 @@ public class TicketingController {
 	private MovieService movieService;
 	
 	@RequestMapping("/screenList")
-	public void screenList(Model m, HttpServletRequest req) {
-		MovieBookDetailVO vo = movieService.getCookie(req);
-		m.addAttribute("title", vo.getTitle());
-		m.addAttribute("opendate", vo.getOpenDate());
-		m.addAttribute("poster", vo.getPoster());
-		m.addAttribute("runtime", vo.getRuntime());
+	public void screenList(Model m, @RequestParam("no")int id) {
+		String IMAGE_URL = "https://image.tmdb.org/t/p/w500/";
+
+		MovieDetailVO vo = movieService.getMovieDetail(id);
+		String poster_url =  IMAGE_URL + vo.poster_path;
+
+		m.addAttribute("title", vo.title);
+		m.addAttribute("opendate", vo.release_date);
+		m.addAttribute("poster", poster_url);
+		m.addAttribute("runtime", vo.runtime);
+
 	}
 }

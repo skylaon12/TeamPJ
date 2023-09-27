@@ -11,7 +11,6 @@
 	  	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	  	<script type="text/javascript" src="resources/js/movie/movieFn.js"></script>
 	  	<link rel="stylesheet" href="resources/css/navbar.css" />
 	  	<link rel="stylesheet" href="resources/css/common.css" />
 	  	<link rel="icon" href="resources/images/favicon.ico" type="image/x-icon">
@@ -34,7 +33,7 @@ a:hover { color: #fff; text-decoration: underline;}
 		<div class="container">
 			<div class="row" id="movie-head">
 				<div class="row mt-3 poster">
-					<!-- movie top 4 -->					
+					<!-- 여기 div에 movie top 4 들어감 -->					
 				</div>
 			</div>
 			<div class="row text-center">
@@ -45,7 +44,7 @@ a:hover { color: #fff; text-decoration: underline;}
 					</a>
 				</div>
 				<div class="col-4 mb-5">
-					<a href="/movie/list">
+					<a href="${cp}/movie/list">
 						<img alt="" src="resources/images/main/ico-boxoffice-main.png">
 					박스오피스
 					</a>
@@ -86,50 +85,36 @@ a:hover { color: #fff; text-decoration: underline;}
 		var errorModal = new bootstrap.Modal(document.getElementById("modal-info-error"), {
 			keyboard: false
 		});
-		
-		let apiKey = "dfdad57da9c250e542f415cb5b4b16a1";
+		// 이미지 API URL
 		let imageUrl = "https://image.tmdb.org/t/p/w500/";
 		let $div = $(".poster");
 		
-		showTop4();
-		
 		function showTop4() {
+			// /solcinema/rest/top4에 요청
+			// 성공시 function(response)함수 실행
 			$.getJSON('/solcinema/rest/top4', function(response) {
-
+				// index : 반복되는 요소 또는 속성의 인덱스 값
+				// movie : 반복되는 요소 또는 속성의 값, 즉 실제 데이터
 				$.each(response, function(index, movie) {
-
-					let detailUrl = "https://api.themoviedb.org/3/movie/" + movie.id;
-					let poster = "";
-					
-					$.ajax({
-						type: "get",
-						url: detailUrl,
-						data: {"api_key": apiKey, language: "ko-KR"},
-						async: false,
-						success: function(response) {
-							poster = imageUrl + response.poster_path;
-						}
-					})
+					// 포스터 apiurl
+					let poster = imageUrl + movie.poster_path;
 					
 					let output = "";
-					
+					// 가져온 데이터를 토대로 div에 심어줄 코드 반복 삽입
 					output += "<div class='col-3 mt-5 mb-5' style='padding-left: 0px;'>";
 					output += "<a href='${cp}/movie/detail?no="+movie.id+"'>";
 					output += "<img src = '"+poster+"'class='rounded card-img-top' style='width: 17rem; height:440px;'/>";
 					output += "</a>";
 					output += "<div class='d-flex mt-3'>";
-					output += "<button id='btn-"+ movie.id +"' class='btn btn-outline-light btn-like col-5 mt-1 float-end' data-no='"+ movie.no +"' type='button' style='margin-right: 15px;'><img class='me-3' src='resources/images/movie/unlike.png'><span>"+movie.vote_average+"</span></button>";
-					output += "<button data-no='"+ movie.id +"' type='button' class='btn btn-primary col-5 mt-1 float-end'><a href='/ticketing/screenList?no="+movie.no+"'>예매</a></button>";
+					output += "<a href='${cp}/ticketing/screenList?no="+movie.id+"'><button data-no='"+ movie.id +"' type='button' class='btn btn-primary col-5 mt-1 float-end'>예매</button></a>";
 					output += "</div>";
 					output += "</div>";
 					
-					showMyMovies();
 					$div.append(output);
 				})
 			});
 		}
-		
-		showMyMovies();
+		showTop4();
 	})
 </script>
 </html>

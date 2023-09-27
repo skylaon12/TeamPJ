@@ -23,6 +23,11 @@ public class MovieController {
 	@Autowired
 	private MovieService movieService;
 	
+	@RequestMapping("/list")
+	public void list() {
+		
+	}
+	
 	@GetMapping("/detail")
 	public void getList(Model m, @RequestParam("no") int id) {
 		String IMAGE_URL = "https://image.tmdb.org/t/p/w500/";
@@ -37,7 +42,7 @@ public class MovieController {
 		for(int i = 0; i < dmvo.genres.size(); i++) {
 			genre = genre + "/" + dmvo.genres.get(i).name;
 		}
-		
+		m.addAttribute("id", dmvo.id);
 		m.addAttribute("title", dmvo.title);
 		m.addAttribute("original_title", dmvo.original_title);
 		m.addAttribute("overview", dmvo.overview);
