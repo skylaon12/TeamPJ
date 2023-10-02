@@ -53,6 +53,8 @@ public class MovieController {
 		m.addAttribute("video", movieService.getMovieTrailer(id));
 		m.addAttribute("poster", poster_url);
 		m.addAttribute("actors", movieService.getMovieActor(id));
+		m.addAttribute("comments", movieService.getMovieComment(id));
+		
 	}
 	
 	

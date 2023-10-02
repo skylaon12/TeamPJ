@@ -5,18 +5,27 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.team3.spring.mapper.MovieMapper;
 import com.team3.spring.vo.Item;
 import com.team3.spring.vo.MovieActorCast;
 import com.team3.spring.vo.MovieActorVO;
+import com.team3.spring.vo.MovieCommentVO;
 import com.team3.spring.vo.MovieDetailVO;
 import com.team3.spring.vo.MovieVO;
 import com.team3.spring.vo.MovieYoutubeVO;
 
+import lombok.Setter;
+
 @Service
 public class MovieServiceImpl implements MovieService {
+	
+	@Setter(onMethod_ = @Autowired)
+	private MovieMapper mapper;
+	
 	// TMDB 개인 api 키
 	private String API_KEY = "dfdad57da9c250e542f415cb5b4b16a1";
 	// 기본 APIURL
@@ -108,5 +117,12 @@ public class MovieServiceImpl implements MovieService {
 
 		return ymvo.results.get(0).key;
 	}
-
+	
+	// 영화 평가 서비스
+	@Override
+	public ArrayList<MovieCommentVO> getMovieComment(int id) {
+		return mapper.list(id);
+	}
+	
+	
 }

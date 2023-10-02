@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.team3.spring.vo.Item;
 import com.team3.spring.vo.MovieActorCast;
 import com.team3.spring.vo.MovieBookDetailVO;
+import com.team3.spring.vo.MovieCommentVO;
 import com.team3.spring.vo.MovieDetailVO;
 
 public interface MovieService {
@@ -19,4 +20,6 @@ public interface MovieService {
 	ArrayList<MovieActorCast> getMovieActor(int id);
 	// 특정 영화의 트레일러 url
 	String getMovieTrailer(int id);
+	// 특정 영화의 관람평 정보 가져오기
+	ArrayList<MovieCommentVO> getMovieComment(int id);
 }
