@@ -11,9 +11,11 @@
 	  	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	  	
 	  	<link rel="stylesheet" href="resources/css/navbar.css" />
 	  	<link rel="stylesheet" href="resources/css/common.css" />
 	  	<link rel="icon" href="resources/images/favicon.ico" type="image/x-icon">
+	  	<script src="${cp}/resources/js/login.js"></script>
 	<title>SOL CINEMA</title>
 </head>
 <style>
@@ -106,7 +108,7 @@ a:hover { color: #fff; text-decoration: underline;}
 					output += "<img src = '"+poster+"'class='rounded card-img-top' style='width: 17rem; height:440px;'/>";
 					output += "</a>";
 					output += "<div class='d-flex mt-3'>";
-					output += "<a href='${cp}/ticketing/screenList?no="+movie.id+"'><button data-no='"+ movie.id +"' type='button' class='btn btn-primary col-5 mt-1 float-end'>예매</button></a>";
+					output += "<button data-no='"+ movie.id +"' type='button' id='bookButton' class='btn btn-primary col-5 mt-1 float-end'>예매</button>";
 					output += "</div>";
 					output += "</div>";
 					
@@ -114,7 +116,17 @@ a:hover { color: #fff; text-decoration: underline;}
 				})
 			});
 		}
+		
 		showTop4();
+		// 예매 버튼이 페이지 로딩 시에 렌더링되지 않고, JavaScript 코드 내에서 동적으로 생성되는 경우가 있습니다.
+		//이 경우, 이벤트 핸들러를 등록할 때 이 버튼을 참조해야 합니다.
+		//이 경우 jQuery의 .on() 함수를 사용하여 이벤트를 위임할 수 있습니다. -chat GPT-  
+		$(document).on("click", "#bookButton", function(){
+			var movieId = $(this).data("no");	// data-no인 movie.id를 가져옴
+			//console.log("MovieID : " + movieId);
+			checkLoginStatus("${cp}/ticketing/screenList?no="+movieId)
+		});
+
 	})
 </script>
 </html>

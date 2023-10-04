@@ -26,12 +26,14 @@ public class TicketingController {
 		String IMAGE_URL = "https://image.tmdb.org/t/p/w500/";
 
 		MovieDetailVO vo = movieService.getMovieDetail(id);
-		String poster_url =  IMAGE_URL + vo.poster_path;
+		vo.setPoster_path(IMAGE_URL + vo.getPoster_path());
+		//String poster_url =  IMAGE_URL + vo.poster_path;
 
-		m.addAttribute("title", vo.title);
-		m.addAttribute("opendate", vo.release_date);
-		m.addAttribute("poster", poster_url);
-		m.addAttribute("runtime", vo.runtime);
+		m.addAttribute("title", vo.getTitle());
+		m.addAttribute("runtime", vo.getRuntime());
+		m.addAttribute("opendate", vo.getRelease_date());
+		m.addAttribute("poster", vo.getPoster_path());
+		
 
 	}
 }

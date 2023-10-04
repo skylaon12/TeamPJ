@@ -35,28 +35,34 @@ public class MovieController {
 		MovieDetailVO dmvo = movieService.getMovieDetail(id);
 		
 		// 포스터 이미지 url
-		String poster_url =  IMAGE_URL + dmvo.poster_path;
+		dmvo.setPoster_path(IMAGE_URL + dmvo.getPoster_path());
+		//String poster_url =  IMAGE_URL + dmvo.getPoster_path();
 		
 		//장르
 		String genre = "";
-		for(int i = 0; i < dmvo.genres.size(); i++) {
-			genre = genre + "/" + dmvo.genres.get(i).name;
+		for(int i = 0; i < dmvo.getGenres().size(); i++) {
+			genre = genre + "/" + dmvo.getGenres().get(i).name;
 		}
-		m.addAttribute("id", dmvo.id);
-		m.addAttribute("title", dmvo.title);
-		m.addAttribute("original_title", dmvo.original_title);
-		m.addAttribute("overview", dmvo.overview);
-		m.addAttribute("openDate", dmvo.release_date);
-		m.addAttribute("runtime", dmvo.runtime);
+		m.addAttribute("id", dmvo.getId());
+		m.addAttribute("title", dmvo.getTitle());
+		m.addAttribute("original_title", dmvo.getOriginal_title());
+		m.addAttribute("overview", dmvo.getOverview());
+		m.addAttribute("openDate", dmvo.getRelease_date());
+		m.addAttribute("runtime", dmvo.getRuntime());
 		m.addAttribute("genre", genre);
-		m.addAttribute("voteAverage", dmvo.vote_average);
+		m.addAttribute("voteAverage", dmvo.getVote_average());
 		m.addAttribute("video", movieService.getMovieTrailer(id));
-		m.addAttribute("poster", poster_url);
+		//m.addAttribute("poster", poster_url);
+		m.addAttribute("poster", dmvo.getPoster_path());
 		m.addAttribute("actors", movieService.getMovieActor(id));
 		m.addAttribute("comments", movieService.getMovieComment(id));
 		
 	}
 	
+	@RequestMapping("search")
+	public void searchMovie(Model m, @RequestParam("keyword")String word) {
+		m.addAttribute("movies", movieService.getSearchMovie(word));
+	}
 	
 
 }

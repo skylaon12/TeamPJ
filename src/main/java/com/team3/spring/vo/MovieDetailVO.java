@@ -3,20 +3,23 @@ package com.team3.spring.vo;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import lombok.Data;
+@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MovieDetailVO {
-	public boolean adult;
-    public int budget;
-    public ArrayList<MovieDetailGenre> genres;
-    public int id;
-    public String original_title;
-    public String overview;
-    public String poster_path;
-    public String release_date;
-    public int revenue;
-    public int runtime;
-    public String status;
-    public String title;
-    public double vote_average;
-    public int vote_count;
+	private boolean adult;
+    private int budget;
+    private ArrayList<MovieDetailGenre> genres;
+    private int id;
+    private String original_title;
+    private String overview;
+    private String poster_path;
+    private String release_date;
+    private int revenue;
+    private int runtime;
+    private String status;
+    private String title;
+    private double vote_average;
+    private int vote_count;
 }

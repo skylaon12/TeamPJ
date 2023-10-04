@@ -14,10 +14,7 @@
   	<link rel="stylesheet" href="../resources/css/common.css" />
 <!--   	<script type="text/javascript" src="../resources/js/movie/movieFn.js"></script> -->
   	<link rel="icon" href="../resources/images/favicon.ico" type="image/x-icon">
-</head>
-<head>		
-<meta charset="UTF-8">
-<title> CINEMA</title>
+<title>SOL CINEMA</title>
 </head>
 <body>
 <%@include file="../common/navbar.jsp"%>

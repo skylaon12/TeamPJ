@@ -22,4 +22,6 @@ public interface MovieService {
 	String getMovieTrailer(int id);
 	// 특정 영화의 관람평 정보 가져오기
 	ArrayList<MovieCommentVO> getMovieComment(int id);
+	// 영화 검색
+	List<Item> getSearchMovie(String word);
 }

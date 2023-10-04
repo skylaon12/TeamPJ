@@ -15,11 +15,11 @@
 				</ul>
 				<ul class="navbar-nav">
 					<c:if test="${empty LOGIN_USER }">
-						<li class="nav-item"><a href="#" class="nav-link">로그인</a></li>
-						<li class="nav-item"><a href="#" class="nav-link">회원가입</a></li>
+						<li class="nav-item"><a href="${cp}/member/login" class="nav-link">로그인</a></li>
+						<li class="nav-item"><a href="${cp}/member/register" class="nav-link">회원가입</a></li>
 					</c:if>
 					<c:if test="${not empty LOGIN_USER }">
-						<li class="nav-item"><a href="#" class="nav-link">로그아웃</a></li>
+						<li class="nav-item"><a href="${cp}/member/logout" class="nav-link">로그아웃</a></li>
 					</c:if>
 					<li class="nav-item"><a href="#" class="nav-link">빠른예매</a></li>
 				</ul>
@@ -38,9 +38,9 @@
 						<img src="${cp}/resources/images/nav/ico-search.png"></a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="">
 							<div class="search-box p-3">
-								<form action="">
+								<form action="${cp}/movie/search">
 									<input class="form-control" type="search" name="keyword" value="" placeholder="영화를 검색하세요!" aria-label="Search">
-									<button class="btn btn-sm" type="button">
+									<button class="btn btn-sm" type="submit">
 										<img src="${cp}/resources/images/nav/ico-search.png">
 									</button>
 								</form>

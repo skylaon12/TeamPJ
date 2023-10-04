@@ -48,7 +48,7 @@ public class MovieServiceImpl implements MovieService {
 		List<Item> movie = new ArrayList<Item>();
 		// 상위 4개만 가져오기
 		for (int i = 0; i < 4; i++) {
-			movie.add(mvo.results.get(i));
+			movie.add(mvo.getResults().get(i));
 		}
 		// 비즈니스 로직 구현
 		return movie;
@@ -122,6 +122,32 @@ public class MovieServiceImpl implements MovieService {
 	@Override
 	public ArrayList<MovieCommentVO> getMovieComment(int id) {
 		return mapper.list(id);
+	}
+
+	// 영화 검색 서비스
+	@Override
+	public List<Item> getSearchMovie(String word) {
+		String searchURL = "https://api.themoviedb.org/3/search/movie?api_key=" + API_KEY + "&language=ko-KR&query=" + word;
+		String imageURL = "https://image.tmdb.org/t/p/w500";
+		URI uri = null;
+		RestTemplate resTemplate = new RestTemplate();
+		
+		try {
+			uri = new URI(searchURL);
+		}catch(URISyntaxException e) {
+			e.printStackTrace();
+		}
+		
+		MovieVO mvo = resTemplate.getForObject(uri, MovieVO.class);
+		List<Item> movies = new ArrayList<Item>();
+		
+		
+		for(int i = 0; i < mvo.getResults().size(); i++) {
+			movies.add(mvo.getResults().get(i));
+			movies.get(i).setPoster_path(imageURL + movies.get(i).getPoster_path());
+		}
+		
+		return movies;
 	}
 	
 	

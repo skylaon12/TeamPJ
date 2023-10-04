@@ -5,8 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HTA CINEMA</title>
-  	<script type="text/javascript" src="../resources/js/movie/movieFn.js"></script>
+<title>SOL CINEMA</title>
   	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -16,6 +15,7 @@
   	<link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
   	<link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
   	<link rel="icon" href="../resources/images/favicon.ico" type="image/x-icon">
+  	<script src="../resources/js/login.js"></script>
 </head>
 <style>
 </style>
@@ -42,7 +42,8 @@
 					</div>
 					<div class="col mt-5 mb-5">
 						<img class="rounded" id="poster" src="${poster}" style="width: 18rem;">
-						<a href="${cp}/ticketing/screenList?no=${id}"><button type='button' id="bookButton" class='ticketing btn btn-primary mt-3'>예매</button></a>
+						<button type='button' data-no="${id}" id="bookButton" class='ticketing btn btn-primary mt-3'>예매</button>
+						
 					</div>
 				</div>
 			</div>
@@ -142,5 +143,13 @@
 <%@include file="../common/errorModal.jsp"%>
 
 </body>
-
+<script>
+$(function(){
+	$(document).on("click", "#bookButton", function(){
+		var movieId = $(this).data("no");	// data-no인 movie.id를 가져옴
+		//console.log("MovieID : " + movieId);
+		checkLoginStatus("${cp}/ticketing/screenList?no="+movieId);
+	});
+})
+</script>
 </html>
