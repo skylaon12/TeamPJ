@@ -50,6 +50,7 @@
 			
 			f.action = "<%=cp%>/notice/modify?p_id=" + num;
 			f.submit();
+			alert("글 수정이 완료 되었습니다.");
 			
 		}
 	

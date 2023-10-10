@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.team3.spring.service.BoardService;
+import com.team3.spring.vo.BoardConfig;
 import com.team3.spring.vo.BoardVO;
 
 import lombok.AllArgsConstructor;
@@ -24,10 +25,66 @@ public class BoardController {
 	private BoardService service;
 
 	@GetMapping("/list")
-	public void getList(Model m) {
+	public void getList(Model m, @RequestParam("page") int page) {
 		log.info("컨트롤러에서 호출 ==========");
+		
+		// 시작 인덱스
+		int index = service.getStartIndex(page);
+		log.info("시작 =>"+index);
+		
+		// 전체 글 수
+		int totalCount = service.getTotalCount();
+		log.info("전체 글 수 =>"+totalCount);
+		
+		// 페이지 및 블럭 관련
+		int totalPage = service.getTotalPage();
+		log.info("전체 페이지 수 =>"+totalPage);
+		
+		int totalBlock = service.getTotalBlock(totalPage);
+		log.info("전체 블럭 수 =>"+totalBlock);
+		
+		int currentBlock = (int)Math.ceil((double)page/BoardConfig.PAGE_PER_BLOCK);
+		log.info("현재 블럭 =>"+currentBlock);
+		
+		int blockStartNo = (currentBlock - 1) * BoardConfig.PAGE_PER_BLOCK + 1;
+		int blockEndNo = currentBlock * BoardConfig.PAGE_PER_BLOCK;
+		log.info("현재 블럭 시작 번호 =>"+blockStartNo);
+		log.info("현재 블럭 끝 번호 =>"+blockEndNo);
+		
+		// 이전 다음 버튼 계산 처리
+		boolean hasPrev = true;
+		boolean hasNext = true;
+		int prevPage = 0;
+		int nextPage = 0;
+		
+		if(currentBlock == 1){
+			hasPrev = false;
+		} else {
+			hasPrev = true;
+			prevPage = (currentBlock - 1) * BoardConfig.PAGE_PER_BLOCK;
+		}
+		
+		if(currentBlock < totalBlock ){
+			hasNext = true;
+			nextPage = currentBlock * BoardConfig.PAGE_PER_BLOCK + 1;		
+		} else {
+			hasNext = false;
+		}
+		
+		// 페이지 리스트 뿌림
+		m.addAttribute("totalCount",totalCount);
+		m.addAttribute("totalPage",totalPage);
+		m.addAttribute("totalBlock",totalBlock);
+		m.addAttribute("currentBlock",currentBlock);
+		m.addAttribute("blockStartNo",blockStartNo);
+		m.addAttribute("blockEndNo",blockEndNo);
+		m.addAttribute("hasPrev",hasPrev);
+		m.addAttribute("hasNext",hasNext);
+		m.addAttribute("prevPage",prevPage);
+		m.addAttribute("nextPage",nextPage);
+		m.addAttribute("lists", service.list(index));
+		
 		String articleUrl = "article?p_id=";
-		m.addAttribute("lists", service.list());
 		m.addAttribute("articleUrl",articleUrl);
 	}
 	
