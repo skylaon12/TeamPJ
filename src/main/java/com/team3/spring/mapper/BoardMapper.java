@@ -6,7 +6,7 @@ import com.team3.spring.vo.BoardVO;
 
 public interface BoardMapper {
 	//  리스트
-	public ArrayList<BoardVO> list();
+	public ArrayList<BoardVO> list(int page);
 	
 	public void write(BoardVO gvo);
 	
@@ -16,6 +16,6 @@ public interface BoardMapper {
 	
 	public void modify(BoardVO gvo);
 	
-	public int test();
+	public int getTotalCount();
 	
 }

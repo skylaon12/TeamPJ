@@ -39,7 +39,7 @@
 				<div class="location">
 					<a href="${cp}" title="메인 페이지 이동"><span>Home</span></a>
 					<a href="https://www.megabox.co.kr/support" title="고객센터 페이지로 이동">고객센터</a>
-					<a href="list" title="공지사항 페이지로 이동">공지사항</a>
+					<a href="list?page=${currentPage}" title="공지사항 페이지로 이동">공지사항</a>
 				</div>
 			</div>
 		</div>
@@ -51,7 +51,7 @@
 					<ul>
 						<li><a href="http://localhost:8080/movie/list" title="고객센터 홈">고객센터 홈</a></li>
 						<li ><a href="http://localhost:8080/movie/list" title="자주 묻는 질문">자주 묻는 질문</a></li>
-						<li class="on"><a href="list" title="공지사항">공지사항</a></li>
+						<li class="on"><a href="list?page=${currentPage}" title="공지사항">공지사항</a></li>
 						<li><a href="http://localhost:8080/movie/created2" title="1:1문의">1:1문의</a></li>
 						<li><a href="http://localhost:8080/movie/list" title="단체관람 및 대관문의">단체관람 및 대관문의</a></li>
 						<li><a href="http://localhost:8080/movie/list" title="분실물 문의">분실물 문의</a></li>
@@ -105,7 +105,7 @@
 							<dl>								<%-- EL로 받은것은 변수명을 게터로받지않고 그대로 사용 그렇다고 DAO의 게터세터를 지우면안됌. --%>
 								<dd class="num">${dto.p_id }</dd> 
 								<dd class="subject">
-								<a href="${articleUrl}${dto.p_id }">
+								<a href="${articleUrl}${dto.p_id }&page=${currentPage }">
 								${dto.p_title }</a>
 								</dd>
 								<dd class="name">${dto.p_writer }</dd>
@@ -125,8 +125,20 @@
 					</div>
 					
 					<div class="btn-group right">
-						<a href="write" class="button purple" id="myQnaBtn" title="공지사항 등록">공지사항 등록</a><!-- btn-layer-open -->
+						<a href="write?page=${currentPage}" class="button purple" id="myQnaBtn" title="공지사항 등록">공지사항 등록</a><!-- btn-layer-open -->
 					</div>
+					
+					<c:if test="${hasPrev == true}" >
+						[<a href="${cp}/notice/list?page=${prevPage}"><b>이전</b></a>]
+					</c:if>
+
+					<c:forEach var="p" begin="${blockStartNo}" end="${blockEndNo}">
+						[<a href="${cp}/notice/list?page=${p}">${p}</a>]
+					</c:forEach>
+					
+					<c:if test="${hasNext == true}" >
+						[<a href="${cp}/notice/list?page=${nextPage}"><b>다음</b></a>]
+					</c:if>
 				</div>
 			</div>
 		</div>

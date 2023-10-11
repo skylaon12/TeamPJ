@@ -28,6 +28,8 @@
 			
 			var f = document.myForm;
 			
+			var page = "${writeCurrentPage}";
+			
 			str = f.p_title.value;
 			str = str.trim();
 			if(!str){
@@ -57,9 +59,9 @@
 			}
 			f.p_text.value = str;
 			
-			f.action = "<%=cp%>/notice/write";
+			f.action = "<%=cp%>/notice/write?page=" + page;
 			f.submit();
-			
+			alert("글 등록이 완료 되었습니다.");
 		}
 	
 	</script>
@@ -72,8 +74,8 @@
 				<div class="location">
 					<a href="${cp}" title="메인 페이지 이동"><span>Home</span></a>
 					<a href="https://www.megabox.co.kr/support" title="고객센터 페이지로 이동">고객센터</a>
-					<a href="list" title="공지사항 페이지로 이동">공지사항</a>
-					<a href="write" title="공지사항 등록">공지사항 등록</a>
+					<a href="list?page=${writeCurrentPage}" title="공지사항 페이지로 이동">공지사항</a>
+					<a href="write?page=${writeCurrentPage}" title="공지사항 등록">공지사항 등록</a>
 				</div>
 	
 			</div>
@@ -85,7 +87,7 @@
 					<ul>
 						<li><a href="http://localhost:8080/list" title="고객센터 홈">고객센터 홈</a></li>
 						<li ><a href="http://localhost:8080/list" title="자주 묻는 질문">자주 묻는 질문</a></li>
-						<li class="on"><a href="list" title="공지사항">공지사항</a></li>
+						<li class="on"><a href="list?page=${writeCurrentPage}" title="공지사항">공지사항</a></li>
 						<li ><a href="http://localhost:8080/created" title="1:1문의">1:1문의</a></li>
 						<li><a href="http://localhost:8080/list" title="단체관람 및 대관문의">단체관람 및 대관문의</a></li>
 						<li><a href="http://localhost:8080/list" title="분실물 문의">분실물 문의</a></li>
@@ -101,7 +103,7 @@
 				<h2 class="tit">[관리자] 공지사항 등록</h2>
 	
 				<div class="btn-group right">
-					<a href="list" class="button purple" id="myQnaBtn" title="공지사항 이동">공지사항 메인</a><!-- btn-layer-open -->
+					<a href="list?page=${writeCurrentPage}" class="button purple" id="myQnaBtn" title="공지사항 이동">공지사항 메인</a><!-- btn-layer-open -->
 				</div>
 	
 				<form action="" method="post" name="myForm">
@@ -148,7 +150,7 @@
 						<input type="reset" value=" 다시입력 " class="button purple large" 
 						onclick="document.myForm.subject.focus();"/>
 						<input type="button" value=" 작성취소 " class="button purple large" 
-						onclick="javascript:location.href='<%=cp%>/notice/list';"/>
+						onclick="javascript:location.href='<%=cp%>/notice/list?page=${writeCurrentPage}';"/>
 					</div>
 				
 				</form>
