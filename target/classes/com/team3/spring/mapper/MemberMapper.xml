@@ -5,5 +5,12 @@
 <mapper namespace="com.team3.spring.mapper.MemberMapper">
 	<select id="login" resultType="com.team3.spring.vo.MemberVO">
 		SELECT * FROM MEMBER WHERE ACCOUNT = #{id} AND PWD = #{pw}
-		</select>
+	</select>
+	<insert id="signup">
+		INSERT INTO MEMBER (account, name, pwd, email1, email2, phonenumber, age)
+		VALUES (#{account}, #{name}, #{pwd}, #{email1}, #{email2}, #{phonenumber}, #{age})
+	</insert>
+	<select id="checkAccount" resultType="int">
+		SELECT COUNT(*) FROM MEMBER WHERE ACCOUNT = #{account};
+	</select>
 </mapper>

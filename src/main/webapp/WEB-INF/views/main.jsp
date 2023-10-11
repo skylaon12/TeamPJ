@@ -100,7 +100,7 @@ a:hover { color: #fff; text-decoration: underline;}
 				$.each(response, function(index, movie) {
 					// 포스터 apiurl
 					let poster = imageUrl + movie.poster_path;
-					
+					console.log(index);
 					let output = "";
 					// 가져온 데이터를 토대로 div에 심어줄 코드 반복 삽입
 					output += "<div class='col-3 mt-5 mb-5' style='padding-left: 0px;'>";

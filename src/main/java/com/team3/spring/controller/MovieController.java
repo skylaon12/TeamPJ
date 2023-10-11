@@ -59,10 +59,12 @@ public class MovieController {
 		
 	}
 	
-	@RequestMapping("search")
+	@RequestMapping("/search")
 	public void searchMovie(Model m, @RequestParam("keyword")String word) {
 		m.addAttribute("movies", movieService.getSearchMovie(word));
 	}
+	
+	
 	
 
 }

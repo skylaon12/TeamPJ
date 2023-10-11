@@ -5,11 +5,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -64,5 +67,40 @@ public class MemberController {
 		
 		return result;
 	}
+	// 회원가입 페이지 이동
+	@RequestMapping(value = "/signup", method = RequestMethod.GET)
+	public void signupGET() {
+		log.info("회원가입 페이지 진입");
 	
+	}
+	
+	// 회원가입
+	@RequestMapping(value = "/signup", method = RequestMethod.POST)
+	public String sighupPOST(MemberVO memberVO) throws Exception{
+		log.info("signup 진입");
+		
+		// 회원가입 서비스 실행
+		service.signup(memberVO);
+		
+		log.info("회원가입 성공");
+		
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value = "/checkAccount", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> checkAccount(@RequestBody MemberVO membervo) {
+		boolean success = false;
+		String message = "이미 사용중인 아이디입니다.";
+		log.info("컨트롤러 account : " + membervo.getAccount());
+		success = service.checkAccount(membervo.getAccount());
+		message = success?"사용가능한 아이디입니다.":message;
+		log.info("success : " + success);
+		
+		Map<String,Object> response = new HashMap<>();
+		
+		response.put("success", success);
+		response.put("message", message);
+		
+		return ResponseEntity.ok(response);
+	}
 }

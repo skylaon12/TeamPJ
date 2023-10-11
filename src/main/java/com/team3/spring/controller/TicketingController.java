@@ -1,13 +1,23 @@
 package com.team3.spring.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team3.spring.service.MovieService;
+import com.team3.spring.service.TicketingService;
 import com.team3.spring.vo.MovieDetailVO;
+import com.team3.spring.vo.TicketingVO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -20,6 +30,7 @@ import lombok.extern.log4j.Log4j;
 public class TicketingController {
 	@Autowired
 	private MovieService movieService;
+	private	TicketingService ticketingService;
 	
 	@RequestMapping("/screenList")
 	public void screenList(Model m, @RequestParam("no")int id) {
@@ -36,4 +47,36 @@ public class TicketingController {
 		
 
 	}
+	@RequestMapping("/popup")
+	public void popup(@ModelAttribute TicketingVO vo) {
+//		log.info("유저 id : " + vo.getUser_id());
+//		log.info(vo.getUser_name());
+//		log.info("티켓 수 : " + vo.getTicket_cnt());
+//		log.info("가격 : " + vo.getCost());
+//		log.info("영화제목 : " + vo.getM_title());
+//		log.info(vo.getM_poster());
+//		log.info(vo.getM_runtime());
+//		log.info(vo.getRegion_detail());
+//		log.info(vo.getTheater_num());
+//		log.info(vo.getSeat_num());
+//		log.info(vo.getReserv_date());
+//		log.info(vo.getStr_hour());
+//		log.info(vo.getStr_min());
+//		log.info(vo.getEnd_hour());
+//		log.info(vo.getEnd_min());
+		ticketingService.bookTicket(vo);
+	}
+	
+	@PostMapping("/getBookedSeat")
+	@ResponseBody
+	public List<String> getBookedSeat(@RequestBody TicketingVO vo){
+		List<String> bookedSeats = ticketingService.getBookedSeat(vo);
+		log.info(bookedSeats);
+		return bookedSeats;
+	}
+	
+	@GetMapping("/check")
+	public void ticketCheck() {
+	}
+	
 }

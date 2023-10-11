@@ -6,4 +6,6 @@ import com.team3.spring.vo.MemberVO;
 
 public interface MemberMapper {
 	public MemberVO login(@Param("id")String id, @Param("pw")String pw);
+	public void signup(MemberVO memberVO);
+	public int checkAccount(String account);
 }

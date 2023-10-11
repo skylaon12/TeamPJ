@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team3.spring.mapper.TicketingMapper">
+	<insert id="bookTicket">
+		INSERT INTO M_MOVIETOTAL(USER_ID, USER_NAME, TICKET_CNT, COST, M_TITLE, M_POSTER, M_RUNTIME, REGION_DETAIL,
+								 THEATER_NUM, SEAT_NUM, RESERV_DATE, STR_HOUR, STR_MIN, END_HOUR, END_MIN)
+		VALUES (#{user_id}, #{user_name}, #{ticket_cnt}, #{cost}, #{m_title}, #{m_poster}, #{m_runtime}, #{region_detail}, 
+				#{theater_num}, #{seat_num}, #{reserv_date}, #{str_hour}, #{str_min}, #{end_hour}, #{end_min})
+	</insert>
+	
+	<select id="getBookedSeat" resultType="String">
+		SELECT SEAT_NUM FROM M_MOVIETOTAL
+		WHERE REGION_DETAIL = #{region_detail} AND THEATER_NUM = #{theater_num} AND 
+			  RESERV_DATE = #{reserv_date} AND STR_HOUR = #{str_hour} AND M_TITLE = #{m_title}   
+	</select>
+</mapper>
