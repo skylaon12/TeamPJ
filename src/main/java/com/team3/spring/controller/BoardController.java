@@ -71,6 +71,10 @@ public class BoardController {
 			hasNext = false;
 		}
 		
+		// 현재 페이지 번호 추가
+	    m.addAttribute("currentPage", page);
+	    log.info("현재 페이지 번호 =>"+page);
+		
 		// 페이지 리스트 뿌림
 		m.addAttribute("totalCount",totalCount);
 		m.addAttribute("totalPage",totalPage);
@@ -89,34 +93,45 @@ public class BoardController {
 	}
 	
 	@PostMapping("/write")
-	public String write(BoardVO gvo) {
+	public String write(BoardVO gvo, @RequestParam("page") int page) {
 		service.write(gvo);
 		
-		return "redirect:/notice/list";
+		return "redirect:/notice/list?page="+page;
 	}
 	
 	@GetMapping("/write")
-	public void write() {
+	public void write(Model m, @RequestParam("page") int page) {
+		log.info("글 작성 현재 페이지 번호는? =======>>>"+page);
 		
+		m.addAttribute("writeCurrentPage", page);
 	}
 	
 	@GetMapping({"/article", "/modify"})
-	public void article(Model m, @RequestParam("p_id") Long p_id) {
+	public void article(Model m, @RequestParam("p_id") Long p_id, @RequestParam("page") int page) {
 		log.info("컨트롤러 글번호 읽기 =======>>>"+p_id);
-		m.addAttribute("article", service.read(p_id));
+		
+		BoardVO article = service.read(p_id);
+		
+		String con = article.getP_text().replace("\n", "<br>");
+		
+		m.addAttribute("article", article);
+		m.addAttribute("articleContent", con);
+		m.addAttribute("articleCurrentPage", page);
 	}
 	
 	@GetMapping("/del")
-	public String del(@RequestParam("p_id") Long p_id) {
+	public String del(@RequestParam("p_id") Long p_id, @RequestParam("page") int page) {
 		log.info("컨트롤러 글번호 삭제 =======>>>"+p_id);
 		service.del(p_id);
-		return "redirect:/notice/list";
+		
+		return "redirect:/notice/list?page="+page;
 	}
 	
 	@PostMapping("/modify")
-	public String modify(BoardVO gvo) {
+	public String modify(BoardVO gvo, @RequestParam("page") int page) {
 		service.modify(gvo);
-		return "redirect:/notice/list";
+		
+		return "redirect:/notice/list?page="+page;
 	}	
 
 }

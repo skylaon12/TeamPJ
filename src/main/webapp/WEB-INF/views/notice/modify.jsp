@@ -28,6 +28,8 @@
 			
 			var f = document.myForm;
 			
+			var page = "${articleCurrentPage}";
+			
 			num = f.p_id.value;
 			
 			str = f.p_title.value;
@@ -48,7 +50,7 @@
 			}
 			f.p_text.value = str;
 			
-			f.action = "<%=cp%>/notice/modify?p_id=" + num;
+			f.action = "<%=cp%>/notice/modify?p_id=" + num + "&page=" + page;
 			f.submit();
 			alert("글 수정이 완료 되었습니다.");
 			
@@ -65,8 +67,8 @@
 				<div class="location">
 					<a href="${cp}" title="메인 페이지 이동"><span>Home</span></a>
 					<a href="https://www.megabox.co.kr/support" title="고객센터 페이지로 이동">고객센터</a>
-					<a href="list" title="공지사항 페이지로 이동">공지사항</a>
-					<a href="article?p_id=${article.p_id}" title="글">${article.p_title }</a>
+					<a href="list?page=${articleCurrentPage}" title="공지사항 페이지로 이동">공지사항</a>
+					<a href="article?p_id=${article.p_id}&page=${articleCurrentPage}" title="글">${article.p_title }</a>
 				</div>
 	
 			</div>
@@ -79,7 +81,7 @@
 					<ul>
 						<li><a href="http://localhost:8080/list" title="고객센터 홈">고객센터 홈</a></li>
 						<li ><a href="http://localhost:8080/list" title="자주 묻는 질문">자주 묻는 질문</a></li>
-						<li class="on"><a href="list" title="공지사항">공지사항</a></li>
+						<li class="on"><a href="list?page=${articleCurrentPage}" title="공지사항">공지사항</a></li>
 						<li ><a href="http://localhost:8080/created" title="1:1문의">1:1문의</a></li>
 						<li><a href="http://localhost:8080/list" title="단체관람 및 대관문의">단체관람 및 대관문의</a></li>
 						<li><a href="http://localhost:8080/list" title="분실물 문의">분실물 문의</a></li>
@@ -144,7 +146,7 @@
 					<div id="bbsCreated_footer" align="center">
 						<input type="button" value=" 수정하기 " class="button purple large" onclick="sendIt();"/>
 						<input type="button" value=" 수정취소 " class="button purple large" 
-						onclick="javascript:location.href='<%=cp%>/notice/list';"/>
+						onclick="javascript:location.href='<%=cp%>/notice/list?page=${articleCurrentPage}';"/>
 					</div>
 				
 				</form>
