@@ -22,13 +22,8 @@ public class MainController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 	
-	//private MovieListService service;
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Model m) {
-		log.info("컨트롤러 진입");
 		return "main";
 	}
 	// 소스트리 테스트

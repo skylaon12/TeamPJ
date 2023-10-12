@@ -5,8 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HTA CINEMA</title>
-  	<script type="text/javascript" src="../resources/js/movie/movieFn.js"></script>
+<title>SOL CINEMA</title>
   	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -16,6 +15,7 @@
   	<link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
   	<link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
   	<link rel="icon" href="../resources/images/favicon.ico" type="image/x-icon">
+  	<script src="../resources/js/login.js"></script>
 </head>
 <style>
 </style>
@@ -42,7 +42,8 @@
 					</div>
 					<div class="col mt-5 mb-5">
 						<img class="rounded" id="poster" src="${poster}" style="width: 18rem;">
-						<button type='button' class='ticketing btn btn-primary mt-3'><a href="#">예매</a></button>
+						<button type='button' data-no="${id}" id="bookButton" class='ticketing btn btn-primary mt-3'>예매</button>
+						
 					</div>
 				</div>
 			</div>
@@ -53,9 +54,11 @@
 		<div>
 			<nav>
 				<div class="nav nav-tabs nav-justified mt-5" id="nav-tab" role="tablist">
-					<button class="nav-link active detail-info" id="nav-main-tab"
-						data-bs-toggle="tab" data-bs-target="#nav-main" type="button"
-						role="tab" aria-controls="nav-main" aria-selected="true">주요정보
+				
+				
+					<button class="nav-link active detail-info" id="nav-main-tab" data-bs-toggle="tab"
+						data-bs-target="#nav-main" type="button" role="tab"
+						aria-controls="nav-main" aria-selected="true">주요정보
 					</button>
 					<button class="nav-link detail-info" id="nav-review-tab" data-bs-toggle="tab"
 						data-bs-target="#nav-review" type="button" role="tab"
@@ -65,6 +68,8 @@
 						data-bs-target="#nav-video" type="button" role="tab"
 						aria-controls="nav-video" aria-selected="false">예고편
 					</button>
+					
+					
 				</div>
 			</nav>
 		</div>
@@ -94,11 +99,35 @@
 						</div>
 					</div>
 				</div>
-				
-				<!-- 관람평 -->
-				<div class="review-box">
-				</div>
 			</div>
+			<!-- 관람평 -->
+			<!-- todo : 영화에 따라 db에서 댓글 정보 가져오기 -->
+			<div class="tab-pane fade review-box" id="nav-review" role="tabpanel"
+			aria-labelledby="nav-review-tab">
+				<div class="cmt_list">
+		        <!-- 댓글 목록이 여기에 표시됩니다. -->
+		        <!-- 댓글 목록 예시 -->
+		       	<c:forEach var="com" items="${comments}">
+		        	<div class="comment-item">
+		        		<p class="comment-text">댓글내용: ${com.r_text}</p>
+        				<span class="comment-author">작성자: ${com.u_id}</span><br>
+        				<span class="comment-date">작성일자: ${com.created}</span>
+<%--         				<c:if test="${user.u_id eq com.b_id}"> --%>
+<%--         					<a href="${cp}/board/delComment?category=${category}&no=${com.b_no}&ori=${read.b_no}">삭제하기</a> --%>
+<%--         				</c:if> --%>
+	        		</div>
+		       	</c:forEach>
+			    </div>
+			    <form id="comment-form" class="comment-form">
+<%-- 			    	<input type="hidden" id= "b_category" value="${read.b_category}"/> --%>
+<%-- 			    	<input type="hidden" id="u_id" value="${user.u_id}"/> --%>
+<%-- 			    	<input type="hidden" id="b_ori_id" value="${read.b_no}"/> --%>
+			        <textarea id="comment" placeholder="댓글을 입력하세요..." rows="4"></textarea>
+			        <button type="button" onclick="submitComment()" class="btn btn-dark">댓글 등록</button>
+			    </form>
+			</div>
+			
+			
 			<div class="tab-pane fade" id="nav-video" role="tabpanel"
 				aria-labelledby="nav-video-tab">
 				<div class="row mt-3">
@@ -112,6 +141,15 @@
 <%@include file="../common/footer.jsp"%>
 <!-- 오류 모달 -->
 <%@include file="../common/errorModal.jsp"%>
-</body>
 
+</body>
+<script>
+$(function(){
+	$(document).on("click", "#bookButton", function(){
+		var movieId = $(this).data("no");	// data-no인 movie.id를 가져옴
+		//console.log("MovieID : " + movieId);
+		checkLoginStatus("${cp}/ticketing/screenList?no="+movieId);
+	});
+})
+</script>
 </html>

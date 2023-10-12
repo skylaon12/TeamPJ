@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team3.spring.mapper.MemberMapper">
+	<select id="login" resultType="com.team3.spring.vo.MemberVO">
+		SELECT * FROM MEMBER WHERE ACCOUNT = #{id} AND PWD = #{pw}
+	</select>
+	<insert id="signup">
+		INSERT INTO MEMBER (account, name, pwd, email1, email2, phonenumber, age)
+		VALUES (#{account}, #{name}, #{pwd}, #{email1}, #{email2}, #{phonenumber}, #{age})
+	</insert>
+	<select id="checkAccount" resultType="int">
+		SELECT COUNT(*) FROM MEMBER WHERE ACCOUNT = #{account};
+	</select>
+</mapper>

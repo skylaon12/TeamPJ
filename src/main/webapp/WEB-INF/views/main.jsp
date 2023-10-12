@@ -11,10 +11,11 @@
 	  	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	  	<script type="text/javascript" src="resources/js/movie/movieFn.js"></script>
+	  	
 	  	<link rel="stylesheet" href="resources/css/navbar.css" />
 	  	<link rel="stylesheet" href="resources/css/common.css" />
 	  	<link rel="icon" href="resources/images/favicon.ico" type="image/x-icon">
+	  	<script src="${cp}/resources/js/login.js"></script>
 	<title>SOL CINEMA</title>
 </head>
 <style>
@@ -34,7 +35,7 @@ a:hover { color: #fff; text-decoration: underline;}
 		<div class="container">
 			<div class="row" id="movie-head">
 				<div class="row mt-3 poster">
-					<!-- movie top 4 -->					
+					<!-- 여기 div에 movie top 4 들어감 -->					
 				</div>
 			</div>
 			<div class="row text-center">
@@ -45,7 +46,7 @@ a:hover { color: #fff; text-decoration: underline;}
 					</a>
 				</div>
 				<div class="col-4 mb-5">
-					<a href="/movie/list">
+					<a href="${cp}/movie/list">
 						<img alt="" src="resources/images/main/ico-boxoffice-main.png">
 					박스오피스
 					</a>
@@ -86,50 +87,46 @@ a:hover { color: #fff; text-decoration: underline;}
 		var errorModal = new bootstrap.Modal(document.getElementById("modal-info-error"), {
 			keyboard: false
 		});
-		
-		let apiKey = "dfdad57da9c250e542f415cb5b4b16a1";
+		// 이미지 API URL
 		let imageUrl = "https://image.tmdb.org/t/p/w500/";
 		let $div = $(".poster");
 		
-		showTop4();
-		
 		function showTop4() {
+			// /solcinema/rest/top4에 요청
+			// 성공시 function(response)함수 실행
 			$.getJSON('/solcinema/rest/top4', function(response) {
-
+				// index : 반복되는 요소 또는 속성의 인덱스 값
+				// movie : 반복되는 요소 또는 속성의 값, 즉 실제 데이터
 				$.each(response, function(index, movie) {
-
-					let detailUrl = "https://api.themoviedb.org/3/movie/" + movie.id;
-					let poster = "";
-					
-					$.ajax({
-						type: "get",
-						url: detailUrl,
-						data: {"api_key": apiKey, language: "ko-KR"},
-						async: false,
-						success: function(response) {
-							poster = imageUrl + response.poster_path;
-						}
-					})
-					
+					// 포스터 apiurl
+					let poster = imageUrl + movie.poster_path;
+					console.log(index);
 					let output = "";
-					
+					// 가져온 데이터를 토대로 div에 심어줄 코드 반복 삽입
 					output += "<div class='col-3 mt-5 mb-5' style='padding-left: 0px;'>";
 					output += "<a href='${cp}/movie/detail?no="+movie.id+"'>";
 					output += "<img src = '"+poster+"'class='rounded card-img-top' style='width: 17rem; height:440px;'/>";
 					output += "</a>";
 					output += "<div class='d-flex mt-3'>";
-					output += "<button id='btn-"+ movie.id +"' class='btn btn-outline-light btn-like col-5 mt-1 float-end' data-no='"+ movie.no +"' type='button' style='margin-right: 15px;'><img class='me-3' src='resources/images/movie/unlike.png'><span>"+movie.vote_average+"</span></button>";
-					output += "<button data-no='"+ movie.id +"' type='button' class='btn btn-primary col-5 mt-1 float-end'><a href='/ticketing/screenList?no="+movie.no+"'>예매</a></button>";
+					output += "<button data-no='"+ movie.id +"' type='button' id='bookButton' class='btn btn-primary col-5 mt-1 float-end'>예매</button>";
 					output += "</div>";
 					output += "</div>";
 					
-					showMyMovies();
 					$div.append(output);
 				})
 			});
 		}
 		
-		showMyMovies();
+		showTop4();
+		// 예매 버튼이 페이지 로딩 시에 렌더링되지 않고, JavaScript 코드 내에서 동적으로 생성되는 경우가 있습니다.
+		//이 경우, 이벤트 핸들러를 등록할 때 이 버튼을 참조해야 합니다.
+		//이 경우 jQuery의 .on() 함수를 사용하여 이벤트를 위임할 수 있습니다. -chat GPT-  
+		$(document).on("click", "#bookButton", function(){
+			var movieId = $(this).data("no");	// data-no인 movie.id를 가져옴
+			//console.log("MovieID : " + movieId);
+			checkLoginStatus("${cp}/ticketing/screenList?no="+movieId)
+		});
+
 	})
 </script>
 </html>
