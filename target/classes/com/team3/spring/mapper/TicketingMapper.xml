@@ -15,4 +15,17 @@
 		WHERE REGION_DETAIL = #{region_detail} AND THEATER_NUM = #{theater_num} AND 
 			  RESERV_DATE = #{reserv_date} AND STR_HOUR = #{str_hour} AND M_TITLE = #{m_title}   
 	</select>
+	
+	<select id="getTicket" resultType="com.team3.spring.vo.TicketingVO">
+		SELECT * FROM M_MOVIETOTAL
+		WHERE USER_ID = #{u_id} ORDER BY ID DESC LIMIT 1
+	</select>
+	<select id="getTicket2" resultType="com.team3.spring.vo.TicketingVO">
+		SELECT * FROM M_MOVIETOTAL
+		WHERE ID = ${t_id}
+	</select>
+	<delete id="cancelProc">
+		DELETE FROM M_MOVIETOTAL
+		WHERE ID = #{t_id}
+	</delete>
 </mapper>

@@ -103,4 +103,19 @@ public class MemberController {
 		
 		return ResponseEntity.ok(response);
 	}
+	
+	@GetMapping("/info")
+	public void userInfoView() {
+	}
+	
+	@GetMapping("/checkUserPw")
+	public void checkPwView() {
+
+	}
+	
+	@RequestMapping(value = "/checkProc", method = RequestMethod.POST)
+	public String checkPwProc(@RequestParam("id")String id, @RequestParam("pw")String pw) {
+		
+		return "redirect:infoModify";
+	}
 }

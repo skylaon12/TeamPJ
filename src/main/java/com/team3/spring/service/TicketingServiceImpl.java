@@ -44,4 +44,19 @@ public class TicketingServiceImpl implements TicketingService{
 		return bookedSeats;
 	}
 
+	@Override
+	public TicketingVO getTicket(int u_id) {
+		return mapper.getTicket(u_id);
+	}
+
+	@Override
+	public TicketingVO getTicket2(int t_id) {
+		return mapper.getTicket2(t_id);
+	}
+
+	@Override
+	public void cancelProc(int t_id) {
+		mapper.cancelProc(t_id);
+	}
+
 }

@@ -13,7 +13,6 @@
 <link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
 <link rel="stylesheet" href="../resources/css/seat.css?ver=<%=System.currentTimeMillis()%>" />
 <link rel="icon" href="../resources/images/favicon.ico" type="image/x-icon">
-<script src="${cp}/resources/js/login.js"></script>
 <title>SOL CINEMA</title>
 </head>
 <body>
@@ -103,9 +102,6 @@
     <input type="hidden" id="m_poster" value="${poster}">
     <input type="hidden" id="u_id" value="${LOGIN_USER.id}">
     <input type="hidden" id="u_name" value="${LOGIN_USER.name}">
-    
-    
-    <button onclick="openPopup()">팝업창띄우기</button>
 </div>
     
 
@@ -366,6 +362,18 @@
 		if(end_hour > 24){
 			end_hour %= 24;
 		}
+		if(str_hour/10 == 0){
+			str_hour = "0"+str_hour;
+		}
+		if(str_min/10 == 0){
+			str_min = "0"+str_min;
+		}
+		if(end_hour/10 == 0){
+			end_hour = "0"+end_hour;
+		}
+		if(end_min/10 == 0){
+			end_min = "0" + end_min;
+		}
 		/*-------영화 시작시간, 종료시간 끝-------*/
 		
 		/*-------팝업창 뿌려주기-------*/
@@ -402,7 +410,7 @@
 	    setTimeout(function () {
 	        if (popup && !popup.closed) {
 	            popup.close();
-	            //window.location.href = "check?m_title="+m_title;
+	            window.location.href = "check?id=${LOGIN_USER.id}";
 	        }
 	    }, 2000);
     }	

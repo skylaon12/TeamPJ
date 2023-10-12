@@ -65,7 +65,7 @@
 				<ul class="navbar-nav util-list">
 					<li class="nav-item"><a class="nav-link" href="#"><img
 							src="${cp}/resources/images/nav/ico-schedule.png"></a></li>
-					<li class="nav-item"><a class="nav-link" href="#"><img
+					<li class="nav-item"><a class="nav-link" href="${cp}/member/info"><img
 							src="${cp}/resources/images/nav/ico-mymega.png"></a></li>
 				</ul>
 			</div>
