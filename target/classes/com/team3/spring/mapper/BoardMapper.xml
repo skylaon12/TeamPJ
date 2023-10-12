@@ -4,7 +4,15 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.team3.spring.mapper.BoardMapper">
 	<select id="list" resultType="com.team3.spring.vo.BoardVO">
-		SELECT P_ID, P_TITLE, P_WRITER, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT FROM BOARD
+	    SELECT P_ID, P_TITLE, P_WRITER, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
+	    FROM BOARD LIMIT #{page}, ${@com.team3.spring.vo.BoardConfig@AMOUNT_PER_PAGE}
+	</select>
+	
+	<select id="listSearch" parameterType="map" resultType="com.team3.spring.vo.BoardVO">
+	    SELECT P_ID, P_TITLE, P_WRITER, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
+	    FROM BOARD 
+	    WHERE ${searchKey} LIKE CONCAT('%', #{word}, '%') 
+	    LIMIT #{page}, ${@com.team3.spring.vo.BoardConfig@AMOUNT_PER_PAGE}
 	</select>
 	
 	<insert id="write">
@@ -23,8 +31,13 @@
 		UPDATE BOARD SET P_TITLE = #{p_title}, P_TEXT = #{p_text} WHERE P_ID = #{p_id}
 	</update>
 	
-	<select id="test" resultType="int">
+	<select id="getTotalCount" resultType="int">
 		SELECT COUNT(*) FROM BOARD
+	</select>
+	
+	<select id="getSearchTotalCount" resultType="int">
+		SELECT COUNT(*) FROM BOARD 
+		WHERE ${searchKey} LIKE CONCAT('%', #{word}, '%')
 	</select>
 	
 </mapper>

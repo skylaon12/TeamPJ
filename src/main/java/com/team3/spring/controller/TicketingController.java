@@ -49,21 +49,6 @@ public class TicketingController {
 	}
 	@RequestMapping("/popup")
 	public void popup(@ModelAttribute TicketingVO vo) {
-//		log.info("유저 id : " + vo.getUser_id());
-//		log.info(vo.getUser_name());
-//		log.info("티켓 수 : " + vo.getTicket_cnt());
-//		log.info("가격 : " + vo.getCost());
-//		log.info("영화제목 : " + vo.getM_title());
-//		log.info(vo.getM_poster());
-//		log.info(vo.getM_runtime());
-//		log.info(vo.getRegion_detail());
-//		log.info(vo.getTheater_num());
-//		log.info(vo.getSeat_num());
-//		log.info(vo.getReserv_date());
-//		log.info(vo.getStr_hour());
-//		log.info(vo.getStr_min());
-//		log.info(vo.getEnd_hour());
-//		log.info(vo.getEnd_min());
 		ticketingService.bookTicket(vo);
 	}
 	
@@ -76,7 +61,21 @@ public class TicketingController {
 	}
 	
 	@GetMapping("/check")
-	public void ticketCheck() {
+	public void ticketCheck(Model m, @RequestParam("id")int u_id) {
+		m.addAttribute("ticket", ticketingService.getTicket(u_id));
 	}
+	
+	@GetMapping("/bookCancel")
+	public void cancel(Model m, @RequestParam("id")int t_id) {
+		
+		m.addAttribute("ticket", ticketingService.getTicket2(t_id));
+	}
+	
+	@GetMapping("/cancelProc")
+	public String cancelProc(@RequestParam("id")int t_id) {
+		ticketingService.cancelProc(t_id);
+		return "redirect:/";
+	}
+		
 	
 }

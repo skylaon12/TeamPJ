@@ -69,7 +69,7 @@ a:hover { color: #fff; text-decoration: underline;}
 			<div class="row text-center mt-3">
 				
 				<div class="col">
-					<a href="${cp}/notice/list"><img alt="" src="resources/images/supports/ico-oneandone.png">
+					<a href="${cp}/notice/list?page=1"><img alt="" src="resources/images/supports/ico-oneandone.png">
 						<p style="color:black;" class="mt-3">1:1 문의</p>
 					</a>
 				</div>

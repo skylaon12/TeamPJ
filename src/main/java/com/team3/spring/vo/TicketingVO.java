@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class TicketingVO {
+	private int id;				// 예매 id
 	private int user_id;		// 유저 id
 	private String user_name;	// 유저 이름
 	private int ticket_cnt;		// 티켓 수
@@ -15,8 +16,8 @@ public class TicketingVO {
 	private String theater_num;	// 상영관 번호
 	private String seat_num;	// 좌석 번호
 	private String reserv_date;	// 영화 상영 날짜
-	private int str_hour;		// 시작 시각
-	private int str_min;		// 시작 분
-	private int end_hour;		// 종료 시각
-	private int end_min;		// 종료 분
+	private String str_hour;		// 시작 시각
+	private String str_min;		// 시작 분
+	private String end_hour;		// 종료 시각
+	private String end_min;		// 종료 분
 }

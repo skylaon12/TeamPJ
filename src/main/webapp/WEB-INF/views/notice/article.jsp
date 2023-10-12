@@ -27,7 +27,7 @@
 				<div class="location">
 					<a href="${cp}" title="메인 페이지 이동"><span>Home</span></a>
 					<a href="https://www.megabox.co.kr/support" title="고객센터 페이지로 이동">고객센터</a>
-					<a href="list" title="공지사항 페이지로 이동">공지사항</a>
+					<a href="list?page=${articleCurrentPage }" title="공지사항 페이지로 이동">공지사항</a>
 					<a href="article?p_id=${article.p_id}" title="글">${article.p_title }</a>
 				</div>
 	
@@ -41,7 +41,7 @@
 					<ul>
 						<li><a href="https://www.megabox.co.kr/support" title="고객센터 홈">고객센터 홈</a></li>
 						<li><a href="https://www.megabox.co.kr/support/faq" title="자주 묻는 질문">자주 묻는 질문</a></li>
-						<li class="on"><a href="list" title="공지사항">공지사항</a></li>
+						<li class="on"><a href="list?page=${articleCurrentPage }" title="공지사항">공지사항</a></li>
 						<li><a href="http://localhost:8080/movie/created2" title="1:1문의">1:1문의</a></li>
 						<li><a href="https://www.megabox.co.kr/support/rent" title="단체관람 및 대관문의">단체관람 및 대관문의</a></li>
 						<li><a href="https://www.megabox.co.kr/support/lost" title="분실물 문의">분실물 문의</a></li>
@@ -79,14 +79,14 @@
 							</p>
 						</div>
 
-						<div class="cont">${article.p_text }</div>
+						<div class="cont">${articleContent }</div>
 					</div>
 				</div>
 
 				<div class="btn-group pt40">
-					<a href="javascript:location.href='<%=cp%>/notice/modify?p_id=${article.p_id}';" class="button large listBtn" title="수정">수정</a>
-					<a href="javascript:location.href='<%=cp%>/notice/del?p_id=${article.p_id}';" class="button large listBtn" title="삭제">삭제</a>
-					<a href="javascript:location.href='<%=cp%>/notice/list';" class="button large listBtn" title="리스트">리스트</a>
+					<a href="javascript:location.href='<%=cp%>/notice/modify?p_id=${article.p_id}&page=${articleCurrentPage }';" class="button large listBtn" title="수정">수정</a>
+					<a href="javascript:location.href='<%=cp%>/notice/del?p_id=${article.p_id}&page=${articleCurrentPage }';" class="button large listBtn" title="삭제">삭제</a>
+					<a href="javascript:location.href='<%=cp%>/notice/list?page=${articleCurrentPage }';" class="button large listBtn" title="리스트">리스트</a>
 				</div>
 			</div>
 		</div>

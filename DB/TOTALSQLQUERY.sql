@@ -17,10 +17,17 @@ create table m_movietotal(
     theater_num varchar(20) not null,	# 영화관 번호(1관 2관..)
 	seat_num varchar(20) not null,		# 좌석 번호
     reserv_date varchar(20) not null,	# 영화 상영날짜
+<<<<<<< HEAD
     str_hour int not null,				# 영화 시작 시각
     str_min int not null,				# 영화 시작 분
     end_hour int not null,				# 영화 종료 시각
     end_min int not null				# 영화 종료 분
+=======
+    str_hour varchar(10) not null,				# 영화 시작 시각
+    str_min varchar(10) not null,				# 영화 시작 분
+    end_hour varchar(10) not null,				# 영화 종료 시각
+    end_min varchar(10) not null				# 영화 종료 분
+>>>>>>> branch 'master' of git@github.com:skylaon12/TeamPJ.git
 );
 create table m_review(
 	r_id int primary key auto_increment,	# 댓글 id
