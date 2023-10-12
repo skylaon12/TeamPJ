@@ -25,7 +25,11 @@
 	<script type="text/javascript">
 		function sendIt(){
 			var f = document.searchForm;
-			f.action = "<%=cp%>/movie/list";
+			var curPage = f.page.value;
+			var sKey = "${searchKey}";
+			var sWord = "${word}";
+			
+			f.action = "<%=cp%>/notice/list?page="+ curPage +"&searchKey="+ sKey +"&word="+ sWord;
 			f.submit();
 		}
 	</script>
@@ -75,13 +79,14 @@
 				<div id="bbsList">
 					<div id="bbsList_header">
 						<div id="leftHeader">
-						<form action="" method="post" name="searchForm">
+						<form action="" method="get" name="searchForm">
+							<input type="hidden" name ="page" class="input-text w150px" value="${currentPage }">
 							<select name="searchKey" class="selectField">
-								<option value="subject">제목</option>
-								<option value="name">작성자</option>
-								<option value="content">내용</option>
+								<option value="p_title">제목</option>
+								<option value="p_writer">작성자</option>
+								<option value="p_text">내용</option>
 							</select>
-							<input type="text" name="searchValue" class="textField"/>
+							<input type="text" name="word" class="textField"/>
 							<input type="button" value=" 검 색 " class="btn2" 	
 							onclick="sendIt()"/>		
 						</form>				
@@ -115,30 +120,48 @@
 						</c:forEach>
 						</div>
 						<div nav class="pagination" id="footer">
-							<c:if test="${dataCount!=0 }">
-								${pageIndexList }
-							</c:if>
-							<c:if test="${dataCount==0 }">
-								등록된 게시물이 없습니다.
-							</c:if>
+							<c:choose>
+								<c:when test="${totalCount != 0}">
+									<c:choose>
+										<c:when test="${hasPrev}">
+											[<a href="${cp}/notice/list?page=${prevPage}"><b>이전</b></a>]
+										</c:when>
+										<c:otherwise>
+											[이전]
+										</c:otherwise>
+									</c:choose>
+				
+									<c:forEach var="p" begin="${blockStartNo}" end="${blockEndNo}">
+										<c:choose>
+											<c:when test="${word != null}">
+												[<a href="${cp}/notice/list?page=${p}&searchKey=${searchKey}&word=${word}">${p}</a>]
+											</c:when>
+											<c:otherwise>
+												[<a href="${cp}/notice/list?page=${p}">${p}</a>]
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+									
+									<c:choose>
+										<c:when test="${hasNext}">
+											[<a href="${cp}/notice/list?page=${nextPage}"><b>다음</b></a>]
+										</c:when>
+										<c:otherwise>
+											[다음]
+										</c:otherwise>
+									</c:choose>
+								</c:when>
+								
+								<c:otherwise>
+									등록된 게시물이 없습니다.
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</div>
 					
 					<div class="btn-group right">
 						<a href="write?page=${currentPage}" class="button purple" id="myQnaBtn" title="공지사항 등록">공지사항 등록</a><!-- btn-layer-open -->
 					</div>
-					
-					<c:if test="${hasPrev == true}" >
-						[<a href="${cp}/notice/list?page=${prevPage}"><b>이전</b></a>]
-					</c:if>
-
-					<c:forEach var="p" begin="${blockStartNo}" end="${blockEndNo}">
-						[<a href="${cp}/notice/list?page=${p}">${p}</a>]
-					</c:forEach>
-					
-					<c:if test="${hasNext == true}" >
-						[<a href="${cp}/notice/list?page=${nextPage}"><b>다음</b></a>]
-					</c:if>
 				</div>
 			</div>
 		</div>

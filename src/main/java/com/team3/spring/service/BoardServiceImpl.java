@@ -26,6 +26,13 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.list(page);
 	}
 	
+	// 리스트 검색
+	@Override
+	public ArrayList<BoardVO> listSearch(String searchKey, String word, int page) {
+		log.info("서비스 진입 검색");
+		return mapper.listSearch(searchKey, word, page);
+	}
+	
 	// 쓰기
 	@Override
 	public void write(BoardVO gvo) {
@@ -62,15 +69,29 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public int getTotalPage() {
-		//전체 페이지 수 = 전체 글 수 / [페이지당 글 수]
-		int totalCount = getTotalCount();
-		int totalPage=0;
-		if(totalCount % BoardConfig.AMOUNT_PER_PAGE == 0) {
-			totalPage = totalCount / BoardConfig.AMOUNT_PER_PAGE;
-		}else {
-			totalPage = totalCount / BoardConfig.AMOUNT_PER_PAGE + 1;
-		}
+	public int getSearchTotalCount(String searchKey, String word) {
+		return mapper.getSearchTotalCount(searchKey, word);
+	}
+	
+	@Override
+	public int getTotalPage(String searchKey, String word) {
+		int totalCount;
+	    
+	    if (word == null || word.equals("null")) {
+	        totalCount = getTotalCount();
+	    } else {
+	        totalCount = getSearchTotalCount(searchKey, word);
+	    }
+		
+	    // 전체 페이지 수 = 전체 글 수 / [페이지당 글 수]
+	    int totalPage = 0;
+	    
+	    if (totalCount % BoardConfig.AMOUNT_PER_PAGE == 0) {
+	        totalPage = totalCount / BoardConfig.AMOUNT_PER_PAGE;
+	    } else {
+	        totalPage = totalCount / BoardConfig.AMOUNT_PER_PAGE + 1;
+	    }
+		
 		return totalPage;
 	}
 
