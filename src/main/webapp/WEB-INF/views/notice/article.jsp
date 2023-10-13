@@ -82,6 +82,31 @@
 						<div class="cont">${articleContent }</div>
 					</div>
 				</div>
+				
+				<div class="prev-next">
+				    <div class="line prev">
+				        <p class="tit">이전</p>
+				        <c:choose>
+				            <c:when test="${not empty previousArticleUrl}">
+				                <a href="${previousArticleUrl}" class="link moveBtn" title="이전 글">${previousArticleTitle }</a>
+				            </c:when>
+				            <c:otherwise>
+				                <p class="link">이전글이 없습니다.</p>
+				            </c:otherwise>
+				        </c:choose>
+				    </div>
+				    <div class="line next">
+				        <p class="tit">다음</p>
+				        <c:choose>
+				            <c:when test="${not empty nextArticleUrl}">
+				                <a href="${nextArticleUrl}" class="link moveBtn" title="다음 글">${nextArticleTitle }</a>
+				            </c:when>
+				            <c:otherwise>
+				                <p class="link">다음글이 없습니다.</p>
+				            </c:otherwise>
+				        </c:choose>
+				    </div>
+				</div>
 
 				<div class="btn-group pt40">
 					<a href="javascript:location.href='<%=cp%>/notice/modify?p_id=${article.p_id}&page=${articleCurrentPage }';" class="button large listBtn" title="수정">수정</a>

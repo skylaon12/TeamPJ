@@ -32,6 +32,12 @@
 			f.action = "<%=cp%>/notice/list?page="+ curPage +"&searchKey="+ sKey +"&word="+ sWord;
 			f.submit();
 		}
+		
+		function sendList(){
+			var curPage = "${currentPage}";
+		    // 페이지 이동
+			window.location.href = "<%=cp%>/notice/list?page="+ curPage;
+		}
 	</script>
 
 </head>
@@ -79,20 +85,22 @@
 				<div id="bbsList">
 					<div id="bbsList_header">
 						<div id="leftHeader">
-						<form action="" method="get" name="searchForm">
-							<input type="hidden" name ="page" class="input-text w150px" value="${currentPage }">
-							<select name="searchKey" class="selectField">
-								<option value="p_title">제목</option>
-								<option value="p_writer">작성자</option>
-								<option value="p_text">내용</option>
-							</select>
-							<input type="text" name="word" class="textField"/>
-							<input type="button" value=" 검 색 " class="btn2" 	
-							onclick="sendIt()"/>		
-						</form>				
+							<form action="" method="get" name="searchForm">
+								<input type="hidden" name ="page" class="input-text w150px" value="${currentPage }">
+								<select name="searchKey" class="selectField">
+									<option value="p_title">제목</option>
+									<option value="p_writer">작성자</option>
+									<option value="p_text">내용</option>
+								</select>
+								<input type="text" name="word" class="textField"/>
+								<input type="button" value=" 검 색 " class="btn2" 	
+								onclick="sendIt()"/>
+								<input type="button" value=" 리 스 트 " class="btn2" 	
+								onclick="sendList()"/>
+							</form>
 						</div>
 						<div id="rightHeader">
-							
+							전체 글 수: ${totalCount}
 						</div>	
 					</div>
 					<div id="bbsList_list">

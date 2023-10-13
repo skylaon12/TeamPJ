@@ -2,6 +2,10 @@ package com.team3.spring.controller;
 
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
@@ -25,9 +29,12 @@ import lombok.extern.log4j.Log4j;
 public class BoardController {
 
 	private BoardService service;
+	private HttpServletRequest request;
+	private HttpServletResponse response;
 	
 	@GetMapping("/list")
-	public void getList(Model m, @RequestParam("page") int page,
+	public void getList(Model m,
+			@RequestParam(value = "page", defaultValue = "1") int page,
 	        @RequestParam(value = "searchKey", required = false) String searchKey,
 	        @RequestParam(value = "word", required = false) String word) {
 	    log.info("컨트롤러에서 호출 ==========");
@@ -139,13 +146,73 @@ public class BoardController {
 	public void article(Model m, @RequestParam("p_id") Long p_id, @RequestParam("page") int page) {
 		log.info("컨트롤러 글번호 읽기 =======>>>"+p_id);
 		
+		String cp = request.getContextPath();
+		
+		// 조회수 중복 복사 방지 ( 쿠키 )
+		// 해당 글을 조회한 적이 있는지 쿠키를 통해 확인
+	    String cookieName = "article_viewed_" + p_id;
+	    Cookie[] cookies = request.getCookies();
+	    boolean viewed = false;
+	    
+	    // 클라이언트로부터 받은 쿠키들을 확인하여 해당 글을 조회한 기록이 있는지 확인
+	    if (cookies != null) {
+	    	for (Cookie cookie : cookies) {
+	    		if (cookie.getName().equals(cookieName)) {
+	    			viewed = true;
+	    			
+	    			break;
+	    		}
+	    	}
+	    }
+	    
+	    // 해당 글을 처음 조회하는 경우 (쿠키를 찾을 수 없는 경우), 조회수를 증가시키고 쿠키를 설정
+	    if (!viewed) {
+	    	// 해당 글 조회수 증가
+	        service.updateHitCount(p_id);
+
+	        // 해당 글 조회한 것을 표시하는 쿠키 하나 생성
+	        Cookie cookie = new Cookie(cookieName, "viewed");
+	        cookie.setMaxAge(60);  // 쿠키 60초 지속 ( 임시 )
+	        cookie.setPath("/");  // 어플리케이션 전역에서 접근 허용 코드
+	        response.addCookie(cookie);
+	    }
+		
 		BoardVO article = service.read(p_id);
+		
+		// 이전 글의 ID와 다음 글의 ID 가져오기
+		Long previousArticleId = service.getPreviousArticleId(p_id);
+		Long nextArticleId = service.getNextArticleId(p_id);
+		
+		// 이전 글의 제목 가져오기
+		BoardVO previousArticle = null;
+		String previousArticleTitle = null;
+		if (previousArticleId != null) {
+		    previousArticle = service.read(previousArticleId);
+		    previousArticleTitle = previousArticle.getP_title();
+		}
+
+		// 다음 글의 제목 가져오기
+		BoardVO nextArticle = null;
+		String nextArticleTitle = null;
+		if (nextArticleId != null) {
+		    nextArticle = service.read(nextArticleId);
+		    nextArticleTitle = nextArticle.getP_title();
+		}
+		
+		String previousArticleUrl = (previousArticleId != null) ? cp + "/notice/article?p_id=" + previousArticleId + "&page=" + page : null;
+	    String nextArticleUrl = (nextArticleId != null) ? cp + "/notice/article?p_id=" + nextArticleId + "&page=" + page : null;
 		
 		String con = article.getP_text().replace("\n", "<br>");
 		
 		m.addAttribute("article", article);
 		m.addAttribute("articleContent", con);
 		m.addAttribute("articleCurrentPage", page);
+		
+		m.addAttribute("previousArticleUrl", previousArticleUrl);
+	    m.addAttribute("nextArticleUrl", nextArticleUrl);
+	    
+	    m.addAttribute("previousArticleTitle", previousArticleTitle); // 이전 글의 제목 추가
+	    m.addAttribute("nextArticleTitle", nextArticleTitle); // 다음 글의 제목 추가
 	}
 	
 	@GetMapping("/del")

@@ -40,4 +40,15 @@
 		WHERE ${searchKey} LIKE CONCAT('%', #{word}, '%')
 	</select>
 	
+	<update id="updateHitCount" parameterType="long">
+		UPDATE BOARD SET P_HITCOUNT=P_HITCOUNT+1 WHERE P_ID = #{p_id}
+	</update>
+	
+	<select id="getNextArticleId" parameterType="Long" resultType="Long">
+        SELECT MIN(p_id) FROM BOARD WHERE p_id &gt; #{currentArticleId}
+    </select>
+    
+    <select id="getPreviousArticleId" parameterType="Long" resultType="Long">
+    	SELECT MAX(p_id) FROM BOARD WHERE p_id &lt; #{currentArticleId}
+	</select>
 </mapper>

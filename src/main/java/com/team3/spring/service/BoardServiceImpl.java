@@ -106,5 +106,22 @@ public class BoardServiceImpl implements BoardService {
 		}		
 		return totalBlock;
 	}
+	
+	@Override
+	public void updateHitCount(long p_id) {
+		mapper.updateHitCount(p_id);
+	}
+	
+	// 다음 글의 ID 가져오기
+    @Override
+    public Long getNextArticleId(Long currentArticleId) {
+        return mapper.getNextArticleId(currentArticleId);
+    }
+
+    // 이전 글의 ID 가져오기
+    @Override
+    public Long getPreviousArticleId(Long currentArticleId) {
+        return mapper.getPreviousArticleId(currentArticleId);
+    }
 
 }

@@ -24,4 +24,9 @@ public interface BoardMapper {
 	
 	public int getSearchTotalCount(@Param("searchKey") String searchKey, @Param("word") String word);
 	
+	public void updateHitCount(long p_id);
+	
+	public Long getNextArticleId(Long currentArticleId);
+	
+	public Long getPreviousArticleId(Long currentArticleId);
 }

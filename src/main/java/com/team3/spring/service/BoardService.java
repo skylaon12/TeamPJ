@@ -28,6 +28,10 @@ public interface BoardService {
 	public int getTotalPage(String searchKey, String word);
 	
 	public int getTotalBlock(int totalPage);
-
 	
+	public void updateHitCount(long p_id);
+	
+	public Long getNextArticleId(Long currentArticleId);
+
+	public Long getPreviousArticleId(Long currentArticleId);
 }
