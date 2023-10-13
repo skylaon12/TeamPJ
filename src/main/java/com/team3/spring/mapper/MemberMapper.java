@@ -10,4 +10,5 @@ public interface MemberMapper {
 	public int checkAccount(String account);
 	public void userInfoModify(MemberVO membervo);
 	public void userPwdModify(MemberVO membervo);
+	public void userDelete(@Param("id")int id);
 }

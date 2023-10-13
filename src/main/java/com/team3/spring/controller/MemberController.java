@@ -145,4 +145,17 @@ public class MemberController {
 		return "redirect:login";
 	}
 	
+	// 회원 탈퇴 화면
+	@GetMapping("/userWithdraw")
+	public void userWithdrawView() {
+	}
+	
+	@RequestMapping(value="/userDelete", method = RequestMethod.POST)
+	public String userDelete(HttpSession s, @RequestParam("id")int id) {
+		service.userDelete(id);
+		s.invalidate();
+		log.info("유저삭제완료");
+		return "redirect:/";
+	}
+	
 }

@@ -62,4 +62,14 @@ public class MemberServiceImpl implements MemberService {
 		mapper.userPwdModify(membervo);
 	}
 
+	@Override
+	public void userDelete(int id) {
+		mapper.userDelete(id);
+		t_mapper.userDelete(id);
+		m_mapper.userDelete(id);
+	}
+	
+	
+	
+
 }

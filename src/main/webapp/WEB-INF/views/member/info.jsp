@@ -121,7 +121,7 @@
         </table>
 		<div class="button-container">
             <a href="checkUserPw"><button class="btn edit-button">수정하기</button></a>
-            <a href="userDelete?id=${LOGIN_USER.id}"><button class="btn delete-button">탈퇴하기</button></a>
+            <a href="userWithdraw"><button class="btn delete-button">탈퇴하기</button></a>
         </div>
     </c:when>
 	<c:otherwise>

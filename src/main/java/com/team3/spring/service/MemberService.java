@@ -8,4 +8,5 @@ public interface MemberService {
 	public boolean checkAccount(String account);
 	public void userInfoModify(MemberVO membervo);
 	public void userPwdModify(MemberVO membervo);
+	public void userDelete(int id);
 }

@@ -21,4 +21,8 @@
 		UPDATE MEMBER SET PWD = #{pwd}
 		WHERE ID = #{id}
 	</update>
+	<delete id="userDelete">
+		DELETE FROM MEMBER 
+		WHERE ID = #{id}
+	</delete>
 </mapper>

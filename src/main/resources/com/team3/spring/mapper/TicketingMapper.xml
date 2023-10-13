@@ -32,4 +32,8 @@
 		UPDATE M_MOVIETOTAL SET USER_NAME = #{user_name} 
 		WHERE USER_ID = #{user_id}
 	</update>
+	<delete id="userDelete">
+		DELETE FROM M_MOVIETOTAL
+		WHERE USER_ID = #{user_id}
+	</delete>
 </mapper>

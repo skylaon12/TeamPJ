@@ -14,4 +14,8 @@
 		UPDATE M_REVIEW SET U_NAME = #{u_name}
 		WHERE U_ID = #{u_id}
 	</update>
+	<delete id="userDelete">
+		DELETE FROM M_REVIEW
+		WHERE U_ID = #{u_id}
+	</delete>
 </mapper>
