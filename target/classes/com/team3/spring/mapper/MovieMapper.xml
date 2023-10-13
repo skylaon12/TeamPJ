@@ -6,4 +6,12 @@
 	<select id="list" resultType="com.team3.spring.vo.MovieCommentVO">
 		SELECT * FROM M_REVIEW WHERE M_ID = #{m_id}
 	</select>
+	<insert id="setComment">
+		INSERT INTO M_REVIEW (M_ID, R_TEXT, U_NAME, U_ID)
+		VALUES (#{m_id}, #{r_text}, #{u_name}, #{u_id})
+	</insert>
+	<update id="userInfoModify">
+		UPDATE M_REVIEW SET U_NAME = #{u_name}
+		WHERE U_ID = #{u_id}
+	</update>
 </mapper>

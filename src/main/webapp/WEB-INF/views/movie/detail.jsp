@@ -110,20 +110,18 @@
 		       	<c:forEach var="com" items="${comments}">
 		        	<div class="comment-item">
 		        		<p class="comment-text">댓글내용: ${com.r_text}</p>
-        				<span class="comment-author">작성자: ${com.u_id}</span><br>
+        				<span class="comment-author">작성자: ${com.u_name}</span><br>
         				<span class="comment-date">작성일자: ${com.created}</span>
-<%--         				<c:if test="${user.u_id eq com.b_id}"> --%>
-<%--         					<a href="${cp}/board/delComment?category=${category}&no=${com.b_no}&ori=${read.b_no}">삭제하기</a> --%>
-<%--         				</c:if> --%>
 	        		</div>
 		       	</c:forEach>
 			    </div>
-			    <form id="comment-form" class="comment-form">
-<%-- 			    	<input type="hidden" id= "b_category" value="${read.b_category}"/> --%>
-<%-- 			    	<input type="hidden" id="u_id" value="${user.u_id}"/> --%>
-<%-- 			    	<input type="hidden" id="b_ori_id" value="${read.b_no}"/> --%>
-			        <textarea id="comment" placeholder="댓글을 입력하세요..." rows="4"></textarea>
-			        <button type="button" onclick="submitComment()" class="btn btn-dark">댓글 등록</button>
+			    <c:if test="${not empty LOGIN_USER}"></c:if>
+			    <form id="comment-form" action="${cp}/movie/setComment" method="POST" class="comment-form">
+			    	<input type="hidden" id="m_id" name="m_id" value="${id}"/>
+			    	<input type="hidden" id="u_id" name="u_id" value="${LOGIN_USER.id}"/>
+			    	<input type="hidden" id="u_name" name="u_name" value="${LOGIN_USER.name}"/>
+			        <textarea id="r_text" name="r_text" placeholder="댓글을 입력하세요..." rows="4"></textarea>
+			        <button type="submit" class="btn btn-dark">댓글 등록</button>
 			    </form>
 			</div>
 			

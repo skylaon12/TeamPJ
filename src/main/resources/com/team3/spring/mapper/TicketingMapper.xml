@@ -28,4 +28,8 @@
 		DELETE FROM M_MOVIETOTAL
 		WHERE ID = #{t_id}
 	</delete>
+	<update id="userInfoModify">
+		UPDATE M_MOVIETOTAL SET USER_NAME = #{user_name} 
+		WHERE USER_ID = #{user_id}
+	</update>
 </mapper>

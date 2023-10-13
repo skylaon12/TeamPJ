@@ -19,7 +19,9 @@ import com.team3.spring.vo.MovieVO;
 import com.team3.spring.vo.MovieYoutubeVO;
 
 import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 @Service
 public class MovieServiceImpl implements MovieService {
 	
@@ -118,10 +120,16 @@ public class MovieServiceImpl implements MovieService {
 		return ymvo.results.get(0).key;
 	}
 	
-	// 영화 평가 서비스
+	// 영화 관람평 불러오기 서비스
 	@Override
 	public ArrayList<MovieCommentVO> getMovieComment(int id) {
 		return mapper.list(id);
+	}
+	
+	// 영화 관람평 작성 서비스
+	@Override
+	public void setComment(MovieCommentVO vo) {
+		mapper.setComment(vo);
 	}
 
 	// 영화 검색 서비스
@@ -149,6 +157,8 @@ public class MovieServiceImpl implements MovieService {
 		
 		return movies;
 	}
+
+	
 	
 	
 }

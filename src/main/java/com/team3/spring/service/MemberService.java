@@ -6,4 +6,6 @@ public interface MemberService {
 	public MemberVO login(String id, String pw);
 	public void signup(MemberVO memberVO);
 	public boolean checkAccount(String account);
+	public void userInfoModify(MemberVO membervo);
+	public void userPwdModify(MemberVO membervo);
 }

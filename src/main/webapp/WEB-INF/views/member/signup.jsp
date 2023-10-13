@@ -72,7 +72,7 @@
 
 			<div>
 				<label class="control-label" for="birth">생년월일</label>
-				<input type="hidden" id="age">
+				<input type="hidden" id="age" name="age">
 				<input type="date" id="birth" name="birth"  placeholder="생년월일"/>
 			</div>
 

@@ -76,7 +76,7 @@ public class MemberController {
 	
 	// 회원가입
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String sighupPOST(MemberVO memberVO) throws Exception{
+	public String signupPOST(MemberVO memberVO) throws Exception{
 		log.info("signup 진입");
 		
 		// 회원가입 서비스 실행
@@ -110,12 +110,39 @@ public class MemberController {
 	
 	@GetMapping("/checkUserPw")
 	public void checkPwView() {
-
 	}
 	
-	@RequestMapping(value = "/checkProc", method = RequestMethod.POST)
-	public String checkPwProc(@RequestParam("id")String id, @RequestParam("pw")String pw) {
+	@GetMapping("/userModify")
+	public void userInfoModifyView() {
 		
-		return "redirect:infoModify";
 	}
+	
+	@GetMapping("/pwdModify")
+	public void getPwdInfo() {
+		
+	}
+	
+	// 유저 정보를 변경하면 게시판이랑 영화 댓글 예매내역의 테이블에도 접근해서 변경시켜야 하지 않을까?
+	@RequestMapping(value="/userModifyProc", method = RequestMethod.POST)
+	public String userInfoModify(HttpSession s, MemberVO membervo) {
+		service.userInfoModify(membervo);
+		// 수정했으니 다시 member객체 받아서 세션 다시 설정해야함
+		MemberVO isLogin = service.login(membervo.getAccount(), membervo.getPwd());
+		if(isLogin != null) {
+			log.info("login success");
+			s.setAttribute("LOGIN_USER", isLogin);
+		}else {
+			log.info("login failed!!");
+		}
+		return "redirect:/";
+	}
+	
+	// 비밀번호 변경 시에는 다시 로그인 하도록
+	@RequestMapping(value="/setPwdProc", method = RequestMethod.POST)
+	public String userPwdModify(HttpSession s, MemberVO membervo) {
+		service.userPwdModify(membervo);
+		s.invalidate();
+		return "redirect:login";
+	}
+	
 }

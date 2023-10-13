@@ -13,4 +13,12 @@
 	<select id="checkAccount" resultType="int">
 		SELECT COUNT(*) FROM MEMBER WHERE ACCOUNT = #{account};
 	</select>
+	<update id="userInfoModify">
+		UPDATE MEMBER SET NAME = #{name}, EMAIL1 = #{email1}, EMAIL2 = #{email2}, PHONENUMBER = #{phonenumber}, AGE = #{age}
+		WHERE ID = #{id}
+	</update>
+	<update id="userPwdModify">
+		UPDATE MEMBER SET PWD = #{pwd}
+		WHERE ID = #{id}
+	</update>
 </mapper>

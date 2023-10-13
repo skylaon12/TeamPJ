@@ -13,4 +13,5 @@ public interface TicketingMapper {
 	public TicketingVO getTicket(@Param("u_id")int u_id);
 	public TicketingVO getTicket2(@Param("t_id")int t_id);
 	public void cancelProc(@Param("t_id")int id);
+	public void userInfoModify(@Param("user_name")String u_name, @Param("user_id")int u_id);
 }

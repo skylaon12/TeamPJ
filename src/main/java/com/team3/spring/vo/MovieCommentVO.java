@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class MovieCommentVO {
-	private int r_id;
 	private int m_id;
+	private int u_id;
 	private String r_text;
-	private String u_id;
+	private String u_name;
 	private String created;
 }
