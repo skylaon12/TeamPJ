@@ -77,11 +77,81 @@ a:hover { color: #fff; text-decoration: underline;}
 			</div>
 		</div> 
 	</div>
+	
+	
+		<!-- 현구 -->
+	<!-- 성공했을 때 뜨는 모달 -->
+	<div class="modal fade" id="successModal" role="dialog" >
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- 모달창의 헤더부분의 시작 -->
+				<div class="modal-header panel-heading">
+					<h4 class="modal-title">메세지 확인</h4>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				<!-- 모달창의 헤더부분의 끝 -->
+				<!-- 모달창의 바디부분의 시작 바디부분이 모달창에서 표시하고자하는 컨텐츠를 입력한다.-->
+				<div class="modal-body">
+					<!-- Modal content-->
+					<div id="messageType" class="modal-content panel-info">
+						<div class="modal-body">
+							<p id="checkMessage"></p>
+						</div>
+					</div>
+				</div>
+				<!-- 모달창의 바디부분의 끝 -->
+				<!-- 모달창의 푸터부분의 시작 -->
+				<!-- 푸터부에는 닫기부분이 위치하게 된다.  -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
+				</div>
+				<!-- 모달창의 푸터부분의 끝 -->
+			</div>
+		</div>
+	</div>
+	<!-- 실패했을 때 뜨는 모달 -->
+	<div class="modal fade" id="failedModal" role="dialog" >
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- 모달창의 헤더부분의 시작 -->
+				<div class="modal-header panel-heading">
+					<h4 class="modal-title">메세지 확인</h4>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				<!-- 모달창의 헤더부분의 끝 -->
+				<!-- 모달창의 바디부분의 시작 바디부분이 모달창에서 표시하고자하는 컨텐츠를 입력한다.-->
+				<div class="modal-body">
+					<!-- Modal content-->
+					<div id="messageType" class="modal-content panel-info">
+						<div class="modal-body">
+							<p>${msg}</p>
+						</div>
+					</div>
+				</div>
+				<!-- 모달창의 바디부분의 끝 -->
+				<!-- 모달창의 푸터부분의 시작 -->
+				<!-- 푸터부에는 닫기부분이 위치하게 된다.  -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
+				</div>
+				<!-- 모달창의 푸터부분의 끝 -->
+			</div>
+		</div>
+	</div>
+	
 <%@include file="common/footer.jsp"%>
 <!-- 오류 모달 -->
 <%@include file="common/errorModal.jsp"%>
 </body>
 <script type="text/javascript">
+	
+$(document).ready(function(){ // 메세지 띄우기
+	if(${!empty msgType}){
+		$("#messageType").attr("class", "modal-content panel-warning");
+		$("#failedModal").modal("show");
+	}
+});
+
 	$(function() {
 		
 		var errorModal = new bootstrap.Modal(document.getElementById("modal-info-error"), {

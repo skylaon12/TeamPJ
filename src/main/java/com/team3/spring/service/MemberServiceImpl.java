@@ -27,19 +27,14 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void signup(MemberVO memberVO) {
-		mapper.signup(memberVO);
+	public int signup(MemberVO memberVO) {
+		return mapper.signup(memberVO);
 		
 	}
-
+	// 가람님 개선
 	@Override
-	public boolean checkAccount(String account) {
-		log.info(mapper.checkAccount(account));
-		int count = mapper.checkAccount(account);
-		log.info("서비스 중보개수 : " + count);
-		boolean value = false;
-		if(count == 0) value = true;
-		return value;
+	public int checkAccount(String account) {
+		return mapper.checkAccount(account);
 	}
 
 	@Override
@@ -68,6 +63,7 @@ public class MemberServiceImpl implements MemberService {
 		t_mapper.userDelete(id);
 		m_mapper.userDelete(id);
 	}
+
 	
 	
 	

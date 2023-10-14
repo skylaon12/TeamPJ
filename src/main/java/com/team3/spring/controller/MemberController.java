@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.team3.spring.service.MemberService;
 import com.team3.spring.vo.MemberVO;
@@ -76,32 +77,40 @@ public class MemberController {
 	
 	// 회원가입
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String signupPOST(MemberVO memberVO) throws Exception{
-		log.info("signup 진입");
-		
-		// 회원가입 서비스 실행
-		service.signup(memberVO);
-		
-		log.info("회원가입 성공");
-		
-		return "redirect:/";
+	public String signupPOST(RedirectAttributes rttr ,MemberVO vo) throws Exception{
+		log.info("아이디 : " + vo.getAccount());
+		log.info("비밀번호 : " + vo.getPwd());
+		log.info("이름 : " + vo.getName());
+		log.info("이메일 : " +  vo.getEmail1() + "@" + vo.getEmail2());
+		log.info("나이 : " + vo.getAge());
+		if(vo.getAccount()==null || vo.getAccount().equals("") || // 유효성 체크 (객체가 안만들어졌거나 공백일시)
+				vo.getPwd()==null || vo.getPwd().equals("") ||
+				vo.getName()==null || vo.getName().equals("") || vo.getAge()<=0 ||
+				vo.getEmail1()==null || vo.getEmail1().equals("") ||
+				vo.getEmail2()==null || vo.getEmail2().equals(""))
+			{
+				// 오류 메세지 => 객체바인딩(Model, HttpServletRequest, HttpSession)
+				rttr.addFlashAttribute("msgType", "실패 메세지");
+				rttr.addFlashAttribute("msg", "모든 내용을 정확히 입력하세요.");	
+				return "redirect:sign"; 
+			}
+			// 회원을 테이블에 저장하기
+			int result = service.signup(vo);
+			if(result==1) {		// 회원가입 성공 || 가입 메세지 출력
+				rttr.addFlashAttribute("msgType", "가입 메세지");
+				rttr.addFlashAttribute("msg", "회원가입이 완료되었습니다.");
+				return "redirect:/";
+			}else { // 회원가입 실패 || 실패 메세지 출력
+				rttr.addFlashAttribute("msgType", "실패 메세지");
+				rttr.addFlashAttribute("msg", "회원가입에 실패하였습니다.");
+				return "redirect:sign";
+			}
 	}
-	
-	@RequestMapping(value = "/checkAccount", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> checkAccount(@RequestBody MemberVO membervo) {
-		boolean success = false;
-		String message = "이미 사용중인 아이디입니다.";
-		log.info("컨트롤러 account : " + membervo.getAccount());
-		success = service.checkAccount(membervo.getAccount());
-		message = success?"사용가능한 아이디입니다.":message;
-		log.info("success : " + success);
-		
-		Map<String,Object> response = new HashMap<>();
-		
-		response.put("success", success);
-		response.put("message", message);
-		
-		return ResponseEntity.ok(response);
+	// 가람님 아이디 중복검사 개선함..
+	@RequestMapping("/checkAccount")
+	public @ResponseBody int memRegisterCheck(@RequestParam("account") String account) {
+		int count = service.checkAccount(account); // memberVO에 있는 값의 유무를 보고 result 1 or 0
+		return count;
 	}
 	
 	@GetMapping("/info")
