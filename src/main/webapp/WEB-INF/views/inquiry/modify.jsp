@@ -50,7 +50,7 @@
 			}
 			f.p_text.value = str;
 			
-			f.action = "<%=cp%>/notice/modify?p_id=" + num + "&page=" + page;
+			f.action = "<%=cp%>/inquiry/modify?p_id=" + num + "&page=" + page;
 			f.submit();
 			alert("글 수정이 완료 되었습니다.");
 			
@@ -67,7 +67,7 @@
 				<div class="location">
 					<a href="${cp}" title="메인 페이지 이동"><span>Home</span></a>
 					<a href="https://www.megabox.co.kr/support" title="고객센터 페이지로 이동">고객센터</a>
-					<a href="list?page=${articleCurrentPage}" title="공지사항 페이지로 이동">공지사항</a>
+					<a href="list?page=${articleCurrentPage}" title="내 문의로 이동">내 문의 내역</a>
 					<a href="article?p_id=${article.p_id}&page=${articleCurrentPage}" title="글">${article.p_title }</a>
 				</div>
 	
@@ -79,18 +79,18 @@
 				<nav id="lnb">
 					<p class="tit"><a href="https://www.megabox.co.kr/support" title="고객센터">고객센터</a></p>
 					<ul>
-						<li><a href="http://localhost:8080/list" title="고객센터 홈">고객센터 홈</a></li>
-						<li class="on"><a href="list?page=${articleCurrentPage}" title="공지사항">공지사항</a></li>
-						<li><a href="${cp}/inquiry/list?page=1" title="1:1문의">1:1문의</a></li>
+						<li><a href="https://www.megabox.co.kr/support" title="고객센터 홈">고객센터 홈</a></li>
+						<li><a href="${cp}/notice/list?page=1" title="공지사항">공지사항</a></li>
+						<li class="on"><a href="list?page=${articleCurrentPage }" title="1:1문의">1:1문의</a></li>
 					</ul>
 				</nav>
 			</div>
 	
 			<div id="contents" class="location-fixed">
-				<h2 class="tit">[관리자] 공지사항 수정</h2>
+				<h2 class="tit">내 문의 내역 수정</h2>
 	
 				<div class="btn-group right">
-					<a href="list" class="button purple" id="myQnaBtn" title="공지사항 이동">공지사항 메인</a><!-- btn-layer-open -->
+					<a href="list" class="button purple" id="myQnaBtn" title="내 문의 내역 이동">내 문의 내역</a><!-- btn-layer-open -->
 				</div>
 	
 				<form action="" method="post" name="myForm">
@@ -139,7 +139,7 @@
 					<div id="bbsCreated_footer" align="center">
 						<input type="button" value=" 수정하기 " class="button purple large" onclick="sendIt();"/>
 						<input type="button" value=" 수정취소 " class="button purple large" 
-						onclick="javascript:location.href='<%=cp%>/notice/list?page=${articleCurrentPage}';"/>
+						onclick="javascript:location.href='<%=cp%>/inquiry/list?page=${articleCurrentPage}';"/>
 					</div>
 				
 				</form>

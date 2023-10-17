@@ -85,16 +85,9 @@
 				<nav id="lnb">
 					<p class="tit"><a href="https://www.megabox.co.kr/support" title="고객센터">고객센터</a></p>
 					<ul>
-						<li><a href="http://localhost:8080/list" title="고객센터 홈">고객센터 홈</a></li>
-						<li ><a href="http://localhost:8080/list" title="자주 묻는 질문">자주 묻는 질문</a></li>
+						<li><a href="https://www.megabox.co.kr/support" title="고객센터 홈">고객센터 홈</a></li>
 						<li class="on"><a href="list?page=${writeCurrentPage}" title="공지사항">공지사항</a></li>
-						<li ><a href="http://localhost:8080/created" title="1:1문의">1:1문의</a></li>
-						<li><a href="http://localhost:8080/list" title="단체관람 및 대관문의">단체관람 및 대관문의</a></li>
-						<li><a href="http://localhost:8080/list" title="분실물 문의">분실물 문의</a></li>
-						<li><a href="http://localhost:8080/list" title="이용약관">이용약관</a></li>
-						<li><a href="http://localhost:8080/list" title="위치기반서비스이용약관">위치기반서비스이용약관</a></li>
-						<li><a href="http://localhost:8080/list" title="개인정보처리방침">개인정보처리방침</a></li>
-						<li><a href="http://localhost:8080/list" style="border-radius: 0 0 10px 10px;" title="스크린배정수에관한기준">스크린배정수에관한기준</a></li>
+						<li><a href="${cp}/inquiry/list?page=1" title="1:1문의">1:1문의</a></li>
 					</ul>
 				</nav>
 			</div>
