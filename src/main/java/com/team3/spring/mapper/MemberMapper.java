@@ -8,6 +8,7 @@ public interface MemberMapper {
 	public MemberVO login(@Param("id")String id, @Param("pw")String pw);
 	public int signup(MemberVO memberVO);
 	public int checkAccount(String account);
+	public int checkEmail(@Param("email1")String email1, @Param("email2")String email2);
 	public void userInfoModify(MemberVO membervo);
 	public void userPwdModify(MemberVO membervo);
 	public void userDelete(@Param("id")int id);

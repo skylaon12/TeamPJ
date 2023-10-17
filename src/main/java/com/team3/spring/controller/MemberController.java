@@ -1,8 +1,14 @@
 package com.team3.spring.controller;
 
+import java.util.Random;
+
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.mail.MailSender;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.team3.spring.service.MailSendService;
 import com.team3.spring.service.MemberService;
 import com.team3.spring.vo.MemberVO;
 
@@ -26,7 +33,7 @@ import lombok.extern.log4j.Log4j;
 public class MemberController {
 	
 	private MemberService service;
-	
+	private MailSendService mailService;
 	@GetMapping("/login")
 	public void login(Model m) {
 	}
@@ -102,6 +109,25 @@ public class MemberController {
 		return count;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="/emailAuth", method = RequestMethod.POST)
+	public String emailAuth(RedirectAttributes rttr, String email) {
+		
+		// 이메일 중복검사 해야함
+		// @ 기준으로 host, domain부분 나눠줌
+		int idx = email.indexOf("@");
+		String host = email.substring(0,idx);
+		String domain = email.substring(idx+1);
+		int result = service.checkEmail(host, domain);
+		if(result > 0) {
+			return "false";
+		}else {
+			return mailService.joinEmail(email);
+		}
+		
+		
+	}
+	
 	@GetMapping("/info")
 	public void userInfoView(Model m, HttpServletRequest req) {
 		HttpSession session = req.getSession();
@@ -166,5 +192,4 @@ public class MemberController {
 		rttr.addFlashAttribute("msg", "회원 탈퇴가 완료되었습니다. 솔시네마를 이용해주셔서 감사합니다.");
 		return "redirect:/";
 	}
-	
 }

@@ -99,23 +99,6 @@
 <body>
 
 <%@include file="/WEB-INF/views/common/navbar.jsp"%>
-<%-- 현재 로그인되어있는 유저 이름 : ${LOGIN_USER.name}<br> --%>
-<%-- 티켓 일련번호 : ${ticket.id}<br> --%>
-<%-- 티켓 예매한 유저 id : ${ticket.user_id}<br> --%>
-<%-- 티켓 예매한 유저 이름 : ${ticket.user_name}<br> --%>
-<%-- 결제한 티켓 수 : ${ticket.ticket_cnt}<br> --%>
-<%-- 결제 금액 : ${ticket.cost}<br> --%>
-<%-- 영화 제목 : ${ticket.m_title}<br> --%>
-<%-- 영화 포스터 url : ${ticket.m_poster }<br> --%>
-<%-- 영화 런타임 : ${ticket.m_runtime}<br> --%>
-<%-- 영화관 상세지역 : ${ticket.region_detail}<br> --%>
-<%-- 상영관 번호 : ${ticket.seat_num }<br> --%>
-<%-- 영화 상영 날짜 : ${ticket.reserv_date}<br> --%>
-<%-- 영화 시작 시간 : ${ticket.str_hour}:${ticket.str_min}<br> --%>
-<%-- 영화 종료 시간 : ${ticket.end_hour}:${ticket.end_min}<br> --%>
-
-<%-- <a href="${cp}/" ><button>홈으로</button></a> --%>
-<%-- <a href="${cp}/ticketing/bookCancel?id=${ticket.id}"><button>취소하기</button></a> --%>
     <!-- 메인 컨테이너 -->
     <div style="width: 70%; min-width: 550px; max-width: 780px; height: 100%; color: black; display: flex; flex-direction: column; align-items: center;">
 

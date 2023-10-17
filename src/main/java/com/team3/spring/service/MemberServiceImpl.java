@@ -1,6 +1,13 @@
 package com.team3.spring.service;
 
+import java.util.Random;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.team3.spring.mapper.MemberMapper;
@@ -20,7 +27,8 @@ public class MemberServiceImpl implements MemberService {
 	private MovieMapper m_mapper;
 	@Setter(onMethod_ = @Autowired)
 	private TicketingMapper t_mapper;
-	
+	@Setter(onMethod_ = @Autowired)
+	private JavaMailSenderImpl mailSender;
 	@Override
 	public MemberVO login(String id, String pw) {
 		return mapper.login(id, pw);
@@ -36,6 +44,12 @@ public class MemberServiceImpl implements MemberService {
 	public int checkAccount(String account) {
 		return mapper.checkAccount(account);
 	}
+	
+	@Override
+	public int checkEmail(String email1, String email2) {
+		return mapper.checkEmail(email1, email2);
+	}
+	
 
 	@Override
 	public void userInfoModify(MemberVO membervo) {
@@ -63,9 +77,5 @@ public class MemberServiceImpl implements MemberService {
 		t_mapper.userDelete(id);
 		m_mapper.userDelete(id);
 	}
-
-	
-	
-	
 
 }
