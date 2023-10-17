@@ -6,13 +6,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-	  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-	  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
 <link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
 <link rel="icon" href="../resources/images/favicon.ico" type="image/x-icon">
 <script src="${cp}/resources/js/login.js"></script>
+<script src="../resources/js/alertModal.js"></script>
 <title>SOL CINEMA</title>
 <style>
 	/* 페이지 스타일 */
@@ -89,6 +90,7 @@
 </style>
 </head>
 <body>
+<%@include file="../common/alertModal.jsp"%>
 <%@include file="/WEB-INF/views/common/navbar.jsp"%>
 <h1>회원 정보</h1>
 <c:choose>
@@ -126,15 +128,22 @@
     </c:when>
 	<c:otherwise>
 		<script>
-			alert("로그인이 필요합니다.");
-			window.location.replace("${cp}/member/login");
+			setTimeout(function(){
+				window.location.replace("${cp}/member/login");	
+			},2000);
 		</script>
 		
 	</c:otherwise>
 </c:choose>
-    
+
 <%@include file="../common/footer.jsp"%>
 <!-- 오류 모달 -->
-<%@include file="../common/errorModal.jsp"%>
 </body>
+<script>
+$(document).ready(function(){ // 메세지 띄우기
+	if(${!empty msgType}){
+		$("#successModal").modal("show");
+	}
+});
+</script>
 </html>

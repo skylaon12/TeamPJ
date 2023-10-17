@@ -3,7 +3,6 @@ package com.team3.spring.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.team3.spring.service.MovieService;
 import com.team3.spring.service.TicketingService;
@@ -38,7 +38,6 @@ public class TicketingController {
 
 		MovieDetailVO vo = movieService.getMovieDetail(id);
 		vo.setPoster_path(IMAGE_URL + vo.getPoster_path());
-		//String poster_url =  IMAGE_URL + vo.poster_path;
 
 		m.addAttribute("title", vo.getTitle());
 		m.addAttribute("runtime", vo.getRuntime());
@@ -72,8 +71,10 @@ public class TicketingController {
 	}
 	
 	@GetMapping("/cancelProc")
-	public String cancelProc(@RequestParam("id")int t_id) {
+	public String cancelProc(RedirectAttributes rttr, @RequestParam("id")int t_id) {
 		ticketingService.cancelProc(t_id);
+		rttr.addFlashAttribute("msgType", "완료 메세지");
+		rttr.addFlashAttribute("msg", "취소가 완료되었습니다.");
 		return "redirect:/";
 	}
 		

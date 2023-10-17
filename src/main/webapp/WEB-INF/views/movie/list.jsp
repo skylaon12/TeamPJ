@@ -67,15 +67,12 @@
 		</div>
 	</div>
 </div>
-<%@include file="../common/errorModal.jsp"%>
 <%@include file="../common/footer.jsp"%>
-<!-- 오류 모달 -->
+	<%@include file="../common/alertModal.jsp" %>
 </body>
+<script src="../resources/js/alertModal.js"></script>
 <script type="text/javascript">
 	$(function () {
-		var errorModal = new bootstrap.Modal(document.getElementById("modal-info-error"), {
-			keyboard: false
-		});
 		
 		let $div = $("#movie-lists .poster");// 영화 리스트들을 담을 div 변수 선언
 		let currentPage = 1;

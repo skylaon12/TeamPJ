@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.team3.spring.service.MovieService;
 import com.team3.spring.vo.MovieCommentVO;
@@ -63,8 +64,10 @@ public class MovieController {
 	}
 	
 	@PostMapping("/setComment")
-	public String setComment(MovieCommentVO vo) {
+	public String setComment(RedirectAttributes rttr,MovieCommentVO vo) {
 		movieService.setComment(vo);
+		rttr.addFlashAttribute("msgType", "성공 메세지");
+		rttr.addFlashAttribute("msg", "관람평 등록이 완료되었습니다.");
 		return "redirect:/movie/detail?no=" + vo.getM_id();
 	}
 	

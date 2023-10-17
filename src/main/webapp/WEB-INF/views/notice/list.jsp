@@ -170,6 +170,7 @@
 
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 	<!-- 오류 모달 -->
-	<%@include file="/WEB-INF/views/common/errorModal.jsp"%>
+	<%@include file="../common/alertModal.jsp" %>
 </body>
+<script src="../resources/js/alertModal.js"></script>
 </html>

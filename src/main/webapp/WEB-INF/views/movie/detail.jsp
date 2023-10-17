@@ -9,7 +9,6 @@
   	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
   	<link rel="stylesheet" href="../resources/css/movieDetail.css?ver=<%=System.currentTimeMillis()%>" />
   	<link rel="stylesheet" href="../resources/css/movieList.css??ver=<%=System.currentTimeMillis()%>" />
   	<link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
@@ -42,7 +41,7 @@
 					</div>
 					<div class="col mt-5 mb-5">
 						<img class="rounded" id="poster" src="${poster}" style="width: 18rem;">
-						<button type='button' data-no="${id}" id="bookButton" class='ticketing btn btn-primary mt-3'>예매</button>
+						<a href="${cp}/member/checkLoginStatus?id=${id}"><button type='button' id="bookButton" class='ticketing btn btn-primary mt-3'>예매</button></a>
 						
 					</div>
 				</div>
@@ -115,7 +114,7 @@
 	        		</div>
 		       	</c:forEach>
 			    </div>
-			    <c:if test="${not empty LOGIN_USER}"></c:if>
+			    <c:if test="${not empty LOGIN_USER}">
 			    <form id="comment-form" action="${cp}/movie/setComment" method="POST" class="comment-form">
 			    	<input type="hidden" id="m_id" name="m_id" value="${id}"/>
 			    	<input type="hidden" id="u_id" name="u_id" value="${LOGIN_USER.id}"/>
@@ -123,6 +122,7 @@
 			        <textarea id="r_text" name="r_text" placeholder="댓글을 입력하세요..." rows="4"></textarea>
 			        <button type="submit" class="btn btn-dark">댓글 등록</button>
 			    </form>
+			    </c:if>
 			</div>
 			
 			
@@ -138,16 +138,23 @@
 
 <%@include file="../common/footer.jsp"%>
 <!-- 오류 모달 -->
-<%@include file="../common/errorModal.jsp"%>
+<%@include file="../common/alertModal.jsp" %>
 
 </body>
+<script src="../resources/js/alertModal.js"></script>
 <script>
-$(function(){
-	$(document).on("click", "#bookButton", function(){
-		var movieId = $(this).data("no");	// data-no인 movie.id를 가져옴
-		//console.log("MovieID : " + movieId);
-		checkLoginStatus("${cp}/ticketing/screenList?no="+movieId);
-	});
-})
+$(document).ready(function(){ // 메세지 띄우기
+	if(${!empty msgType}){
+		$("#successModal").modal("show");
+	}
+});
+
+// $(function(){
+// 	$(document).on("click", "#bookButton", function(){
+// 		var movieId = $(this).data("no");	// data-no인 movie.id를 가져옴
+// 		//console.log("MovieID : " + movieId);
+// 		checkLoginStatus("${cp}/ticketing/screenList?no="+movieId);
+// 	});
+// })
 </script>
 </html>

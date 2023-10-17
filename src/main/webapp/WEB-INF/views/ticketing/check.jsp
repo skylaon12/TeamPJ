@@ -195,6 +195,7 @@
     </div>
 <%@include file="../common/footer.jsp"%>
 <!-- 오류 모달 -->
-<%@include file="../common/errorModal.jsp"%>
+	<%@include file="../common/alertModal.jsp" %>
 </body>
+<script src="../resources/js/alertModal.js"></script>
 </html>

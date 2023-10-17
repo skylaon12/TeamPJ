@@ -11,7 +11,12 @@
 
 	<link rel="shortcut icon"
 		href="https://www.megabox.co.kr/static/pc/images/favicon.ico">
-	
+<!-- 	<link -->
+<!-- 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" -->
+<!-- 	rel="stylesheet"> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script> -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>MEET PLAY SHARE, 솔 시네마</title>
 	
@@ -21,7 +26,7 @@
 	<link rel="stylesheet" href="${cp}/resources/css/navbar.css" />
 	<link rel="stylesheet" href="${cp}/resources/css/common.css" />
 	
-	<script type="text/javascript" src="/resources/js/util.js"></script>
+	<script type="text/javascript" src="../resources/js/util.js"></script>
 	<script type="text/javascript">
 	
 		function sendIt(){
@@ -153,6 +158,7 @@
 	
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 	<!-- 오류 모달 -->
-	<%@include file="/WEB-INF/views/common/errorModal.jsp"%>
+	<%@include file="../common/alertModal.jsp" %>
 </body>
+<script src="../resources/js/alertModal.js"></script>
 </html>

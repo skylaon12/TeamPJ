@@ -6,9 +6,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-	  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-	  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
 <link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
 <link rel="stylesheet" href="../resources/css/seat.css?ver=<%=System.currentTimeMillis()%>" />
@@ -104,13 +104,17 @@
     <input type="hidden" id="u_name" value="${LOGIN_USER.name}">
 </div>
     
-
 <%@include file="../common/footer.jsp"%>
-<!-- 오류 모달 -->
-<%@include file="../common/errorModal.jsp"%>
-   
+<%@include file="../common/alertModal.jsp" %>
 </body>
+<script src="../resources/js/alertModal.js"></script>
 <script>
+$(document).ready(function(){ // 메세지 띄우기
+	if(${!empty msgType}){
+		$("#messageType").attr("class", "modal-content panel-warning");
+		$("#myMessage").modal("show");
+	}
+});
 	var popup;
 	var initialColor = 'rgb(169, 169, 169)';
 	
@@ -186,9 +190,11 @@
 		let id = $targetDiv.attr("id");
 		if($targetDiv.hasClass("select-seat-row")){
 			seatCount++;
+			console.log(seatCount);
 			if(seatCount > lockCount){
+				console.log(seatCount);
 				seatCount--;
-				alert("인원수에 맞게 선택하십시오.");
+				pushModal("좌석 선택이 올바르지 않습니다.");
 				return;
 			}
 			$targetDiv.removeClass("select-seat-row");
@@ -321,7 +327,7 @@
 	// 팝업 띄우면서 입력한 데이터 DB에 넣어야함
 	function sell() {
 		if(seatCount != lockCount){
-			alert("좌석 선택이 올바르지 않습니다.");
+			pushModal("좌석 선택이 올바르지 않습니다.");
 			return;
 		}
 		var u_id = $("#u_id").val();			// 유저 id
