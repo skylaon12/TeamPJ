@@ -27,7 +27,7 @@
 				<div class="location">
 					<a href="${cp}" title="메인 페이지 이동"><span>Home</span></a>
 					<a href="https://www.megabox.co.kr/support" title="고객센터 페이지로 이동">고객센터</a>
-					<a href="list?page=${articleCurrentPage }" title="공지사항 페이지로 이동">공지사항</a>
+					<a href="list?page=${articleCurrentPage }" title="내 문의로 이동">내 문의 내역</a>
 					<a href="article?p_id=${article.p_id}" title="글">${article.p_title }</a>
 				</div>
 	
@@ -40,14 +40,14 @@
 					<p class="tit"><a href="https://www.megabox.co.kr/support" title="고객센터">고객센터</a></p>
 					<ul>
 						<li><a href="https://www.megabox.co.kr/support" title="고객센터 홈">고객센터 홈</a></li>
-						<li class="on"><a href="list?page=${articleCurrentPage }" title="공지사항">공지사항</a></li>
-						<li><a href="${cp}/inquiry/list?page=1" title="1:1문의">1:1문의</a></li>
+						<li><a href="${cp}/notice/list?page=1" title="공지사항">공지사항</a></li>
+						<li class="on"><a href="list?page=${articleCurrentPage }" title="1:1문의">1:1문의</a></li>
 					</ul>
 				</nav>
 			</div>
 
 			<div id="contents" class="location-fixed">
-				<h2 class="tit">공지사항</h2>
+				<h2 class="tit">내 문의 내역</h2>
 
 				<div class="table-wrap">
 					<div class="board-view">
@@ -57,11 +57,6 @@
 
 						<div class="info">
 							<p>
-								<span class="tit">작성자</span>
-								<span class="txt">${article.p_writer }</span>
-							</p>
-							
-							<p>
 								<span class="tit">등록일</span>
 								<span class="txt">${article.p_created }</span>
 							</p>
@@ -69,6 +64,18 @@
 							<p>
 								<span class="tit">조회수</span>
 								<span class="txt">${article.p_hitcount }</span>
+							</p>
+							
+							<p>
+								<span class="tit">답변 상태</span>
+								<c:choose>
+									<c:when test="${article.p_status == 'T'}">
+										<span class="txt">O</span>
+									</c:when>
+									<c:otherwise>
+										<span class="txt">X</span>
+									</c:otherwise>
+								</c:choose>
 							</p>
 						</div>
 
@@ -102,9 +109,9 @@
 				</div>
 
 				<div class="btn-group pt40">
-					<a href="javascript:location.href='<%=cp%>/notice/modify?p_id=${article.p_id}&page=${articleCurrentPage }';" class="button large listBtn" title="수정">수정</a>
-					<a href="javascript:location.href='<%=cp%>/notice/del?p_id=${article.p_id}&page=${articleCurrentPage }';" class="button large listBtn" title="삭제">삭제</a>
-					<a href="javascript:location.href='<%=cp%>/notice/list?page=${articleCurrentPage }';" class="button large listBtn" title="리스트">리스트</a>
+					<a href="javascript:location.href='<%=cp%>/inquiry/modify?p_id=${article.p_id}&page=${articleCurrentPage }';" class="button large listBtn" title="수정">수정</a>
+					
+					<a href="javascript:location.href='<%=cp%>/inquiry/list?page=${articleCurrentPage }';" class="button large listBtn" title="리스트">리스트</a>
 				</div>
 			</div>
 		</div>
@@ -112,7 +119,6 @@
 
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 	<!-- 오류 모달 -->
-	<%@include file="../common/alertModal.jsp" %>
+	<%@include file="/WEB-INF/views/common/errorModal.jsp"%>
 </body>
-<script src="../resources/js/alertModal.js"></script>
 </html>

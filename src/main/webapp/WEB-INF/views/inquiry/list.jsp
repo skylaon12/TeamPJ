@@ -29,14 +29,14 @@
 			var sKey = "${searchKey}";
 			var sWord = "${word}";
 			
-			f.action = "<%=cp%>/notice/list?page="+ curPage +"&searchKey="+ sKey +"&word="+ sWord;
+			f.action = "<%=cp%>/inquiry/list?page="+ curPage +"&searchKey="+ sKey +"&word="+ sWord;
 			f.submit();
 		}
 		
 		function sendList(){
 			var curPage = "${currentPage}";
 		    // 페이지 이동
-			window.location.href = "<%=cp%>/notice/list?page="+ curPage;
+			window.location.href = "<%=cp%>/inquiry/list?page="+ curPage;
 		}
 	</script>
 
@@ -49,7 +49,7 @@
 				<div class="location">
 					<a href="${cp}" title="메인 페이지 이동"><span>Home</span></a>
 					<a href="https://www.megabox.co.kr/support" title="고객센터 페이지로 이동">고객센터</a>
-					<a href="list?page=${currentPage}" title="공지사항 페이지로 이동">공지사항</a>
+					<a href="list?page=${currentPage}" title="내 문의로 이동">내 문의 내역</a>
 				</div>
 			</div>
 		</div>
@@ -60,18 +60,18 @@
 					<p class="tit"><a href="https://www.megabox.co.kr/support" title="고객센터">고객센터</a></p>
 					<ul>
 						<li><a href="https://www.megabox.co.kr/support" title="고객센터 홈">고객센터 홈</a></li>
-						<li class="on"><a href="list?page=${currentPage}" title="공지사항">공지사항</a></li>
-						<li><a href="${cp}/inquiry/list?page=1" title="1:1문의">1:1문의</a></li>
+						<li><a href="${cp}/notice/list?page=1" title="공지사항">공지사항</a></li>
+						<li class="on"><a href="list?page=${currentPage }" title="1:1문의">1:1문의</a></li>
 					</ul>
 				</nav>
 			</div>
 	
 			<div id="contents" class="location-fixed">
-				<h2 class="tit">공지사항</h2>
+				<h2 class="tit">내 문의 내역</h2>
 	
 				<div class="tab-block mb30">
 					<ul>
-						<li class="on tabBtn"><button type="button" class="btn tabBtn" data-no="" title="전체공지 보기">전체</button></li>
+						<li class="on tabBtn"><button type="button" class="btn tabBtn" data-no="" title="전체 내 문의 내역">전체</button></li>
 					</ul>
 				</div>
 	
@@ -82,7 +82,6 @@
 								<input type="hidden" name ="page" class="input-text w150px" value="${currentPage }">
 								<select name="searchKey" class="selectField">
 									<option value="p_title">제목</option>
-									<option value="p_writer">작성자</option>
 									<option value="p_text">내용</option>
 								</select>
 								<input type="text" name="word" class="textField"/>
@@ -101,22 +100,29 @@
 							<dl>
 								<dt class="num">번호</dt>
 								<dt class="subject">제목</dt>
-								<dt class="name">작성자</dt>
+								<dt class="name">답변 상태</dt>
 								<dt class="created">작성일</dt>
 								<dt class="hitCount">조회수</dt>
 							</dl>
 						</div>
 						<div id="lists">
-						<c:forEach var="dto" items="${lists}"> <%-- BoardDTO : lists와 동일 EL로 받은것  --%>
+						<c:forEach var="dto_inquiry" items="${lists}"> <%-- BoardDTO : lists와 동일 EL로 받은것  --%>
 							<dl>								<%-- EL로 받은것은 변수명을 게터로받지않고 그대로 사용 그렇다고 DAO의 게터세터를 지우면안됌. --%>
-								<dd class="num">${dto.p_id }</dd> 
+								<dd class="num">${dto_inquiry.p_id }</dd> 
 								<dd class="subject">
-								<a href="${articleUrl}${dto.p_id }&page=${currentPage }">
-								${dto.p_title }</a>
+								<a href="${articleUrl}${dto_inquiry.p_id }&page=${currentPage }">
+								${dto_inquiry.p_title }</a>
 								</dd>
-								<dd class="name">${dto.p_writer }</dd>
-								<dd class="created">${dto.p_created }</dd>
-								<dd class="hitCount">${dto.p_hitcount }</dd>
+								<c:choose>
+									<c:when test="${dto_inquiry.p_status == 'T'}">
+										<dd class="name">O</dd>
+									</c:when>
+									<c:otherwise>
+										<dd class="name">X</dd>
+									</c:otherwise>
+								</c:choose>
+								<dd class="created">${dto_inquiry.p_created }</dd>
+								<dd class="hitCount">${dto_inquiry.p_hitcount }</dd>
 							</dl>
 						</c:forEach>
 						</div>
@@ -125,7 +131,7 @@
 								<c:when test="${totalCount != 0}">
 									<c:choose>
 										<c:when test="${hasPrev}">
-											[<a href="${cp}/notice/list?page=${prevPage}"><b>이전</b></a>]
+											[<a href="${cp}/inquiry/list?page=${prevPage}"><b>이전</b></a>]
 										</c:when>
 										<c:otherwise>
 											[이전]
@@ -135,17 +141,17 @@
 									<c:forEach var="p" begin="${blockStartNo}" end="${blockEndNo}">
 										<c:choose>
 											<c:when test="${word != null}">
-												[<a href="${cp}/notice/list?page=${p}&searchKey=${searchKey}&word=${word}">${p}</a>]
+												[<a href="${cp}/inquiry/list?page=${p}&searchKey=${searchKey}&word=${word}">${p}</a>]
 											</c:when>
 											<c:otherwise>
-												[<a href="${cp}/notice/list?page=${p}">${p}</a>]
+												[<a href="${cp}/inquiry/list?page=${p}">${p}</a>]
 											</c:otherwise>
 										</c:choose>
 									</c:forEach>
 									
 									<c:choose>
 										<c:when test="${hasNext}">
-											[<a href="${cp}/notice/list?page=${nextPage}"><b>다음</b></a>]
+											[<a href="${cp}/inquiry/list?page=${nextPage}"><b>다음</b></a>]
 										</c:when>
 										<c:otherwise>
 											[다음]
@@ -161,7 +167,7 @@
 					</div>
 					
 					<div class="btn-group right">
-						<a href="write?page=${currentPage}" class="button purple" id="myQnaBtn" title="공지사항 등록">공지사항 등록</a><!-- btn-layer-open -->
+						<a href="write?page=${currentPage}" class="button purple" id="myQnaBtn" title="1:1 문의 남기기">문의 하기</a><!-- btn-layer-open -->
 					</div>
 				</div>
 			</div>
@@ -170,7 +176,6 @@
 
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 	<!-- 오류 모달 -->
-	<%@include file="../common/alertModal.jsp" %>
+	<%@include file="/WEB-INF/views/common/errorModal.jsp"%>
 </body>
-<script src="../resources/js/alertModal.js"></script>
 </html>
