@@ -45,9 +45,8 @@
 			</tr>
 			<tr>
 				<td><label class="control-label" for="pwd">비밀번호 재입력</label></td>
-				<td><input class="password_input" onkeyup="passwordCheck()"
-					type="password" id="pwd_re" name="pwd_re" /> <span
-					id="passMessage" style="color: red"></span></td>
+				<td><input class="password_input" onkeyup="passwordCheck()" type="password" id="pwd_re" name="pwd_re" /> 
+				<span id="passMessage" style="color: red"></span></td>
 			</tr>
 			<tr>
 				<td><label class="control-label" for="name">이름(실명)</label></td>
@@ -85,83 +84,17 @@
 			value="회원가입">
 	</form>
 
-
-
-	<!-- 현구 -->
-	<!-- 성공했을 때 뜨는 모달 -->
-	<div class="modal fade" id="successModal" role="dialog" >
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<!-- 모달창의 헤더부분의 시작 -->
-				<div class="modal-header panel-heading">
-					<h4 class="modal-title">메세지 확인</h4>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-				</div>
-				<!-- 모달창의 헤더부분의 끝 -->
-				<!-- 모달창의 바디부분의 시작 바디부분이 모달창에서 표시하고자하는 컨텐츠를 입력한다.-->
-				<div class="modal-body">
-					<!-- Modal content-->
-					<div id="messageType" class="modal-content panel-info">
-						<div class="modal-body">
-							<p id="checkMessage"></p>
-						</div>
-					</div>
-				</div>
-				<!-- 모달창의 바디부분의 끝 -->
-				<!-- 모달창의 푸터부분의 시작 -->
-				<!-- 푸터부에는 닫기부분이 위치하게 된다.  -->
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
-				</div>
-				<!-- 모달창의 푸터부분의 끝 -->
-			</div>
-		</div>
-	</div>
-	<!-- 실패했을 때 뜨는 모달 -->
-	<div class="modal fade" id="failedModal" role="dialog" >
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<!-- 모달창의 헤더부분의 시작 -->
-				<div class="modal-header panel-heading">
-					<h4 class="modal-title">메세지 확인</h4>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-				</div>
-				<!-- 모달창의 헤더부분의 끝 -->
-				<!-- 모달창의 바디부분의 시작 바디부분이 모달창에서 표시하고자하는 컨텐츠를 입력한다.-->
-				<div class="modal-body">
-					<!-- Modal content-->
-					<div id="messageType" class="modal-content panel-info">
-						<div class="modal-body">
-							<p>${msg}</p>
-						</div>
-					</div>
-				</div>
-				<!-- 모달창의 바디부분의 끝 -->
-				<!-- 모달창의 푸터부분의 시작 -->
-				<!-- 푸터부에는 닫기부분이 위치하게 된다.  -->
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
-				</div>
-				<!-- 모달창의 푸터부분의 끝 -->
-			</div>
-		</div>
-	</div>
-
-
+	
 	<%@include file="../common/footer.jsp"%>
-	<!-- 오류 모달 -->
-	<%@include file="../common/errorModal.jsp"%>
+	<!-- alert 모달 -->
+	<%@include file="../common/alertModal.jsp" %>
 </body>
+<script src="../resources/js/alertModal.js"></script>
 <script>
-
-// 가람님
-// jQuery 문법
-	// 일단 통과
-	// 기존 작업하는 화면과 부트스트랩 버전이 다른 이슈 발생
 	$(document).ready(function(){ // 메세지 띄우기
 		if(${!empty msgType}){
 			$("#messageType").attr("class", "modal-content panel-warning");
-			$("#failedModal").modal("show");
+			$("#myMessage").modal("show");
 		}
 	});
 	// 컨트롤러까지 전부 통과
@@ -169,7 +102,8 @@
 		var account=$("#account").val();
 		var regId = /^[a-zA-Z0-9]{4,12}$/;
 		if(!regId.test(account)){
-			pushErrorModal("올바른 형식으로 입력하여 주십시오.(4~12자 영문 대소문자, 숫자)");
+			pushModal("올바른 형식으로 입력하여 주십시오.(4~12자 영문 대소문자, 숫자)");
+			return;
 		}
 		$.ajax({
 			url : "${cp}/member/checkAccount",
@@ -182,12 +116,10 @@
 					$("#accountCheck").val(account);
 					$("#isChecked").val("true");
 					$("#checkMessage").html("사용할 수 있는 아이디입니다.");
-					$("#checkType").attr("class","modal-content panel-success"); // 다이얼로그 색 설정
 				}else{
 					$("#checkMessage").html("사용할 수 없는 아이디입니다.");
-					$("#checkType").attr("class","modal-content panel-warning"); // 다이얼 로그 색 설정 
 				}
-				$("#successModal").modal("show"); // 다이얼로그 출력
+				$("#alertModal").modal("show"); // 다이얼로그 출력
 			},
 			error : function(){ alert("error"); }
 		});
@@ -242,27 +174,38 @@
 		
       	// 유효성 검사
       	if(id == ""){
-      		pushErrorModal("아이디를 입력하세요.");
+      		pushModal("아이디를 입력하세요.");
+      		return;
       	}else if(passAccount != id || isChecked != "true"){				// 중복확인 여부
-      		pushErrorModal("아이디 중복확인이 완료되지 않았습니다.");
+      		pushModal("아이디 중복확인이 완료되지 않았습니다.");
+      		return;
 		}else if(pw == ""){
-			pushErrorModal("비밀번호를 입력하세요.")
+			pushModal("비밀번호를 입력하세요.")
+			return;
 		}else if(!regPwd.test(pw)){// pw 정규식 체크
-        	pushErrorModal("올바른 비밀번호 형식을 입력하여 주십시오.(4~12자 영문 대소문자, 숫자, 특수문자 가능)");
+        	pushModal("올바른 비밀번호 형식을 입력하여 주십시오.(4~12자 영문 대소문자, 숫자, 특수문자 가능)");
+        	return;
         }else if(pw != pw_re){// 패스워드, 패스워드 재입력 체크
-        	pushErrorModal("비밀번호가 일치하지 않습니다. 다시 입력해주십시오.");
+        	pushModal("비밀번호가 일치하지 않습니다. 다시 입력해주십시오.");
+        	return;
         }else if(name == ""){// 이름 공백
-			pushErrorModal("이름을 입력하세요.");
+			pushModal("이름을 입력하세요.");
+			return;
         }else if(!regName.test(name)){// 이름 정규식 체크
-        	pushErrorModal("최소 2글자 이상, 한글과 영어만 입력해주십시오.");
+        	pushModal("최소 2글자 이상, 한글과 영어만 입력해주십시오.");
+        	return;
         }else if (birth == ""){
-        	pushErrorModal("생년월일을 입력해주십시오.");
+        	pushModal("생년월일을 입력해주십시오.");
+        	return;
         }else if (!email1Regex.test(email1)) {// email 로컬주소 체크
-        	pushErrorModal("올바른 이메일 로컬 파트 형식이 아닙니다.");
+        	pushModal("올바른 이메일 로컬 파트 형식이 아닙니다.");
+        	return;
         }else if (!email2Regex.test(email2)) {// email 도메인파트 체크
-            pushErrorModal("올바른 이메일 도메인 형식이 아닙니다.");
+            pushModal("올바른 이메일 도메인 형식이 아닙니다.");
+            return;
         }else if(!phoneNumberRegex.test(phoneNumber)){
-        	pushErrorModal("올바른 전화번호 형식이 아닙니다");
+        	pushModal("올바른 전화번호 형식이 아닙니다");
+        	return;
         }
 		var birthDate = new Date(birth);
 	    var currentDate = new Date();
@@ -270,12 +213,6 @@
 	    $("#age").val(u_age);
 		$("#signup_form").attr("action", "signup");
 		$("#signup_form").submit();
-	}
-	
-	function pushErrorModal(message){
-		$("#checkMessage").html(message);
-		$("#checkType").attr("class","modal-content panel-warning"); // 다이얼 로그 색 설정
-		$("#successModal").modal("show");
 	}
 </script>
 </html>

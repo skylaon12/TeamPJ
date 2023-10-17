@@ -50,12 +50,13 @@ ex)예매 취소 후에는 다시 예매합니다.<br>
     <label for="scales" id="scales-label">상기 내용을 확인하였습니다.</label>
   </div>
 </fieldset>
-<a href="cancelProc?id=${ticket.id}" id="cancel-button"><button onclick="cancelAlert()" disabled>취소하기</button></a>
+<a href="cancelProc?id=${ticket.id}" id="cancel-button"><button disabled>취소하기</button></a>
 
 <%@include file="../common/footer.jsp"%>
 <!-- 오류 모달 -->
-<%@include file="../common/errorModal.jsp"%>
+	<%@include file="../common/alertModal.jsp" %>
 </body>
+<script src="../resources/js/alertModal.js"></script>
 <script>
 	const scalesCheckbox = document.getElementById('scales');
 	const cancelButton = document.getElementById('cancel-button');
@@ -81,9 +82,5 @@ ex)예매 취소 후에는 다시 예매합니다.<br>
 	    cancelButton.querySelector('button').setAttribute('disabled', 'disabled');
 	  }
 	});
-	
-	function cancelAlert(){
-		alert("예매가 취소되었습니다.");
-	}
 </script>
 </html>

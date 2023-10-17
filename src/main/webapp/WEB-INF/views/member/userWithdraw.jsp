@@ -80,8 +80,9 @@
 
 <%@include file="../common/footer.jsp"%>
 <!-- 오류 모달 -->
-<%@include file="../common/errorModal.jsp"%>
+	<%@include file="../common/alertModal.jsp" %>
 </body>
+<script src="../resources/js/alertModal.js"></script>
 <script>
     // 사용자가 확인란 체크하면 버튼 활성화
     function checkConfirmation() {
@@ -112,7 +113,7 @@
             withdrawButton.classList.remove("disabled");
             withdrawButton.removeAttribute("disabled");
         } else {
-        	alert("비밀번호 다름");
+        	pushModal("비밀번호가 일치하지 않습니다.");
             withdrawButton.classList.add("disabled");
             withdrawButton.setAttribute("disabled", "disabled");
         }
@@ -120,7 +121,6 @@
 
     // 사용자가 탈퇴 버튼을 누를 때 호출되는 함수
     function withdraw() {
-        alert("탈퇴가 완료되었습니다.\n솔시네마를 이용해주셔서 감사했습니다.");
         $("#withdraw_form").attr("action","userDelete");
         $("#withdraw_form").submit();
     }

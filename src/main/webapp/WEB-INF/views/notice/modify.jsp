@@ -8,20 +8,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-
+<meta charset="UTF-8">
 	<link rel="shortcut icon"
 		href="https://www.megabox.co.kr/static/pc/images/favicon.ico">
-	
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+<!--   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script> -->
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<title>MEET PLAY SHARE, 솔 시네마</title>
-	
 	<link rel="stylesheet" type="text/css" href="${cp}/resources/css/style.css?ver=<%=System.currentTimeMillis()%>"/>
 	<link rel="stylesheet" type="text/css" href="${cp}/resources/css/list.css?ver=<%=System.currentTimeMillis()%>"/>
 	<link rel="stylesheet" type="text/css" href="${cp}/resources/css/main_files/megabox.min.css?ver=<%=System.currentTimeMillis()%>" media="all">
 	<link rel="stylesheet" href="${cp}/resources/css/navbar.css" />
 	<link rel="stylesheet" href="${cp}/resources/css/common.css" />
 	
-	<script type="text/javascript" src="/resources/js/util.js"></script>
+	<script type="text/javascript" src="../resources/js/util.js"></script>
 	<script type="text/javascript">
 	
 		function sendIt(){
@@ -156,6 +156,7 @@
 	
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 	<!-- 오류 모달 -->
-	<%@include file="/WEB-INF/views/common/errorModal.jsp"%>
+		<%@include file="../common/alertModal.jsp" %>
 </body>
+<script src="../resources/js/alertModal.js"></script>
 </html>

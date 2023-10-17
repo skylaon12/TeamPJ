@@ -75,8 +75,9 @@ h1 {
 	</div>
 	<%@include file="../common/footer.jsp"%>
 	<!-- 오류 모달 -->
-	<%@include file="../common/errorModal.jsp"%>
+	<%@include file="../common/alertModal.jsp" %>
 </body>
+<script src="../resources/js/alertModal.js"></script>
 <script>
 // 세션에 저장되어 있는 유저 pw와 사용자가 직접 입력하는 pw와 비교
 function checkUserPw(){
@@ -85,7 +86,7 @@ function checkUserPw(){
 	if(pw1 == pw2){
 		window.location.href = "userModify";
 	}else{
-		alert("비밀번호가 일치하지 않습니다.");
+		pushModal("비밀번호가 일치하지 않습니다.");
 		return;
 	}
 }

@@ -79,8 +79,9 @@ h1 {
 	</div>
 	<%@include file="../common/footer.jsp"%>
 	<!-- 오류 모달 -->
-	<%@include file="../common/errorModal.jsp"%>
+	<%@include file="../common/alertModal.jsp" %>
 </body>
+<script src="../resources/js/alertModal.js"></script>
 <script>
 // 세션에 저장되어 있는 유저 pw와 사용자가 직접 입력하는 pw와 비교
 function checkUserPw(){
@@ -91,15 +92,14 @@ function checkUserPw(){
 	var regPw = /^[a-zA-Z0-9]{4,12}$/; // 신규 비밀번호 체크용정규식
 	
 	if(pw_ori == pw_input && pw_new == pw_new_re){
-		if(!regPw.test(pw_new)){
-			alert("비밀번호가 변경되었습니다.\n로그인 화면으로 이동합니다.");
+		if(regPw.test(pw_new)){
 			$("#pwModifyForm").attr("action","setPwdProc");
 			$("#pwModifyForm").submit();
 		}else{
-			alert("올바른 비밀번호 형식을 입력하여 주십시오.(4~12자 영문 대소문자, 숫자)");
+			pushModal("올바른 비밀번호 형식을 입력하여 주십시오.(4~12자 영문 대소문자, 숫자)");
 		}
 	}else{
-		alert("비밀번호가 일치하지 않습니다.");
+		pushModal("비밀번호가 일치하지 않습니다.");
 		return;
 	}
 }

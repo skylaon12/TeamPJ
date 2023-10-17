@@ -124,8 +124,9 @@ select {
 
 <%@include file="../common/footer.jsp"%>
 	<!-- 오류 모달 -->
-<%@include file="../common/errorModal.jsp"%>
+	<%@include file="../common/alertModal.jsp" %>
 </body>
+<script src="../resources/js/alertModal.js"></script>
 <script>
 // select에서 선택하면 저절로 email2에 작성됨
 	function setEmail2(e){
@@ -141,11 +142,6 @@ select {
 		var phoneNumber = $("#phonenumber").val();
 		var birth = $("#birth").val();
 		
-		console.log("이름 : " + name);
-		console.log("이메일로컬 : " + email1);
-		console.log("이메일도메인 : " + email2);
-		console.log("생년월일 : " + birth);
-		
 		var regName = /^[가-힣a-zA-Z]{2,15}$/;
         // 이메일
         var email1Regex = /^[\w-]+$/; // 이메일 로컬 파트의 유효성 검사 정규 표현식
@@ -157,22 +153,22 @@ select {
 		
      // 유효성 검사
 		if(name == ""){// 이름 공백
-        	alert("이름을 입력하세요");
+        	pushModal("이름을 입력하세요");
         	return;
         }else if(!regName.test(name)){// 이름 정규식 체크
-        	alert("최소 2글자 이상, 한글과 영어만 입력해주십시오.");
+        	pushModal("최소 2글자 이상, 한글과 영어만 입력해주십시오.");
         	return;
         }else if (!email1Regex.test(email1)) {// email 로컬주소 체크
-            alert("올바른 이메일 로컬 파트 형식이 아닙니다.");
+            pushModal("올바른 이메일 로컬 파트 형식이 아닙니다.");
             return;
         }else if (!email2Regex.test(email2)) {// email 도메인파트 체크
-            alert("올바른 이메일 도메인 형식이 아닙니다.");
+            pushModal("올바른 이메일 도메인 형식이 아닙니다.");
             return;
         }else if(!phoneNumberRegex.test(phoneNumber)){
-        	alert("올바른 전화번호 형식이 아닙니다");
+        	pushModal("올바른 전화번호 형식이 아닙니다");
         	return;
         }else if (birth == ""){
-        	alert("생년월일을 입력해주십시오.");
+        	pushModal("생년월일을 입력해주십시오.");
         	return;
         }
 		var birthDate = new Date(birth);

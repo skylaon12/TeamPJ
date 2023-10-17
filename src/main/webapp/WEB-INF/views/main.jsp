@@ -6,16 +6,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	  	<meta charset="utf-8">
-	<!--   	<meta name="viewport" content="width=device-width, initial-scale=1"> -->
-	  	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-	  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-	  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	  	
-	  	<link rel="stylesheet" href="resources/css/navbar.css" />
-	  	<link rel="stylesheet" href="resources/css/common.css" />
-	  	<link rel="icon" href="resources/images/favicon.ico" type="image/x-icon">
-	  	<script src="${cp}/resources/js/login.js"></script>
+	<meta charset="utf-8">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  	<link rel="stylesheet" href="resources/css/navbar.css" />
+  	<link rel="stylesheet" href="resources/css/common.css" />
+  	<link rel="icon" href="resources/images/favicon.ico" type="image/x-icon">
+  	<script src="${cp}/resources/js/login.js"></script>
 	<title>SOL CINEMA</title>
 </head>
 <style>
@@ -78,85 +76,19 @@ a:hover { color: #fff; text-decoration: underline;}
 		</div> 
 	</div>
 	
-	
-		<!-- 현구 -->
-	<!-- 성공했을 때 뜨는 모달 -->
-	<div class="modal fade" id="successModal" role="dialog" >
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<!-- 모달창의 헤더부분의 시작 -->
-				<div class="modal-header panel-heading">
-					<h4 class="modal-title">메세지 확인</h4>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-				</div>
-				<!-- 모달창의 헤더부분의 끝 -->
-				<!-- 모달창의 바디부분의 시작 바디부분이 모달창에서 표시하고자하는 컨텐츠를 입력한다.-->
-				<div class="modal-body">
-					<!-- Modal content-->
-					<div id="messageType" class="modal-content panel-info">
-						<div class="modal-body">
-							<p id="checkMessage"></p>
-						</div>
-					</div>
-				</div>
-				<!-- 모달창의 바디부분의 끝 -->
-				<!-- 모달창의 푸터부분의 시작 -->
-				<!-- 푸터부에는 닫기부분이 위치하게 된다.  -->
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
-				</div>
-				<!-- 모달창의 푸터부분의 끝 -->
-			</div>
-		</div>
-	</div>
-	<!-- 실패했을 때 뜨는 모달 -->
-	<div class="modal fade" id="failedModal" role="dialog" >
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<!-- 모달창의 헤더부분의 시작 -->
-				<div class="modal-header panel-heading">
-					<h4 class="modal-title">메세지 확인</h4>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-				</div>
-				<!-- 모달창의 헤더부분의 끝 -->
-				<!-- 모달창의 바디부분의 시작 바디부분이 모달창에서 표시하고자하는 컨텐츠를 입력한다.-->
-				<div class="modal-body">
-					<!-- Modal content-->
-					<div id="messageType" class="modal-content panel-info">
-						<div class="modal-body">
-							<p>${msg}</p>
-						</div>
-					</div>
-				</div>
-				<!-- 모달창의 바디부분의 끝 -->
-				<!-- 모달창의 푸터부분의 시작 -->
-				<!-- 푸터부에는 닫기부분이 위치하게 된다.  -->
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
-				</div>
-				<!-- 모달창의 푸터부분의 끝 -->
-			</div>
-		</div>
-	</div>
-	
 <%@include file="common/footer.jsp"%>
 <!-- 오류 모달 -->
-<%@include file="common/errorModal.jsp"%>
+<%@include file="common/alertModal.jsp" %>
 </body>
+<script src="resources/js/alertModal.js"></script>
 <script type="text/javascript">
+	$(document).ready(function(){ // 메세지 띄우기
+		if(${!empty msgType}){
+			$("#successModal").modal("show");
+		}
+	});
 	
-$(document).ready(function(){ // 메세지 띄우기
-	if(${!empty msgType}){
-		$("#messageType").attr("class", "modal-content panel-warning");
-		$("#failedModal").modal("show");
-	}
-});
-
 	$(function() {
-		
-		var errorModal = new bootstrap.Modal(document.getElementById("modal-info-error"), {
-			keyboard: false
-		});
 		// 이미지 API URL
 		let imageUrl = "https://image.tmdb.org/t/p/w500/";
 		let $div = $(".poster");
@@ -170,7 +102,6 @@ $(document).ready(function(){ // 메세지 띄우기
 				$.each(response, function(index, movie) {
 					// 포스터 apiurl
 					let poster = imageUrl + movie.poster_path;
-					console.log(index);
 					let output = "";
 					// 가져온 데이터를 토대로 div에 심어줄 코드 반복 삽입
 					output += "<div class='col-3 mt-5 mb-5' style='padding-left: 0px;'>";
@@ -178,7 +109,9 @@ $(document).ready(function(){ // 메세지 띄우기
 					output += "<img src = '"+poster+"'class='rounded card-img-top' style='width: 17rem; height:440px;'/>";
 					output += "</a>";
 					output += "<div class='d-flex mt-3'>";
-					output += "<button data-no='"+ movie.id +"' type='button' id='bookButton' class='btn btn-primary col-5 mt-1 float-end'>예매</button>";
+					output += "<a href='${cp}/member/checkLoginStatus?id=" + movie.id + "'>"
+					output += "<button data-no='"+ movie.id +"' type='button' class='btn btn-primary col-5 mt-1 float-end'>예매</button>";
+					output += "</a>";
 					output += "</div>";
 					output += "</div>";
 					
@@ -188,15 +121,6 @@ $(document).ready(function(){ // 메세지 띄우기
 		}
 		
 		showTop4();
-		// 예매 버튼이 페이지 로딩 시에 렌더링되지 않고, JavaScript 코드 내에서 동적으로 생성되는 경우가 있습니다.
-		//이 경우, 이벤트 핸들러를 등록할 때 이 버튼을 참조해야 합니다.
-		//이 경우 jQuery의 .on() 함수를 사용하여 이벤트를 위임할 수 있습니다. -chat GPT-  
-		$(document).on("click", "#bookButton", function(){
-			var movieId = $(this).data("no");	// data-no인 movie.id를 가져옴
-			//console.log("MovieID : " + movieId);
-			checkLoginStatus("${cp}/ticketing/screenList?no="+movieId)
-		});
-
 	})
 </script>
 </html>
