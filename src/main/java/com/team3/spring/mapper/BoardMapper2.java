@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import com.team3.spring.vo.BoardVO2;
+import com.team3.spring.vo.CommentVO;
 
 public interface BoardMapper2 {
 	//  리스트
@@ -27,4 +28,10 @@ public interface BoardMapper2 {
 	public Long getNextArticleId(Long currentArticleId);
 	
 	public Long getPreviousArticleId(Long currentArticleId);
+	
+	public void writeComment(CommentVO gvo);
+	
+	public ArrayList<CommentVO> getCommentData(@Param("p_ori_id") long p_ori_id, @Param("page") int page);
+	
+	public int getCommentTotalCount(long p_ori_id);
 }

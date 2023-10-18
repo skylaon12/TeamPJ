@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.team3.spring.service.BoardService2;
 import com.team3.spring.vo.BoardConfig;
 import com.team3.spring.vo.BoardVO2;
+import com.team3.spring.vo.CommentVO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -143,7 +144,9 @@ public class BoardController2 {
 	}
 	
 	@GetMapping({"/article", "/modify"})
-	public void article(Model m, @RequestParam("p_id") Long p_id, @RequestParam("page") int page) {
+	public void article(Model m, @RequestParam("p_id") Long p_id,
+			@RequestParam("page") int page,
+			@RequestParam(value = "coPage", defaultValue = "1", required = false) int coPage) {
 		log.info("컨트롤러 글번호 읽기 =======>>>"+p_id);
 		
 		String cp = request.getContextPath();
@@ -206,6 +209,7 @@ public class BoardController2 {
 		
 		m.addAttribute("article", article);
 		m.addAttribute("articleContent", con);
+		
 		m.addAttribute("articleCurrentPage", page);
 		
 		m.addAttribute("previousArticleUrl", previousArticleUrl);
@@ -213,6 +217,61 @@ public class BoardController2 {
 	    
 	    m.addAttribute("previousArticleTitle", previousArticleTitle); // 이전 글의 제목 추가
 	    m.addAttribute("nextArticleTitle", nextArticleTitle); // 다음 글의 제목 추가
+		
+	    
+	    /**
+	     * 댓 글 관 련 코 드
+	     */
+	    
+		// 댓글 페이징 처리
+		int index = service.getStartIndex(coPage);
+		int totalCount = service.getCommentTotalCount(p_id);
+		int totalPage = service.getTotalCommentPage(p_id);
+		int totalBlock = service.getTotalCommentBlock(totalPage);
+		int currentBlock = (int) Math.ceil((double) coPage / BoardConfig.PAGE_PER_BLOCK);
+		int blockStartNo = (currentBlock - 1) * BoardConfig.PAGE_PER_BLOCK + 1;
+	    int blockEndNo = Math.min(currentBlock * BoardConfig.PAGE_PER_BLOCK, totalPage);
+	    // 이전 다음 버튼 계산 처리
+	    boolean hasPrev = true;
+	    boolean hasNext = true;
+	    int prevPage = 0;
+	    int nextPage = 0;
+	    
+	    if (currentBlock == 1) {
+	    	hasPrev = false;
+	    } else {
+	    	hasPrev = true;
+	    	prevPage = (currentBlock - 1) * BoardConfig.PAGE_PER_BLOCK;
+	    }
+	    
+	    if(currentBlock < totalBlock ){
+	    	hasNext = true;
+	    	nextPage = currentBlock * BoardConfig.PAGE_PER_BLOCK + 1;
+	    } else {
+	    	hasNext = false;
+	    }
+		
+		List<CommentVO> comment = service.getCommentData(p_id, index);
+		
+		if ( comment != null ) {
+			for (CommentVO commentVO : comment) {
+			    String modifiedComment = commentVO.getP_comment().replace("\n", "<br>");
+			    commentVO.setP_comment(modifiedComment);
+			}
+
+		    // 댓글 리스트 및 댓글 페이징 관련 정보 뷰로 전달
+		    m.addAttribute("commentTotalCount", totalCount);
+		    m.addAttribute("commentTotalPage", totalPage);
+		    m.addAttribute("commentTotalBlock", totalBlock);
+		    m.addAttribute("commentCurrentBlock", currentBlock);
+		    m.addAttribute("commentBlockStartNo", blockStartNo);
+		    m.addAttribute("commentBlockEndNo", blockEndNo);
+		    m.addAttribute("commentHasPrev", hasPrev);
+		    m.addAttribute("commentHasNext", hasNext);
+		    m.addAttribute("commentPrevPage", prevPage);
+		    m.addAttribute("commentNextPage", nextPage);
+		    m.addAttribute("commentLists", comment);
+	    }
 	}
 	
 	@PostMapping("/modify")
@@ -220,6 +279,13 @@ public class BoardController2 {
 		service.modify(gvo);
 		
 		return "redirect:/inquiry/list?page="+page;
-	}	
+	}
+	
+	@PostMapping("/writeComment")
+	public String writeComment(CommentVO gvo, @RequestParam("p_id") Long p_id, @RequestParam("page") int page) {
+		service.writeComment(gvo);
+		
+		return "redirect:/inquiry/article?p_id=" + p_id + "&page=" + page;
+	}
 
 }

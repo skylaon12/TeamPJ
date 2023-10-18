@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.team3.spring.mapper.BoardMapper2;
 import com.team3.spring.vo.BoardConfig;
 import com.team3.spring.vo.BoardVO2;
+import com.team3.spring.vo.CommentVO;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -117,5 +118,51 @@ public class BoardServiceImpl2 implements BoardService2 {
     public Long getPreviousArticleId(Long currentArticleId) {
         return mapper.getPreviousArticleId(currentArticleId);
     }
+    
+    // 댓글 쓰기
+    @Override
+    public void writeComment(CommentVO gvo) {
+    	mapper.writeComment(gvo);
+    }
+    
+    // 댓글 데이터 가져오기
+    @Override
+    public ArrayList<CommentVO> getCommentData(long p_ori_id, int page) {
+    	return mapper.getCommentData(p_ori_id, page);
+    }
+    
+    // 전체 댓글 수 가져오기
+    @Override
+	public int getCommentTotalCount(long p_ori_id) {
+		return mapper.getCommentTotalCount(p_ori_id);
+	}
+    
+    @Override
+	public int getTotalCommentPage(long p_ori_id) {
+		int totalCount = getCommentTotalCount(p_ori_id);
+		
+	    // 전체 페이지 수 = 전체 글 수 / [페이지당 글 수]
+	    int totalCommentPage = 0;
+	    
+	    if (totalCount % BoardConfig.AMOUNT_PER_PAGE == 0) {
+	    	totalCommentPage = totalCount / BoardConfig.AMOUNT_PER_PAGE;
+	    } else {
+	    	totalCommentPage = totalCount / BoardConfig.AMOUNT_PER_PAGE + 1;
+	    }
+		
+		return totalCommentPage;
+	}
+
+	@Override
+	public int getTotalCommentBlock(int totalCommentPage) {
+		//전체 블럭 수 = 전체 페이지 수 / [블럭당 페이지 수]
+		int totalCommentBlock = 0;
+		if(totalCommentPage % BoardConfig.PAGE_PER_BLOCK == 0) {
+			totalCommentBlock = totalCommentPage / BoardConfig.PAGE_PER_BLOCK;
+		}else {
+			totalCommentBlock = totalCommentPage / BoardConfig.PAGE_PER_BLOCK + 1;
+		}		
+		return totalCommentBlock;
+	}
 
 }

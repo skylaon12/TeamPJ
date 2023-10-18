@@ -61,7 +61,8 @@
 					<ul>
 						<li><a href="https://www.megabox.co.kr/support" title="고객센터 홈">고객센터 홈</a></li>
 						<li><a href="${cp}/notice/list?page=1" title="공지사항">공지사항</a></li>
-						<li class="on"><a href="list?page=${currentPage }" title="1:1문의">1:1문의</a></li>
+						<li><a href="write?page=${currentPage }" title="1:1문의">1:1 문의 하기</a></li>
+						<li class="on"><a href="list?page=${currentPage }" title="1:1문의">내 문의 내역</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -176,6 +177,7 @@
 
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 	<!-- 오류 모달 -->
-	<%@include file="/WEB-INF/views/common/errorModal.jsp"%>
+	<%@include file="../common/alertModal.jsp" %>
 </body>
+<script src="../resources/js/alertModal.js"></script>
 </html>

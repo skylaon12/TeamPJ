@@ -92,7 +92,8 @@
 					<ul>
 						<li><a href="https://www.megabox.co.kr/support" title="고객센터 홈">고객센터 홈</a></li>
 						<li class="on"><a href="list?page=${writeCurrentPage}" title="공지사항">공지사항</a></li>
-						<li><a href="${cp}/inquiry/list?page=1" title="1:1문의">1:1문의</a></li>
+						<li><a href="${cp}/inquiry/write?page=1" title="1:1문의">1:1 문의 하기</a></li>
+						<li><a href="${cp}/inquiry/list?page=1" title="1:1문의">내 문의 내역</a></li>
 					</ul>
 				</nav>
 			</div>

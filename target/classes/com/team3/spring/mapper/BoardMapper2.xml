@@ -47,4 +47,18 @@
     <select id="getPreviousArticleId" parameterType="Long" resultType="Long">
     	SELECT MAX(p_id) FROM BOARD_INQUIRY WHERE p_id &lt; #{currentArticleId}
 	</select>
+	
+	<insert id="writeComment">
+		INSERT INTO BOARD_INQUIRY_COMMENT(P_WRITER, P_ORI_ID, P_COMMENT) values (#{p_writer}, #{p_ori_id}, #{p_comment})
+	</insert>
+	
+	<select id="getCommentData" resultType="com.team3.spring.vo.CommentVO">
+	    SELECT P_WRITER, P_COMMENT, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED 
+	    FROM BOARD_INQUIRY_COMMENT 
+	    WHERE P_ORI_ID = #{p_ori_id} LIMIT #{page}, ${@com.team3.spring.vo.BoardConfig@AMOUNT_PER_COMMENT_PAGE}
+	</select>
+	
+	<select id="getCommentTotalCount" resultType="int">
+		SELECT COUNT(*) FROM BOARD_INQUIRY_COMMENT WHERE P_ORI_ID = #{p_ori_id}
+	</select>
 </mapper>

@@ -2,7 +2,10 @@ package com.team3.spring.service;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.team3.spring.vo.BoardVO2;
+import com.team3.spring.vo.CommentVO;
 
 
 
@@ -32,4 +35,14 @@ public interface BoardService2 {
 	public Long getNextArticleId(Long currentArticleId);
 
 	public Long getPreviousArticleId(Long currentArticleId);
+	
+	public void writeComment(CommentVO gvo);
+	
+	public ArrayList<CommentVO> getCommentData(long p_ori_id, int page);
+	
+	public int getCommentTotalCount(long p_ori_id);
+	
+	public int getTotalCommentPage(long p_ori_id);
+	
+	public int getTotalCommentBlock(int totalCommentPage);
 }

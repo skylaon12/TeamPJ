@@ -19,6 +19,42 @@
 	<link rel="stylesheet" type="text/css" href="${cp}/resources/css/main_files/megabox.min.css?ver=<%=System.currentTimeMillis()%>" media="all">
 	<link rel="stylesheet" href="${cp}/resources/css/navbar.css" />
 	<link rel="stylesheet" href="${cp}/resources/css/common.css" />
+	
+	<script type="text/javascript" src="/resources/js/util.js"></script>
+	<script type="text/javascript">
+	
+		function sendIt(){
+			
+			var f = document.myForm;
+			var page = "${articleCurrentPage}";
+			
+			id = f.p_ori_id.value;
+			
+			str = f.p_writer.value;
+			str = str.trim();
+			if(!str){
+				alert("\n이름을 입력하세요.");
+				f.p_writer.focus();
+				return;
+			}		
+			
+			f.p_writer.value = str;
+			
+			str = f.p_comment.value;
+			str = str.trim();
+			if(!str){
+				alert("\n내용을 입력하세요.");
+				f.p_comment.focus();
+				return;
+			}
+			f.p_comment.value = str;
+			
+			f.action = "<%=cp%>/inquiry/writeComment?p_id=" + id + "&page="+ page;
+			f.submit();
+			alert("댓글 등록이 완료 되었습니다.");
+		}
+	
+	</script>
 </head>
 <body>
 	<div class="container has-lnb">
@@ -41,7 +77,8 @@
 					<ul>
 						<li><a href="https://www.megabox.co.kr/support" title="고객센터 홈">고객센터 홈</a></li>
 						<li><a href="${cp}/notice/list?page=1" title="공지사항">공지사항</a></li>
-						<li class="on"><a href="list?page=${articleCurrentPage }" title="1:1문의">1:1문의</a></li>
+						<li><a href="write?page=${articleCurrentPage }" title="1:1문의">1:1 문의 하기</a></li>
+						<li class="on"><a href="list?page=${articleCurrentPage }" title="1:1문의">내 문의 내역</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -80,8 +117,72 @@
 						</div>
 
 						<div class="cont">${articleContent }</div>
+						
+						<br/>	<hr/>	<br/>
+						
+						<form action="" method="post" name="myForm">
+							이름: <input type="text"  name ="p_writer" class="input-text w150px" value="" maxlength="15">
+							
+							<input type="hidden" name ="p_ori_id" class="input-text w150px" value="${article.p_id }">
+							
+							<div class="textarea">
+								<textarea name="p_comment" rows="5" cols="10" title="내용입력" placeholder="※ 댓글을 써주세요." class="input-textarea"></textarea>
+								<div class="util">
+									<p class="count">
+										<span id="textareaCnt">0</span> / 2000
+									</p>
+								</div>
+							</div>
+							
+							<input type="button" value=" 등록하기 " class="button purple large" onclick="sendIt();"/>
+							<input type="reset" value=" 다시입력 " class="button purple large" 
+							onclick="document.myForm.p_comment.focus();"/>
+						</form>
+						
+						
+						<br/>
+						
+						<div id="lists">
+							<c:forEach var="dto" items="${commentLists}">
+								<div class="cont">${dto.p_writer } | ${dto.p_created } -> ${dto.p_comment }</div>
+							</c:forEach>
+						</div>
+						
+						<br/>
+						
+						<c:choose>
+							<c:when test="${commentTotalCount != 0}">
+								<c:choose>
+									<c:when test="${commentHasPrev}">
+										[<a href="${cp}/inquiry/article?p_id=${article.p_id }&page=${articleCurrentPage }&coPage=${commentPrevPage}"><b>이전</b></a>]
+									</c:when>
+									<c:otherwise>
+										[이전]
+									</c:otherwise>
+								</c:choose>
+			
+								<c:forEach var="p" begin="${commentBlockStartNo}" end="${commentBlockEndNo}">
+									[<a href="${cp}/inquiry/article?p_id=${article.p_id }&page=${articleCurrentPage }&coPage=${p}">${p}</a>]
+								</c:forEach>
+								
+								<c:choose>
+									<c:when test="${commentHasNext}">
+										[<a href="${cp}/inquiry/article?p_id=${article.p_id }&page=${articleCurrentPage }&coPage=${commentNextPage}"><b>다음</b></a>]
+									</c:when>
+									<c:otherwise>
+										[다음]
+									</c:otherwise>
+								</c:choose>
+							</c:when>
+							
+							<c:otherwise>
+								<div class="cont">등록된 댓글이 없습니다.</div>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
+				
+				<br/>
 				
 				<div class="prev-next">
 				    <div class="line prev">
@@ -119,6 +220,7 @@
 
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 	<!-- 오류 모달 -->
-	<%@include file="/WEB-INF/views/common/errorModal.jsp"%>
+	<%@include file="../common/alertModal.jsp" %>
 </body>
+<script src="../resources/js/alertModal.js"></script>
 </html>
