@@ -218,7 +218,7 @@
 		</div>
 	</div>
 
-	<%@include file="/WEB-INF/views/common/footer.jsp"%>
+	<%@include file="../common/footer.jsp"%>
 	<!-- 오류 모달 -->
 	<%@include file="../common/alertModal.jsp" %>
 </body>

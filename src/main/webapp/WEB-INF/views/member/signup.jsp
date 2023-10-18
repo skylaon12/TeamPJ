@@ -51,17 +51,24 @@
 				<td><input class="name_input" type="text" id="name" name="name" /></td>
 			</tr>
 			<tr>
-				<td><label class="control-label" for="birth">생년월일</label></td>
-				<td><input type="hidden" id="age" name="age"> <input
-					type="date" id="birth" name="birth" placeholder="생년월일" /></td>
+				<td>
+					<label class="control-label" for="birth">생년월일</label>
+				</td>
+				<td>
+					<input type="hidden" id="age" name="age"> 
+					<input type="date" id="birth" name="birth" placeholder="생년월일" />
+				</td>
 			</tr>
 			<tr>
-				<td><label class="control-label" for="email">이메일</label></td>
-				<td><input class="email_input" type="text" id="email1"
-					name="email1" />@ <input class="email_input" type="text"
-					id="email2" name="email2" /> <select class="select"
-					id="select-email" title="이메일 도메인 주소 선택"
-					onchange="setEmail2(this.value)">
+				<td>
+					<label class="control-label" for="email">이메일</label>
+				</td>
+				<td>
+					<input type="hidden" id="email1" name="email1"/>
+					<input type="hidden" id="email2" name="email2"/>
+					<input class="email_input" type="text" id="input_email1" name="input_email1" />@ 
+					<input class="email_input" type="text"	id="input_email2" name="input_email2" />
+					<select class="select" id="select-email" title="이메일 도메인 주소 선택" onchange="setEmail2(this.value)">
 						<option value="">-선택-</option>
 						<option value="naver.com">naver.com</option>
 						<option value="gmail.com">gmail.com</option>
@@ -70,8 +77,8 @@
 						<option value="korea.com">korea.com</option>
 						<option value="nate.com">nate.com</option>
 						<option value="yahoo.com">yahoo.com</option>
-				</select>
-				<input type="button" value="인증번호 받기" id="email_send_btn" onclick="sendEmail()" style="width: auto"/>
+					</select>
+					<input type="button" value="인증번호 받기" id="email_send_btn" onclick="sendEmail()" style="width: auto"/>
 				</td>
 			</tr>
 			<tr id="authNumRow" style="display: none;">
@@ -84,13 +91,15 @@
 				</td>
 			</tr>
 			<tr>
-				<td><label class="control-label" for="phonenumber">전화번호</label></td>
-				<td><input class="form-control" type="text" id="phonenumber"
-					name="phonenumber" value="${LOGIN_USER.phonenumber }" /></td>
+				<td>
+					<label class="control-label" for="phonenumber">전화번호</label>
+				</td>
+				<td>
+					<input class="form-control" type="text" id="phonenumber" name="phonenumber" value="${LOGIN_USER.phonenumber }" />
+				</td>
 			</tr>
 		</table>
-		<input type="button" onclick="validation()" id="signup_button"
-			value="회원가입">
+		<input type="button" onclick="validation()" id="signup_button" value="회원가입">
 	</form>
 
 	
@@ -149,15 +158,15 @@
 
 	// select에서 선택하면 저절로 email2에 작성됨
 	function setEmail2(e){
-		var $email = $("#email2");
+		var $email = $("#input_email2");
 		var $s_email = $("#select-email");
 		$email.val($s_email.val());
 	}
 	
 	function sendEmail(){
 		var email_auth_cd = "";
-		var email1 = $("#email1").val();
-		var email2 = $("#email2").val();
+		var email1 = $("#input_email1").val();
+		var email2 = $("#input_email2").val();
 		var email1Regex = /^[\w-]+$/; // 이메일 로컬 파트의 유효성 검사 정규 표현식
 		var email2Regex = /^(naver\.com|gmail\.com|hanmail\.net|hotmail\.com|korea\.com|nate\.com|yahoo\.com)$/; // 이메일 도메인의 유효성 검사 정규 표현식
 		
@@ -200,7 +209,9 @@
 		if(inputNum == authNum && inputNum != ''){
 			pushModal("인증이 완료되었습니다.");
 			$("#emailChecked").val("true");
-			$("#email1,#email2,#select-email").prop("readonly",true).prop("disabled",true);
+			$("#email1").val($("#input_email1").val());
+			$("#email2").val($("#input_email2").val());
+			$("#input_email1,#input_email2,#select-email").prop("readonly",true).prop("disabled",true);
 			$targetBtn.removeAttr("onclick");
 			$targetBtn.text("인증완료");
 			$targetBtn.css("background-color", "gray");
@@ -279,7 +290,12 @@
 		var birthDate = new Date(birth);
 	    var currentDate = new Date();
 	    var u_age = currentDate.getFullYear() - birthDate.getFullYear();
+	    
 	    $("#age").val(u_age);
+	    console.log("이메일 호스트 : " + $("[name='email1']").val());
+
+	    console.log("이메일 호스트 : " + $("[name='email2']").val());
+
 		$("#signup_form").attr("action", "signup");
 		$("#signup_form").submit();
 	}

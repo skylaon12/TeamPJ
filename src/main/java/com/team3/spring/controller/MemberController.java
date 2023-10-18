@@ -12,6 +12,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -78,7 +79,13 @@ public class MemberController {
 	
 	// 회원가입
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String signupPOST(RedirectAttributes rttr ,MemberVO vo) throws Exception{
+	public String signupPOST(RedirectAttributes rttr ,@ModelAttribute MemberVO vo) throws Exception{
+		log.info("입력된 아이디 : "+ vo.getAccount());
+		log.info("이름 : " + vo.getName());
+		log.info("비밀번호 : " + vo.getPwd());
+		log.info("이메일 : " + vo.getEmail1() + "@" + vo.getEmail2());
+		log.info("폰 : " + vo.getPhonenumber());
+		log.info("나이 : " + vo.getAge());
 		if(vo.getAccount()==null || vo.getAccount().equals("") || // 유효성 체크 (객체가 안만들어졌거나 공백일시)
 				vo.getPwd()==null || vo.getPwd().equals("") ||
 				vo.getName()==null || vo.getName().equals("") || vo.getAge()<=0 ||
