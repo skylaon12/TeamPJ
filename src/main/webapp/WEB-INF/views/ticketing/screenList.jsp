@@ -56,7 +56,7 @@
                 </select>
 
                 <select onchange="selectScreen(this)" id="detail-region" name="reserv-location-2" id="reserv-location-2" class="select-reserv" style="margin: -5px 0px 10px 10px;">
-                    <option>지역을 선택해주세요</option>
+                    <option>지역을 선택해</option>
                 </select>
             </div>
     
@@ -65,12 +65,14 @@
                 <input name="select-date" type="date" id="reserv-date" class="select-reserv">
 
                 <script>
-                    const Today = new Date();
-                    const year = Today.getFullYear();
-                    let month = (Today.getMonth() + 1).toString().padStart(2, '0');
-                    let day = Today.getDate().toString().padStart(2, '0');
-                    document.getElementById("reserv-date").value = `${year}-${month}-${day}`;
-                </script>
+				    const today = new Date();
+				
+				    const datePicker = document.getElementById("reserv-date");
+				
+				    const minDate = today.toISOString().split("T")[0]; // 현재 날짜를 ISO 8601 형식(YYYY-MM-DD)으로 변환
+				    datePicker.setAttribute("min", minDate);
+				    datePicker.value = minDate;
+				</script>
             </div>
     
             <!-- 관람시간 선택 -->
@@ -194,7 +196,9 @@ $(document).ready(function(){ // 메세지 띄우기
 			if(seatCount > lockCount){
 				console.log(seatCount);
 				seatCount--;
-				pushModal("좌석 선택이 올바르지 않습니다.");
+				console.log("인원수에 맞게 선택");
+				$("#checkMessage").html("인원수에 맞게 선택해라");
+				$("#alertModal").modal("show");
 				return;
 			}
 			$targetDiv.removeClass("select-seat-row");

@@ -11,4 +11,5 @@ public interface TicketingService {
 	public TicketingVO getTicket(int id);
 	public TicketingVO getTicket2(int t_id);
 	public void cancelProc(int t_id);
+	public ArrayList<TicketingVO> getTicketHistory(int user_id);
 }

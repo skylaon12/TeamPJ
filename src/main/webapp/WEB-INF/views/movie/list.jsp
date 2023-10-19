@@ -208,16 +208,6 @@
 				}
 			})
 		});
-		
-		// 에러창을 보여주는 모달
-		function showError(message) {
-			$("#span-error").text(message);
-			errorModal.show();
-			
-			$("#submit").click(function() {
-				errorModal.hide();
-			})
-		}
 	})
 </script>
 </html>

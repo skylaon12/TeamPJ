@@ -15,4 +15,5 @@ public interface TicketingMapper {
 	public void cancelProc(@Param("t_id")int id);
 	public void userInfoModify(@Param("user_name")String u_name, @Param("user_id")int u_id);
 	public void userDelete(@Param("user_id")int user_id);
+	public ArrayList<TicketingVO> getTicketHistroy(@Param("user_id")int user_id);
 }

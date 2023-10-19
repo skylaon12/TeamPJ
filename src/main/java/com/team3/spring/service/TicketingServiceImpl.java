@@ -59,4 +59,10 @@ public class TicketingServiceImpl implements TicketingService{
 		mapper.cancelProc(t_id);
 	}
 
+	@Override
+	public ArrayList<TicketingVO> getTicketHistory(int user_id) {
+		
+		return mapper.getTicketHistroy(user_id);
+	}
+
 }

@@ -56,7 +56,7 @@
                 </select>
 
                 <select onchange="selectScreen(this)" id="detail-region" name="reserv-location-2" id="reserv-location-2" class="select-reserv" style="margin: -5px 0px 10px 10px;">
-                    <option>지역을 선택해주세요</option>
+                    <option>지역을 선택해</option>
                 </select>
             </div>
     
@@ -65,11 +65,24 @@
                 <input name="select-date" type="date" id="reserv-date" class="select-reserv">
 
                 <script>
-                    const Today = new Date();
-                    const year = Today.getFullYear();
-                    let month = (Today.getMonth() + 1).toString().padStart(2, '0');
-                    let day = Today.getDate().toString().padStart(2, '0');
+                    const today = new Date();
+                    const datePicker = document.getElementById("reserv-date");
+                    datePicker.addEventListener("change", function() {
+                    const selectedDate = new Date(this.value);
+                        if (selectedDate < today) {
+                            alert("과거 날짜를 선택할 수 없습니다.");
+                            this.value = ""; // 날짜를 초기화하여 선택을 무효화합니다.
+                        }
+                    });
+                    today.setDate(today.getDate());
+                    const year = today.getFullYear();
+                    let month = (today.getMonth() + 1).toString().padStart(2, '0');
+                    let day = today.getDate().toString().padStart(2, '0');
                     document.getElementById("reserv-date").value = `${year}-${month}-${day}`;
+                    document.getElementById("reserv-date").setAttribute("min", minDate);
+                    document.getElementById("reserv-date").value = minDate;
+                    
+                    
                 </script>
             </div>
     

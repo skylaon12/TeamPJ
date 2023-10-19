@@ -36,4 +36,9 @@
 		DELETE FROM M_MOVIETOTAL
 		WHERE USER_ID = #{user_id}
 	</delete>
+	<!-- 유저가 예매해온 내역 불러오기 -->
+	<select id="getTicketHistroy" resultType="com.team3.spring.vo.TicketingVO">
+		SELECT * FROM M_MOVIETOTAL
+		WHERE USER_ID = #{user_id} ORDER BY RESERV_DATE DESC
+	</select>	
 </mapper>

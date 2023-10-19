@@ -78,5 +78,13 @@ public class TicketingController {
 		return "redirect:/";
 	}
 		
+	@GetMapping("/reservationInfo")
+	public void reservationView(Model m,@RequestParam("id")int user_id) {
+		m.addAttribute("tickets", ticketingService.getTicketHistory(user_id));
+	}
 	
+	@GetMapping("/myTicketInfo")
+	public void getTicketInfo(Model m, @RequestParam("id")int id) {
+		m.addAttribute("ticket", ticketingService.getTicket2(id));
+	}
 }
