@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.team3.spring.config.BoardConfig;
 import com.team3.spring.service.BoardService2;
-import com.team3.spring.vo.BoardConfig;
 import com.team3.spring.vo.BoardVO2;
 import com.team3.spring.vo.CommentVO;
 
@@ -284,6 +284,14 @@ public class BoardController2 {
 	@PostMapping("/writeComment")
 	public String writeComment(CommentVO gvo, @RequestParam("p_id") Long p_id, @RequestParam("page") int page) {
 		service.writeComment(gvo);
+		
+		return "redirect:/inquiry/article?p_id=" + p_id + "&page=" + page;
+	}
+	
+	@GetMapping("/endAnswer")
+	public String endAnswer(@RequestParam("p_id") Long p_id, @RequestParam("page") int page) {
+		log.info("컨트롤러 글 마감 =======>>>"+p_id);
+		service.endAnswer(p_id);
 		
 		return "redirect:/inquiry/article?p_id=" + p_id + "&page=" + page;
 	}

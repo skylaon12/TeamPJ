@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.team3.spring.config.BoardConfig;
 import com.team3.spring.mapper.BoardMapper2;
-import com.team3.spring.vo.BoardConfig;
 import com.team3.spring.vo.BoardVO2;
 import com.team3.spring.vo.CommentVO;
 
@@ -163,6 +163,11 @@ public class BoardServiceImpl2 implements BoardService2 {
 			totalCommentBlock = totalCommentPage / BoardConfig.PAGE_PER_BLOCK + 1;
 		}		
 		return totalCommentBlock;
+	}
+	
+	@Override
+	public void endAnswer(long p_id) {
+		mapper.endAnswer(p_id);
 	}
 
 }

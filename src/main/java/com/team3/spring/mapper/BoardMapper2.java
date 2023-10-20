@@ -34,4 +34,6 @@ public interface BoardMapper2 {
 	public ArrayList<CommentVO> getCommentData(@Param("p_ori_id") long p_ori_id, @Param("page") int page);
 	
 	public int getCommentTotalCount(long p_ori_id);
+	
+	public void endAnswer(long p_id);
 }

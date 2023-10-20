@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.team3.spring.config.BoardConfig;
 import com.team3.spring.mapper.BoardMapper;
-import com.team3.spring.vo.BoardConfig;
 import com.team3.spring.vo.BoardVO;
 
 import lombok.Setter;

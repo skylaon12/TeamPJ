@@ -101,7 +101,7 @@
 							<dl>
 								<dt class="num">번호</dt>
 								<dt class="subject">제목</dt>
-								<dt class="name">답변 상태</dt>
+								<dt class="name">문의 상태</dt>
 								<dt class="created">작성일</dt>
 								<dt class="hitCount">조회수</dt>
 							</dl>
@@ -116,10 +116,10 @@
 								</dd>
 								<c:choose>
 									<c:when test="${dto_inquiry.p_status == 'T'}">
-										<dd class="name">O</dd>
+										<dd class="name">완료</dd>
 									</c:when>
 									<c:otherwise>
-										<dd class="name">X</dd>
+										<dd class="name">진행 중...</dd>
 									</c:otherwise>
 								</c:choose>
 								<dd class="created">${dto_inquiry.p_created }</dd>

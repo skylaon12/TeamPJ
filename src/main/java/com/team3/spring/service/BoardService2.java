@@ -45,4 +45,6 @@ public interface BoardService2 {
 	public int getTotalCommentPage(long p_ori_id);
 	
 	public int getTotalCommentBlock(int totalCommentPage);
+	
+	public void endAnswer(long p_id);
 }

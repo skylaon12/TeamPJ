@@ -1,4 +1,4 @@
-package com.team3.spring.vo;
+package com.team3.spring.config;
 
 public class BoardConfig {
 	// 페이지 당 보여 줄 게시글 최대 수
@@ -8,5 +8,5 @@ public class BoardConfig {
 	static public int PAGE_PER_BLOCK = 3;
 	
 	// 페이지 당 보여 줄 댓글 최대 수
-	static public int AMOUNT_PER_COMMENT_PAGE = 10;
+	static public int AMOUNT_PER_COMMENT_PAGE = 5;
 }
