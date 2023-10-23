@@ -39,6 +39,8 @@
 		        return;
 		    }
 			
+		    var category = f.p_category.value; // 선택한 카테고리 값을 가져옴
+			
 			str = f.p_title.value;
 			str = str.trim();
 			if(!str){
@@ -67,6 +69,8 @@
 				return;
 			}
 			f.p_text.value = str;
+			
+			f.p_category.value = category; // 선택한 카테고리 값을 다시 설정
 			
 			f.action = "<%=cp%>/inquiry/write?page=" + page;
 			f.submit();
@@ -155,6 +159,14 @@
 								</tr>
 										
 								<tr>
+									<th scope="row"><label for="qnaCustInqTitle">카테고리</label> <em class="font-orange">*</em></th>
+									<td colspan="3">
+										<select name="p_category" class="input-select w150px">
+											<option value="결제/환불" selected>결제/환불</option>
+	            							<option value="영화관">영화관</option>
+	            						</select>
+            						</td>
+									
 									<th scope="row"><label for="qnaCustInqTitle">제목</label> <em class="font-orange">*</em></th>
 									<td colspan="3"><input type="text" name="p_title"  class="input-text" maxlength="100"></td>
 								</tr>

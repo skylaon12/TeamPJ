@@ -98,7 +98,7 @@
 				<div class="table-wrap">
 					<div class="board-view">
 						<div class="tit-area">
-							<p class="tit">	${article.p_title }</p>
+							<p class="tit">[${article.p_category }] ${article.p_title }</p>
 						</div>
 
 						<div class="info">
@@ -204,7 +204,7 @@
 				        <p class="tit">이전</p>
 				        <c:choose>
 				            <c:when test="${not empty previousArticleUrl}">
-				                <a href="${previousArticleUrl}" class="link moveBtn" title="이전 글">${previousArticleTitle }</a>
+				                <a href="${previousArticleUrl}" class="link moveBtn" title="이전 글">[${previousArticleCategory }] ${previousArticleTitle }</a>
 				            </c:when>
 				            <c:otherwise>
 				                <p class="link">이전글이 없습니다.</p>
@@ -215,7 +215,7 @@
 				        <p class="tit">다음</p>
 				        <c:choose>
 				            <c:when test="${not empty nextArticleUrl}">
-				                <a href="${nextArticleUrl}" class="link moveBtn" title="다음 글">${nextArticleTitle }</a>
+				                <a href="${nextArticleUrl}" class="link moveBtn" title="다음 글">[${nextArticleCategory }] ${nextArticleTitle }</a>
 				            </c:when>
 				            <c:otherwise>
 				                <p class="link">다음글이 없습니다.</p>
