@@ -30,6 +30,8 @@
 			
 			var page = "${articleCurrentPage}";
 			
+			var category = f.p_category.value; // 선택한 카테고리 값을 가져옴
+			
 			num = f.p_id.value;
 			
 			str = f.p_title.value;
@@ -49,6 +51,8 @@
 				return;
 			}
 			f.p_text.value = str;
+			
+			f.p_category.value = category; // 선택한 카테고리 값을 다시 설정
 			
 			f.action = "<%=cp%>/inquiry/modify?p_id=" + num + "&page=" + page;
 			f.submit();
@@ -115,6 +119,26 @@
 								</tr>
 										
 								<tr>
+									<th scope="row"><label for="qnaCustInqTitle">카테고리</label> <em class="font-orange">*</em></th>
+									<td colspan="3">
+										<select name="p_category" class="input-select w150px">
+											<c:choose>
+												<c:when test="${article.p_category == '결제/환불'}">
+													<option value="결제/환불" selected>결제/환불</option>
+	            									<option value="영화관">영화관</option>
+												</c:when>
+												<c:when test="${article.p_category == '영화관'}">
+													<option value="결제/환불">결제/환불</option>
+	            									<option value="영화관" selected>영화관</option>
+												</c:when>
+												<c:otherwise>
+													<option value="결제/환불" selected>결제/환불</option>
+	            									<option value="영화관">영화관</option>
+												</c:otherwise>
+											</c:choose>
+	            						</select>
+            						</td>
+            						
 									<th scope="row"><label for="qnaCustInqTitle">제목</label> <em class="font-orange">*</em></th>
 									<td colspan="3"><input type="text" name="p_title" value="${article.p_title }" class="input-text" maxlength="100"></td>
 								</tr>

@@ -1,6 +1,7 @@
 package com.team3.spring.controller;
 
-import java.util.List;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -35,10 +36,16 @@ public class BoardController2 {
 	
 	@GetMapping("/list")
 	public void getList(Model m,
+			@RequestParam(value = "p_category", required = false) String p_category,
 			@RequestParam(value = "page", defaultValue = "1") int page,
 	        @RequestParam(value = "searchKey", required = false) String searchKey,
 	        @RequestParam(value = "word", required = false) String word) {
 	    log.info("컨트롤러에서 호출 ==========");
+	    
+	    // "전체 카테고리"의 경우 p_category를 비워서 모든 글을 가져옴
+	    if (p_category == null || p_category.isEmpty()) {
+	    	p_category = "";
+	    }
 
 	    // 기본 검색 조건 설정
 	    if (searchKey == null || searchKey.isEmpty()) {
@@ -55,11 +62,11 @@ public class BoardController2 {
 	    log.info("시작 =>" + index);
 
 	    // 검색 결과에 따른 총 글 수 가져오기
-	    int totalCount = word.isEmpty() ? service.getTotalCount() : service.getSearchTotalCount(searchKey, word);
+	    int totalCount = service.getTotalPageCount(p_category, searchKey, word);
 	    log.info("전체 글 수 =>" + totalCount);
 
 	    // 전체 페이지 수 계산
-	    int totalPage = service.getTotalPage(searchKey, word);
+	    int totalPage = service.getTotalPage(totalCount);
 	    log.info("전체 페이지 수 =>" + totalPage);
 
 	    // 전체 블럭 수 계산
@@ -97,14 +104,7 @@ public class BoardController2 {
 	    }
 
 	    // 검색 조건에 따라 적절한 서비스 메서드 호출
-	    List<BoardVO2> lists;
-	    if (word.isEmpty()) {
-	        // 검색어가 없는 경우 전체 리스트 가져오기
-	        lists = service.list(index);
-	    } else {
-	        // 검색어가 있는 경우 검색 조건에 맞게 리스트 가져오기
-	        lists = service.listSearch(searchKey, word, index);
-	    }
+	    ArrayList<BoardVO2> lists = service.getLists(p_category, searchKey, word, index);
 
 	    // 현재 페이지 번호 추가
 	    m.addAttribute("currentPage", page);
@@ -122,8 +122,43 @@ public class BoardController2 {
 	    m.addAttribute("nextPage", nextPage);
 	    m.addAttribute("lists", lists);
 
+	    m.addAttribute("p_category", p_category);
 	    m.addAttribute("searchKey", searchKey);
 	    m.addAttribute("word", word);
+	    
+	    // 댓글 관련 코드
+	    Long threshold = (long) 60 * 1000; // 60초 임계값 테스트
+
+	    for (BoardVO2 board : lists) {
+	        int p_id = board.getP_id();
+	        int totalCommentCount = service.getCommentTotalCount(p_id);
+
+	        // 댓글 작성 시간 가져오기
+	        Timestamp commentTime = service.getCommentCreatedTime(p_id);
+	        log.info("댓글 작성 시간 =>" + commentTime);
+
+	        if (commentTime != null) {
+	            Long commentTimeMillis = commentTime.getTime();
+	            log.info("댓글 작성 시간 변환 =>" + commentTimeMillis);
+
+	            // "New"를 표시할 시간 임계값 (예: 24시간) 설정
+	            Long currentTime = System.currentTimeMillis(); // 현재 시간 가져오기
+	            log.info("현재 시간 =>" + currentTime);
+
+	            // 댓글이 24시간 이내에 작성되었다면 "New" 표시
+	            if ((currentTime - commentTimeMillis) < threshold) {
+	                board.setNewComment(true);
+	            } else {
+	                board.setNewComment(false);
+	            }
+	        } else {
+	            // 댓글이 없거나 댓글 작성 시간이 없는 경우
+	            board.setNewComment(false);
+	        }
+
+	        // 댓글 수 표시
+	        board.setCommentCount(totalCommentCount);
+	    }
 
 	    String articleUrl = "article?p_id=";
 	    m.addAttribute("articleUrl", articleUrl);
@@ -144,8 +179,9 @@ public class BoardController2 {
 	}
 	
 	@GetMapping({"/article", "/modify"})
-	public void article(Model m, @RequestParam("p_id") Long p_id,
-			@RequestParam("page") int page,
+	public void article(Model m, 
+			@RequestParam("p_id") Long p_id, 
+			@RequestParam("page") int page, 
 			@RequestParam(value = "coPage", defaultValue = "1", required = false) int coPage) {
 		log.info("컨트롤러 글번호 읽기 =======>>>"+p_id);
 		
@@ -189,17 +225,21 @@ public class BoardController2 {
 		// 이전 글의 제목 가져오기
 		BoardVO2 previousArticle = null;
 		String previousArticleTitle = null;
+		String previousArticleCategory = null; // 카테고리 변수 추가
 		if (previousArticleId != null) {
 		    previousArticle = service.read(previousArticleId);
 		    previousArticleTitle = previousArticle.getP_title();
+		    previousArticleCategory = previousArticle.getP_category(); // 이전 글의 카테고리 가져오기
 		}
 
 		// 다음 글의 제목 가져오기
 		BoardVO2 nextArticle = null;
 		String nextArticleTitle = null;
+		String nextArticleCategory = null; // 카테고리 변수 추가
 		if (nextArticleId != null) {
 		    nextArticle = service.read(nextArticleId);
 		    nextArticleTitle = nextArticle.getP_title();
+		    nextArticleCategory = nextArticle.getP_category(); // 다음 글의 카테고리 가져오기
 		}
 		
 		String previousArticleUrl = (previousArticleId != null) ? cp + "/inquiry/article?p_id=" + previousArticleId + "&page=" + page : null;
@@ -217,6 +257,9 @@ public class BoardController2 {
 	    
 	    m.addAttribute("previousArticleTitle", previousArticleTitle); // 이전 글의 제목 추가
 	    m.addAttribute("nextArticleTitle", nextArticleTitle); // 다음 글의 제목 추가
+	    
+	    m.addAttribute("previousArticleCategory", previousArticleCategory); // 이전 글의 카테고리 추가
+	    m.addAttribute("nextArticleCategory", nextArticleCategory); // 다음 글의 카테고리 추가
 		
 	    
 	    /**
@@ -251,7 +294,7 @@ public class BoardController2 {
 	    	hasNext = false;
 	    }
 		
-		List<CommentVO> comment = service.getCommentData(p_id, index);
+		ArrayList<CommentVO> comment = service.getCommentData(p_id, index);
 		
 		if ( comment != null ) {
 			for (CommentVO commentVO : comment) {
@@ -284,6 +327,14 @@ public class BoardController2 {
 	@PostMapping("/writeComment")
 	public String writeComment(CommentVO gvo, @RequestParam("p_id") Long p_id, @RequestParam("page") int page) {
 		service.writeComment(gvo);
+		
+		return "redirect:/inquiry/article?p_id=" + p_id + "&page=" + page;
+	}
+	
+	@GetMapping("/endAnswer")
+	public String endAnswer(@RequestParam("p_id") Long p_id, @RequestParam("page") int page) {
+		log.info("컨트롤러 글 마감 =======>>>"+p_id);
+		service.endAnswer(p_id);
 		
 		return "redirect:/inquiry/article?p_id=" + p_id + "&page=" + page;
 	}

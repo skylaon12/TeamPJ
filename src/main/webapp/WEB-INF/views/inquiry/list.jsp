@@ -21,15 +21,20 @@
 	<link rel="stylesheet" href="${cp}/resources/css/navbar.css" />
 	<link rel="stylesheet" href="${cp}/resources/css/common.css" />
 
-
 	<script type="text/javascript">
 		function sendIt(){
 			var f = document.searchForm;
 			var curPage = f.page.value;
+			var curCategory = f.p_category.value;
 			var sKey = "${searchKey}";
 			var sWord = "${word}";
 			
-			f.action = "<%=cp%>/inquiry/list?page="+ curPage +"&searchKey="+ sKey +"&word="+ sWord;
+			if (curCategory == null || curCategory === '') {
+				f.action = "<%=cp%>/inquiry/list?page="+ curPage +"&searchKey="+ sKey +"&word="+ sWord;
+			} else {
+				f.action = "<%=cp%>/inquiry/list?page="+ curPage +"&p_category="+ curCategory +"&searchKey="+ sKey +"&word="+ sWord;
+			}
+			
 			f.submit();
 		}
 		
@@ -69,11 +74,32 @@
 	
 			<div id="contents" class="location-fixed">
 				<h2 class="tit">내 문의 내역</h2>
-	
+				
 				<div class="tab-block mb30">
-					<ul>
-						<li class="on tabBtn"><button type="button" class="btn tabBtn" data-no="" title="전체 내 문의 내역">전체</button></li>
-					</ul>
+				    <ul>
+				        <c:choose>
+				            <c:when test="${empty param.p_category or param.p_category eq '전체'}">
+				                <li class="on tabBtn"><a href="list?page=${currentPage }" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="전체 내 문의 내역">전체</button></a></li>
+				                <li class="tabBtn"><a href="list?page=${currentPage }&p_category=결제/환불" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="결제/환불">결제/환불</button></a></li>
+								<li class="tabBtn"><a href="list?page=${currentPage }&p_category=영화관" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="영화관">영화관</button></a></li>
+				            </c:when>
+				            <c:when test="${param.p_category eq '결제/환불'}">
+				            	<li class="tabBtn"><a href="list?page=${currentPage }" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="전체 내 문의 내역">전체</button></a></li>
+				                <li class="on tabBtn"><a href="list?page=${currentPage }&p_category=결제/환불" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="결제/환불">결제/환불</button></a></li>
+				                <li class="tabBtn"><a href="list?page=${currentPage }&p_category=영화관" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="영화관">영화관</button></a></li>
+				            </c:when>
+				            <c:when test="${param.p_category eq '영화관'}">
+				            	<li class="tabBtn"><a href="list?page=${currentPage }" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="전체 내 문의 내역">전체</button></a></li>
+								<li class="tabBtn"><a href="list?page=${currentPage }&p_category=결제/환불" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="결제/환불">결제/환불</button></a></li>
+				                <li class="on tabBtn"><a href="list?page=${currentPage }&p_category=영화관" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="영화관">영화관</button></a></li>
+				            </c:when>
+				            <c:otherwise>
+				                <li class="tabBtn"><a href="list?page=${currentPage }" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="전체 내 문의 내역">전체</button></a></li>
+								<li class="tabBtn"><a href="list?page=${currentPage }&p_category=결제/환불" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="결제/환불">결제/환불</button></a></li>
+								<li class="tabBtn"><a href="list?page=${currentPage }&p_category=영화관" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="영화관">영화관</button></a></li>
+				            </c:otherwise>
+				        </c:choose>
+				    </ul>
 				</div>
 	
 				<div id="bbsList">
@@ -81,6 +107,7 @@
 						<div id="leftHeader">
 							<form action="" method="get" name="searchForm">
 								<input type="hidden" name ="page" class="input-text w150px" value="${currentPage }">
+								<input type="hidden" name ="p_category" class="input-text w150px" value="${p_category }">
 								<select name="searchKey" class="selectField">
 									<option value="p_title">제목</option>
 									<option value="p_text">내용</option>
@@ -101,7 +128,7 @@
 							<dl>
 								<dt class="num">번호</dt>
 								<dt class="subject">제목</dt>
-								<dt class="name">답변 상태</dt>
+								<dt class="name">문의 상태</dt>
 								<dt class="created">작성일</dt>
 								<dt class="hitCount">조회수</dt>
 							</dl>
@@ -111,15 +138,23 @@
 							<dl>								<%-- EL로 받은것은 변수명을 게터로받지않고 그대로 사용 그렇다고 DAO의 게터세터를 지우면안됌. --%>
 								<dd class="num">${dto_inquiry.p_id }</dd> 
 								<dd class="subject">
-								<a href="${articleUrl}${dto_inquiry.p_id }&page=${currentPage }">
-								${dto_inquiry.p_title }</a>
+									<c:choose>
+										<c:when test="${dto_inquiry.newComment}">
+											[${dto_inquiry.p_category }] <a href="${articleUrl}${dto_inquiry.p_id }&page=${currentPage }">
+											${dto_inquiry.p_title } </a> [${dto_inquiry.commentCount}] NEW
+										</c:when>
+										<c:otherwise>
+											[${dto_inquiry.p_category }] <a href="${articleUrl}${dto_inquiry.p_id }&page=${currentPage }">
+											${dto_inquiry.p_title } </a> [${dto_inquiry.commentCount}]
+										</c:otherwise>
+									</c:choose>
 								</dd>
 								<c:choose>
 									<c:when test="${dto_inquiry.p_status == 'T'}">
-										<dd class="name">O</dd>
+										<dd class="name">완료</dd>
 									</c:when>
 									<c:otherwise>
-										<dd class="name">X</dd>
+										<dd class="name">진행 중...</dd>
 									</c:otherwise>
 								</c:choose>
 								<dd class="created">${dto_inquiry.p_created }</dd>
@@ -132,7 +167,7 @@
 								<c:when test="${totalCount != 0}">
 									<c:choose>
 										<c:when test="${hasPrev}">
-											[<a href="${cp}/inquiry/list?page=${prevPage}"><b>이전</b></a>]
+											[<a href="${cp}/inquiry/list?page=${prevPage}&p_category=${p_category}"><b>이전</b></a>]
 										</c:when>
 										<c:otherwise>
 											[이전]
@@ -142,17 +177,17 @@
 									<c:forEach var="p" begin="${blockStartNo}" end="${blockEndNo}">
 										<c:choose>
 											<c:when test="${word != null}">
-												[<a href="${cp}/inquiry/list?page=${p}&searchKey=${searchKey}&word=${word}">${p}</a>]
+												[<a href="${cp}/inquiry/list?page=${p}&p_category=${p_category}&searchKey=${searchKey}&word=${word}">${p}</a>]
 											</c:when>
 											<c:otherwise>
-												[<a href="${cp}/inquiry/list?page=${p}">${p}</a>]
+												[<a href="${cp}/inquiry/list?page=${p}&p_category=${p_category}">${p}</a>]
 											</c:otherwise>
 										</c:choose>
 									</c:forEach>
 									
 									<c:choose>
 										<c:when test="${hasNext}">
-											[<a href="${cp}/inquiry/list?page=${nextPage}"><b>다음</b></a>]
+											[<a href="${cp}/inquiry/list?page=${nextPage}&p_category=${p_category}"><b>다음</b></a>]
 										</c:when>
 										<c:otherwise>
 											[다음]

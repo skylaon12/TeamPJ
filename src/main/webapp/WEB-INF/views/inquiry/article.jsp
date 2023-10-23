@@ -53,6 +53,15 @@
 			f.submit();
 			alert("댓글 등록이 완료 되었습니다.");
 		}
+		
+		
+		function endAnswer(id, page){
+			if (!confirm("현재 문의 글을 마감 하시겠습니까?")) {
+		        // 취소(아니오) 버튼 클릭 시 이벤트
+		    } else {
+		    	location.href = '<%=cp%>/inquiry/endAnswer?p_id=' + id + '&page=' + page;
+		    }
+		}
 	
 	</script>
 </head>
@@ -89,7 +98,7 @@
 				<div class="table-wrap">
 					<div class="board-view">
 						<div class="tit-area">
-							<p class="tit">	${article.p_title }</p>
+							<p class="tit">[${article.p_category }] ${article.p_title }</p>
 						</div>
 
 						<div class="info">
@@ -104,13 +113,13 @@
 							</p>
 							
 							<p>
-								<span class="tit">답변 상태</span>
+								<span class="tit">문의 상태</span>
 								<c:choose>
 									<c:when test="${article.p_status == 'T'}">
-										<span class="txt">O</span>
+										<span class="txt">완료</span>
 									</c:when>
 									<c:otherwise>
-										<span class="txt">X</span>
+										<span class="txt">진행 중...</span>
 									</c:otherwise>
 								</c:choose>
 							</p>
@@ -119,25 +128,31 @@
 						<div class="cont">${articleContent }</div>
 						
 						<br/>	<hr/>	<br/>
-						
-						<form action="" method="post" name="myForm">
-							이름: <input type="text"  name ="p_writer" class="input-text w150px" value="" maxlength="15">
-							
-							<input type="hidden" name ="p_ori_id" class="input-text w150px" value="${article.p_id }">
-							
-							<div class="textarea">
-								<textarea name="p_comment" rows="5" cols="10" title="내용입력" placeholder="※ 댓글을 써주세요." class="input-textarea"></textarea>
-								<div class="util">
-									<p class="count">
-										<span id="textareaCnt">0</span> / 2000
-									</p>
-								</div>
-							</div>
-							
-							<input type="button" value=" 등록하기 " class="button purple large" onclick="sendIt();"/>
-							<input type="reset" value=" 다시입력 " class="button purple large" 
-							onclick="document.myForm.p_comment.focus();"/>
-						</form>
+						<c:choose>
+							<c:when test="${article.p_status == 'T'}">
+								<div class="cont">문의가 마감되었습니다.</div>
+							</c:when>
+							<c:otherwise>
+								<form action="" method="post" name="myForm">
+									이름: <input type="text"  name ="p_writer" class="input-text w150px" value="" maxlength="15">
+									
+									<input type="hidden" name ="p_ori_id" class="input-text w150px" value="${article.p_id }">
+									
+									<div class="textarea">
+										<textarea name="p_comment" rows="5" cols="10" title="내용입력" placeholder="※ 댓글을 써주세요." class="input-textarea"></textarea>
+										<div class="util">
+											<p class="count">
+												<span id="textareaCnt">0</span> / 2000
+											</p>
+										</div>
+									</div>
+									
+									<input type="button" value=" 등록하기 " class="button purple large" onclick="sendIt();"/>
+									<input type="reset" value=" 다시입력 " class="button purple large" 
+									onclick="document.myForm.p_comment.focus();"/>
+								</form>
+							</c:otherwise>
+						</c:choose>
 						
 						
 						<br/>
@@ -189,7 +204,7 @@
 				        <p class="tit">이전</p>
 				        <c:choose>
 				            <c:when test="${not empty previousArticleUrl}">
-				                <a href="${previousArticleUrl}" class="link moveBtn" title="이전 글">${previousArticleTitle }</a>
+				                <a href="${previousArticleUrl}" class="link moveBtn" title="이전 글">[${previousArticleCategory }] ${previousArticleTitle }</a>
 				            </c:when>
 				            <c:otherwise>
 				                <p class="link">이전글이 없습니다.</p>
@@ -200,7 +215,7 @@
 				        <p class="tit">다음</p>
 				        <c:choose>
 				            <c:when test="${not empty nextArticleUrl}">
-				                <a href="${nextArticleUrl}" class="link moveBtn" title="다음 글">${nextArticleTitle }</a>
+				                <a href="${nextArticleUrl}" class="link moveBtn" title="다음 글">[${nextArticleCategory }] ${nextArticleTitle }</a>
 				            </c:when>
 				            <c:otherwise>
 				                <p class="link">다음글이 없습니다.</p>
@@ -210,9 +225,15 @@
 				</div>
 
 				<div class="btn-group pt40">
-					<a href="javascript:location.href='<%=cp%>/inquiry/modify?p_id=${article.p_id}&page=${articleCurrentPage }';" class="button large listBtn" title="수정">수정</a>
+					<c:if test="${article.p_status == 'F'}">
+						<a href="javascript:location.href='<%=cp%>/inquiry/modify?p_id=${article.p_id}&page=${articleCurrentPage }';" class="button large listBtn" title="수정">수정</a>
+					</c:if>
 					
 					<a href="javascript:location.href='<%=cp%>/inquiry/list?page=${articleCurrentPage }';" class="button large listBtn" title="리스트">리스트</a>
+					
+					<c:if test="${article.p_status == 'F'}">
+						<input type="button" class="button large listBtn" value="문의 마감" onclick="endAnswer(${article.p_id}, ${articleCurrentPage});">
+					</c:if>
 				</div>
 			</div>
 		</div>

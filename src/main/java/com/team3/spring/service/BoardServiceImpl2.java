@@ -1,5 +1,6 @@
 package com.team3.spring.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +20,26 @@ public class BoardServiceImpl2 implements BoardService2 {
 
 	@Setter(onMethod_ = @Autowired)
 	private BoardMapper2 mapper;
-
-	// 리스트
-	@Override
-	public ArrayList<BoardVO2> list(int page) {
-		log.info("서비스 진입");
-		return mapper.list(page);
-	}
 	
-	// 리스트 검색
 	@Override
-	public ArrayList<BoardVO2> listSearch(String searchKey, String word, int page) {
-		log.info("서비스 진입 검색");
-		return mapper.listSearch(searchKey, word, page);
+	public ArrayList<BoardVO2> getLists(String p_category, String searchKey, String word, int page) {
+	    if ( word == null || word.equals("null") ) {
+	    	if ( p_category == null || p_category.isEmpty() ) {
+	    		log.info("서비스 진입 - 일반 리스트");
+	    		return mapper.list(page);
+	        } else {
+	        	log.info("서비스 진입 - 카테고리 리스트");
+	        	return mapper.listByCategory(p_category, page);
+	        }
+	    } else {
+	    	if ( p_category == null || p_category.isEmpty() ) {
+	    		log.info("서비스 진입 - 일반 검색 리스트");
+	    		return mapper.listSearch(searchKey, word, page);
+	        } else {
+	        	log.info("서비스 진입 - 카테고리 검색 리스트");
+	        	return mapper.listSearchByCategory(p_category, searchKey, word, page);
+	        }
+	    }
 	}
 	
 	// 쓰기
@@ -64,20 +72,43 @@ public class BoardServiceImpl2 implements BoardService2 {
 	}
 	
 	@Override
+	public int getTotalCountByCategory(String p_category) {
+		return mapper.getTotalCountByCategory(p_category);
+	}
+	
+	@Override
 	public int getSearchTotalCount(String searchKey, String word) {
 		return mapper.getSearchTotalCount(searchKey, word);
 	}
 	
 	@Override
-	public int getTotalPage(String searchKey, String word) {
+	public int getSearchTotalCountByCategory(String p_category, String searchKey, String word) {
+		return mapper.getSearchTotalCountByCategory(p_category, searchKey, word);
+	}
+	
+	@Override
+	public int getTotalPageCount(String p_category, String searchKey, String word) {
 		int totalCount;
 	    
-	    if (word == null || word.equals("null")) {
-	        totalCount = getTotalCount();
+	    if ( word == null || word.equals("null") ) {
+	    	if ( p_category == null || p_category.isEmpty() ) {
+	            totalCount = getTotalCount(); // 전체 카테고리 글 수 가져오기
+	        } else {
+	            totalCount = getTotalCountByCategory(p_category); // 특정 카테고리 글 수 가져오기
+	        }
 	    } else {
-	        totalCount = getSearchTotalCount(searchKey, word);
+	    	if ( p_category == null || p_category.isEmpty() ) {
+	            totalCount = getSearchTotalCount(searchKey, word); // 전체 카테고리에서 검색한 글 수 가져오기
+	        } else {
+	            totalCount = getSearchTotalCountByCategory(p_category, searchKey, word); // 특정 카테고리에서 검색한 글 수 가져오기
+	        }
 	    }
-		
+	    
+	    return totalCount;
+	}
+	
+	@Override
+	public int getTotalPage(int totalCount) {
 	    // 전체 페이지 수 = 전체 글 수 / [페이지당 글 수]
 	    int totalPage = 0;
 	    
@@ -163,6 +194,16 @@ public class BoardServiceImpl2 implements BoardService2 {
 			totalCommentBlock = totalCommentPage / BoardConfig.PAGE_PER_BLOCK + 1;
 		}		
 		return totalCommentBlock;
+	}
+	
+	@Override
+	public void endAnswer(long p_id) {
+		mapper.endAnswer(p_id);
+	}
+	
+	@Override
+	public Timestamp getCommentCreatedTime(long p_ori_id) {
+		return mapper.getCommentCreatedTime(p_ori_id);
 	}
 
 }
