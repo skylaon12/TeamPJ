@@ -79,7 +79,7 @@
 		SELECT P_ID, P_WRITER, P_TITLE, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
 		FROM BOARD
 		ORDER BY P_ID DESC
-		LIMIT ${page}, ${@com.team3.spring.vo.BoardConfig@ADMIN_AMOUNT_PER_PAGE}
+		LIMIT ${page}, ${@com.team3.spring.config.BoardConfig@ADMIN_AMOUNT_PER_PAGE}
 	</select>
 	<select id="getTotalBoardCount" resultType="int">
 		SELECT COUNT(*) FROM BOARD
@@ -105,7 +105,7 @@
 	    FROM BOARD_INQUIRY 
 	    WHERE P_STATUS = 'F' 
 	    ORDER BY P_ID DESC 
-	    LIMIT #{page}, ${@com.team3.spring.vo.BoardConfig@AMOUNT_PER_PAGE}
+	    LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_PAGE}
 	</select>
 	
 	<select id="listSearch" parameterType="map" resultType="com.team3.spring.vo.BoardVO2">
@@ -113,7 +113,7 @@
 	    FROM BOARD_INQUIRY   
 	    WHERE ${searchKey} LIKE CONCAT('%', #{word}, '%') AND P_STATUS = 'F' 
 	    ORDER BY P_ID DESC 
-	    LIMIT #{page}, ${@com.team3.spring.vo.BoardConfig@AMOUNT_PER_PAGE}
+	    LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_PAGE}
 	</select>
 	<select id="getTotalCount" resultType="int">
 		SELECT COUNT(*) FROM BOARD_INQUIRY
