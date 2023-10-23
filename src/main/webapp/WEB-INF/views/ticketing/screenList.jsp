@@ -98,7 +98,7 @@
     <input type="hidden" id="m_title" value="${title}">
     <input type="hidden" id="m_runtime" value="${runtime}">
     <input type="hidden" id="m_poster" value="${poster}">
-    <input type="hidden" id="u_id" value="${LOGIN_USER.id}">
+    <input type="hidden" id="u_account" value="${LOGIN_USER.account}">
     <input type="hidden" id="u_name" value="${LOGIN_USER.name}">
 </div>
     
@@ -326,7 +326,7 @@ $(document).ready(function(){ // 메세지 띄우기
 			pushModal("최소한 한 명 이상은 선택해야 합니다.")
 			return;
 		}
-		var u_id = $("#u_id").val();			// 유저 id
+		var u_account = $("#u_account").val();	// 유저 id
 		var u_name = $("#u_name").val();		// 유저 이름
 		var ticket_cnt = seatCount;// 티켓 수
 		var cost = 14000 * ticket_cnt;			// 티켓 가격
@@ -389,8 +389,8 @@ $(document).ready(function(){ // 메세지 띄우기
 		
 	    var popup = window.open(
 	    	    'popup?' +
-	    	    'user_id=' + encodeURIComponent(u_id) +
-	    	    '&user_name=' + encodeURIComponent(u_name) + 
+	    	    'u_account=' + encodeURIComponent(u_account) +
+	    	    '&u_name=' + encodeURIComponent(u_name) + 
 	    	    '&ticket_cnt=' + encodeURIComponent(ticket_cnt)+
 	    	    '&cost=' + encodeURIComponent(cost) +
 	    	    '&m_title=' + encodeURIComponent(m_title) +

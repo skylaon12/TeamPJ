@@ -40,7 +40,7 @@
               <table class="table table-hover text-nowrap">
                 <thead>
                   <tr>
-                    <th>번호</th>
+                    <th>아이디</th>
                     <th>회원명</th>
                     <th>영화명</th>
                     <th>위치</th>
@@ -50,8 +50,8 @@
                 <tbody>
                   <c:forEach var="ticket" items="${tickets}">
                     <tr>
-                      <td>${ticket.user_id}</td>
-                      <td>${ticket.user_name}</td>
+                      <td>${ticket.u_account}</td>
+                      <td>${ticket.u_name}</td>
                       <td>${ticket.m_title}</td>
                       <td>${ticket.region_detail} ${ticket.theater_num} ${ticket.seat_num}</td>
                       <td>${ticket.reserv_date} | ${ticket.str_hour}시${ticket.str_min}분</td>

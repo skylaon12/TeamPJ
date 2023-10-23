@@ -90,7 +90,7 @@ public class TicketingController {
 	public String ticketCheck(Model m, RedirectAttributes rttr, Principal p) {
 		if(p != null) {
 			MemberVO vo = memberService.read(p.getName());
-			m.addAttribute("ticket", ticketingService.getTicket(vo.getId()));
+			m.addAttribute("ticket", ticketingService.getTicket(vo.getAccount()));
 			return "ticketing/check";
 		}else {
 			return "redirect:/member/access-denied"; // 권한이 없을 경우 접근 거부 페이지로 리다이렉트 
@@ -129,7 +129,7 @@ public class TicketingController {
 	public String reservationView(Model m, RedirectAttributes rttr, Principal p) {
 		if(p != null) {
 			MemberVO vo = memberService.read(p.getName());
-			m.addAttribute("tickets", ticketingService.getTicketHistory(vo.getId()));
+			m.addAttribute("tickets", ticketingService.getTicketHistory(vo.getAccount()));
 			return "ticketing/reservationInfo";
 		}else {
 			rttr.addFlashAttribute("msgType", "오류 메세지");

@@ -84,8 +84,6 @@ public class AdminServiceImpl implements AdminService{
 	}
 	@Override
 	public int deleteUser(int id, String account) {
-		t_mapper.userDelete(id);
-		m_mapper.userDelete(id);
 		return mapper.deleteUser(account);
 	}
 

@@ -7,15 +7,11 @@
 		SELECT * FROM M_REVIEW WHERE M_ID = #{m_id}
 	</select>
 	<insert id="setComment">
-		INSERT INTO M_REVIEW (M_ID, R_TEXT, U_NAME, U_ID)
-		VALUES (#{m_id}, #{r_text}, #{u_name}, #{u_id})
+		INSERT INTO M_REVIEW (M_ID, R_TEXT, U_NAME, U_ACCOUNT)
+		VALUES (#{m_id}, #{r_text}, #{u_name}, #{u_account})
 	</insert>
 	<update id="userInfoModify">
 		UPDATE M_REVIEW SET U_NAME = #{u_name}
-		WHERE U_ID = #{u_id}
+		WHERE U_ACCOUNT = #{u_account}
 	</update>
-	<delete id="userDelete">
-		DELETE FROM M_REVIEW
-		WHERE U_ID = #{u_id}
-	</delete>
 </mapper>

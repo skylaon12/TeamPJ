@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class TicketingVO {
 	private int id;				// 예매 id
-	private int user_id;		// 유저 id
-	private String user_name;	// 유저 이름
+	private String u_account;		// 유저 id
+	private String u_name;	// 유저 이름
 	private int ticket_cnt;		// 티켓 수
 	private int cost;			// 결제 금액
 	private String m_title;		// 영화 제목	

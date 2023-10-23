@@ -116,12 +116,12 @@
 			    </div>
 			    <security:authorize access="isAuthenticated()"><!-- 인증된 사용자 -->
 			    <form id="comment-form" action="${cp}/movie/setComment" method="POST" class="comment-form">
+			    	<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
 			    	<input type="hidden" id="m_id" name="m_id" value="${id}"/>
-			    	<input type="hidden" id="u_id" name="u_id" value="${LOGIN_USER.id}"/>
 			    	<input type="hidden" id="u_name" name="u_name" value="${LOGIN_USER.name}"/>
+			    	<input type="hidden" id="u_account" name="u_account" value="${LOGIN_USER.account}"/>
 			        <textarea id="r_text" name="r_text" placeholder="댓글을 입력하세요..." rows="4"></textarea>
 			        <button type="submit" class="btn btn-dark">댓글 등록</button>
-			        <input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
 			    </form>
 			    </security:authorize>
 			</div>

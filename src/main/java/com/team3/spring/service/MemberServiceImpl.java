@@ -59,8 +59,8 @@ public class MemberServiceImpl implements MemberService {
 		log.info("수정된 핸드폰 번호 : " + membervo.getPhonenumber());
 		log.info("수정된 나이 : " + membervo.getAge());
 		mapper.userInfoModify(membervo);
-		t_mapper.userInfoModify(membervo.getName(), membervo.getId());
-		m_mapper.userInfoModify(membervo.getName(), membervo.getId());
+		t_mapper.userInfoModify(membervo.getName(), membervo.getAccount());
+		m_mapper.userInfoModify(membervo.getName(), membervo.getAccount());
 		
 		
 	}
@@ -73,8 +73,6 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void userDelete(int id, String account) {
 		mapper.userDelete(account);
-		t_mapper.userDelete(id);
-		m_mapper.userDelete(id);
 	}
 
 

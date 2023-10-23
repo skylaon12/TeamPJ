@@ -1,5 +1,7 @@
 package com.team3.spring.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.team3.spring.service.MemberService;
 import com.team3.spring.service.MovieService;
+import com.team3.spring.vo.MemberVO;
 import com.team3.spring.vo.MovieCommentVO;
 import com.team3.spring.vo.MovieDetailVO;
 
@@ -24,6 +28,7 @@ public class MovieController {
 	
 	@Autowired
 	private MovieService movieService;
+	private MemberService memberService;
 	
 	@RequestMapping("/list")
 	public void list() {
@@ -31,7 +36,11 @@ public class MovieController {
 	}
 	
 	@GetMapping("/detail")
-	public void getList(Model m, @RequestParam("no") int id) {
+	public void getList(Model m, @RequestParam("no") int id, Principal p) {
+		if(p != null) {
+			MemberVO vo = memberService.read(p.getName());
+			m.addAttribute("LOGIN_USER", vo);
+		}
 		String IMAGE_URL = "https://image.tmdb.org/t/p/w500/";
 		
 		MovieDetailVO dmvo = movieService.getMovieDetail(id);

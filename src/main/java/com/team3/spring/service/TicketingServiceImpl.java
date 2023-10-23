@@ -49,8 +49,8 @@ public class TicketingServiceImpl implements TicketingService{
 	}
 
 	@Override
-	public TicketingVO getTicket(int u_id) {
-		return mapper.getTicket(u_id);
+	public TicketingVO getTicket(String u_account) {
+		return mapper.getTicket(u_account);
 	}
 
 	@Override
@@ -64,9 +64,9 @@ public class TicketingServiceImpl implements TicketingService{
 	}
 
 	@Override
-	public ArrayList<TicketingVO> getTicketHistory(int user_id) {
+	public ArrayList<TicketingVO> getTicketHistory(String u_account) {
 		
-		return mapper.getTicketHistroy(user_id);
+		return mapper.getTicketHistroy(u_account);
 	}
 	
 	@Override

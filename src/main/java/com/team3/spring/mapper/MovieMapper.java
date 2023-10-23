@@ -9,7 +9,6 @@ import com.team3.spring.vo.MovieCommentVO;
 public interface MovieMapper {
 
 	public ArrayList<MovieCommentVO> list(int m_id);
-	public void userInfoModify(@Param("u_name")String u_name, @Param("u_id")int u_id);
+	public void userInfoModify(@Param("u_name")String u_name, @Param("u_account")String u_account);
 	public void setComment(MovieCommentVO vo);
-	public void userDelete(@Param("u_id")int u_id);
 }

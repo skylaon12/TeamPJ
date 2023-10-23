@@ -4,9 +4,9 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.team3.spring.mapper.TicketingMapper">
 	<insert id="bookTicket">
-		INSERT INTO M_MOVIETOTAL(USER_ID, USER_NAME, TICKET_CNT, COST, M_TITLE, M_POSTER, M_RUNTIME, REGION_DETAIL,
+		INSERT INTO M_MOVIETOTAL(U_ACCOUNT, U_NAME, TICKET_CNT, COST, M_TITLE, M_POSTER, M_RUNTIME, REGION_DETAIL,
 								 THEATER_NUM, SEAT_NUM, RESERV_DATE, STR_HOUR, STR_MIN, END_HOUR, END_MIN)
-		VALUES (#{user_id}, #{user_name}, #{ticket_cnt}, #{cost}, #{m_title}, #{m_poster}, #{m_runtime}, #{region_detail}, 
+		VALUES (#{u_account}, #{u_name}, #{ticket_cnt}, #{cost}, #{m_title}, #{m_poster}, #{m_runtime}, #{region_detail}, 
 				#{theater_num}, #{seat_num}, #{reserv_date}, #{str_hour}, #{str_min}, #{end_hour}, #{end_min})
 	</insert>
 	
@@ -18,7 +18,7 @@
 	
 	<select id="getTicket" resultType="com.team3.spring.vo.TicketingVO">
 		SELECT * FROM M_MOVIETOTAL
-		WHERE USER_ID = #{u_id} ORDER BY ID DESC LIMIT 1
+		WHERE U_ACCOUNT = #{u_account} ORDER BY ID DESC LIMIT 1
 	</select>
 	<select id="getTicket2" resultType="com.team3.spring.vo.TicketingVO">
 		SELECT * FROM M_MOVIETOTAL
@@ -29,17 +29,17 @@
 		WHERE ID = #{t_id}
 	</delete>
 	<update id="userInfoModify">
-		UPDATE M_MOVIETOTAL SET USER_NAME = #{user_name} 
-		WHERE USER_ID = #{user_id}
+		UPDATE M_MOVIETOTAL SET U_NAME = #{u_name} 
+		WHERE U_ACCOUNT = #{u_account}
 	</update>
-	<delete id="userDelete">
-		DELETE FROM M_MOVIETOTAL
-		WHERE USER_ID = #{user_id}
-	</delete>
+<!-- 	<delete id="userDelete"> -->
+<!-- 		DELETE FROM M_MOVIETOTAL -->
+<!-- 		WHERE U_ACCOUNT = #{u_account} -->
+<!-- 	</delete> -->
 	<!-- 유저가 예매해온 내역 불러오기 -->
 	<select id="getTicketHistroy" resultType="com.team3.spring.vo.TicketingVO">
 		SELECT * FROM M_MOVIETOTAL
-		WHERE USER_ID = #{user_id} ORDER BY RESERV_DATE DESC
+		WHERE U_ACCOUNT = #{u_account} ORDER BY RESERV_DATE DESC
 <!-- 		지역정보가져오기 -->
 	</select>
 		<select id="getRegion" resultType="com.team3.spring.vo.MovieRegionVO">

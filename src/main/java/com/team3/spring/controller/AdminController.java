@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,7 +19,6 @@ import com.team3.spring.vo.AuthVO;
 import com.team3.spring.vo.BoardVO;
 import com.team3.spring.vo.BoardVO2;
 import com.team3.spring.vo.MemberVO;
-import com.team3.spring.vo.TicketingVO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;

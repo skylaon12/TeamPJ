@@ -12,10 +12,10 @@ public interface TicketingService {
 	
 	public void bookTicket(TicketingVO vo);
 	public ArrayList<String> getBookedSeat(TicketingVO vo);
-	public TicketingVO getTicket(int id);
+	public TicketingVO getTicket(String u_account);
 	public TicketingVO getTicket2(int t_id);
 	public void cancelProc(int t_id);
-	public ArrayList<TicketingVO> getTicketHistory(int user_id);
+	public ArrayList<TicketingVO> getTicketHistory(String u_account);
 	// 영화 지역정보 가져오기
 	public List<MovieRegionVO> getRegion();
 	// 영화 상세지역정보 가져오기
