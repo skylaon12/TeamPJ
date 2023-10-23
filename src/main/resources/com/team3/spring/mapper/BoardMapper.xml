@@ -5,14 +5,16 @@
 <mapper namespace="com.team3.spring.mapper.BoardMapper">
 	<select id="list" resultType="com.team3.spring.vo.BoardVO">
 	    SELECT P_ID, P_TITLE, P_WRITER, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
-	    FROM BOARD LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_PAGE}
+	    FROM BOARD ORDER BY P_ID DESC 
+	    LIMIT #{page}, ${@com.team3.spring.vo.BoardConfig@AMOUNT_PER_PAGE} 
 	</select>
 	
 	<select id="listSearch" parameterType="map" resultType="com.team3.spring.vo.BoardVO">
 	    SELECT P_ID, P_TITLE, P_WRITER, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
 	    FROM BOARD 
-	    WHERE ${searchKey} LIKE CONCAT('%', #{word}, '%') 
-	    LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_PAGE}
+	    WHERE ${searchKey} LIKE CONCAT('%', #{word}, '%')
+	    ORDER BY P_ID DESC  
+	    LIMIT #{page}, ${@com.team3.spring.vo.BoardConfig@AMOUNT_PER_PAGE}
 	</select>
 	
 	<insert id="write">
