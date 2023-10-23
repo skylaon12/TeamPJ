@@ -75,7 +75,6 @@ a:hover { color: #fff; text-decoration: underline;}
 			</div>
 		</div> 
 	</div>
-	
 <%@include file="common/footer.jsp"%>
 <!-- 오류 모달 -->
 <%@include file="common/alertModal.jsp" %>
@@ -109,7 +108,7 @@ a:hover { color: #fff; text-decoration: underline;}
 					output += "<img src = '"+poster+"'class='rounded card-img-top' style='width: 17rem; height:440px;'/>";
 					output += "</a>";
 					output += "<div class='d-flex mt-3'>";
-					output += "<a href='${cp}/member/checkLoginStatus?id=" + movie.id + "'>"
+					output += "<a href='${cp}/ticketing/screenList?no=" + movie.id + "'>"
 					output += "<button data-no='"+ movie.id +"' type='button' class='btn btn-primary col-5 mt-1 float-end'>예매</button>";
 					output += "</a>";
 					output += "</div>";

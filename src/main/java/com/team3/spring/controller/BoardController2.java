@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.team3.spring.config.BoardConfig;
 import com.team3.spring.service.BoardService2;
-import com.team3.spring.vo.BoardConfig;
 import com.team3.spring.vo.BoardVO2;
 import com.team3.spring.vo.CommentVO;
 

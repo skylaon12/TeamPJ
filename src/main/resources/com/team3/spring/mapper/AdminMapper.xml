@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team3.spring.mapper.AdminMapper">
+	<resultMap type="com.team3.spring.vo.MemberVO" id="memberMap">
+		<id property="id" column="id"/>
+		<result property="account" column="account"/>
+		<result property="name" column="name"/>
+		<result property="pwd" column="pwd"/>
+		<result property="email1" column="email1"/>
+		<result property="email2" column="email2"/>
+		<result property="phonenumber" column="phonenumber"/>
+		<result property="age" column="age"/>
+		<collection property="authList" resultMap="authMap">
+		</collection>
+	</resultMap>
+	
+	<resultMap type="com.team3.spring.vo.AuthVO" id="authMap">
+		<id property="no" column="no"/>
+		<result property="account" column="account"/>
+		<result property="auth" column="auth"/>
+	</resultMap>
+
+	<select id="loadInfo" resultType="com.team3.spring.vo.MemberVO">
+		SELECT * FROM MEMBER
+		WHERE ACCOUNT = #{account}
+	</select>
+	<select id="getMemberCnt" resultType="int">
+		SELECT COUNT(*) FROM MEMBER
+	</select>
+	<select id="getReserveCnt" resultType="int">
+		SELECT COUNT(*) FROM M_MOVIETOTAL
+		WHERE STR_TO_DATE(reserv_date, '%Y-%m-%d') &gt;= CURDATE()
+	</select>
+	<select id="getUnAnsweredCnt" resultType="int">
+		SELECT COUNT(*) FROM BOARD_INQUIRY WHERE P_STATUS = 'F';
+	</select>
+	<select id="getMonthRevenue" resultType="int">
+		SELECT IFNULL(SUM(COST), 0) FROM M_MOVIETOTAL
+		WHERE STR_TO_DATE(RESERV_DATE, '%Y-%m-%d') &gt;= DATE_FORMAT(NOW(), '%Y-%m-01')
+  		AND STR_TO_DATE(RESERV_DATE, '%Y-%m-%d') &lt;= LAST_DAY(NOW())
+	</select>
+	
+	
+	
+	<!-- 회원관련 -->
+	<select id="getMemberList" resultType="com.team3.spring.vo.MemberVO">
+		SELECT * FROM MEMBER
+	</select>
+	<select id="getMember" resultMap="memberMap">
+		SELECT * FROM MEMBER MEM
+		LEFT OUTER JOIN MEM_AUTH AUTH ON
+		MEM.ACCOUNT = AUTH.ACCOUNT WHERE MEM.ID = #{id}
+	</select>
+	
+	<select id="getAuth" resultType="String">
+		SELECT AUTH FROM MEM_AUTH
+		WHERE ACCOUNT = #{account}
+	</select>
+	
+	<delete id="authDelete">
+		DELETE FROM MEM_AUTH WHERE ACCOUNT = #{account}
+	</delete>
+	
+	<insert id="authInsert">
+		INSERT INTO MEM_AUTH(ACCOUNT, AUTH) 
+		VALUES (#{account}, #{auth})
+	</insert>
+	
+	<delete id="deleteUser">
+		DELETE FROM MEMBER 
+		WHERE ACCOUNT = #{account}
+	</delete>
+	<!-- 회원관련 -->
+	
+	<!-- 공지사항 관련 -->
+	<select id="getBoardList" resultType="com.team3.spring.vo.BoardVO">
+		SELECT P_ID, P_WRITER, P_TITLE, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
+		FROM BOARD
+		ORDER BY P_ID DESC
+		LIMIT ${page}, ${@com.team3.spring.vo.BoardConfig@ADMIN_AMOUNT_PER_PAGE}
+	</select>
+	<select id="getTotalBoardCount" resultType="int">
+		SELECT COUNT(*) FROM BOARD
+	</select>
+	<select id="read" resultType="com.team3.spring.vo.BoardVO">
+		SELECT P_ID, P_WRITER, P_TEXT, P_TITLE, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
+		FROM BOARD
+		WHERE P_ID = #{p_id}
+	</select>
+	<insert id="write">
+		INSERT INTO BOARD(P_WRITER, P_TITLE, P_TEXT) values (#{p_writer}, #{p_title}, #{p_text})
+	</insert>
+	<delete id="boardDel">
+		DELETE FROM BOARD WHERE P_ID = #{p_id}
+	</delete>
+	<update id="boardModify">
+		UPDATE BOARD SET P_TITLE = #{p_title}, P_TEXT = #{p_text} WHERE P_ID = #{p_id}
+	</update>
+	
+	<!-- QnA관련 -->
+	<select id="list" resultType="com.team3.spring.vo.BoardVO2">
+	    SELECT P_ID, P_TITLE, P_STATUS, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
+	    FROM BOARD_INQUIRY 
+	    WHERE P_STATUS = 'F' 
+	    ORDER BY P_ID DESC 
+	    LIMIT #{page}, ${@com.team3.spring.vo.BoardConfig@AMOUNT_PER_PAGE}
+	</select>
+	
+	<select id="listSearch" parameterType="map" resultType="com.team3.spring.vo.BoardVO2">
+	    SELECT P_ID, P_TITLE, P_STATUS, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
+	    FROM BOARD_INQUIRY   
+	    WHERE ${searchKey} LIKE CONCAT('%', #{word}, '%') AND P_STATUS = 'F' 
+	    ORDER BY P_ID DESC 
+	    LIMIT #{page}, ${@com.team3.spring.vo.BoardConfig@AMOUNT_PER_PAGE}
+	</select>
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*) FROM BOARD_INQUIRY
+	</select>
+	
+	<select id="getSearchTotalCount" resultType="int">
+		SELECT COUNT(*) FROM BOARD_INQUIRY 
+		WHERE ${searchKey} LIKE CONCAT('%', #{word}, '%')
+	</select>
+	<delete id="del">
+		DELETE FROM BOARD_INQUIRY WHERE ${p_id}
+	</delete>
+	
+	<!-- 예매 관련 -->
+	<select id="getTicketList" resultType="com.team3.spring.vo.TicketingVO">
+		SELECT * FROM M_MOVIETOTAL
+		WHERE STR_TO_DATE(reserv_date, '%Y-%m-%d') &gt;= CURDATE() 
+		ORDER BY RESERV_DATE, STR_HOUR
+	</select>
+	<delete id="delTicket">
+		DELETE FROM M_MOVIETOTAL 
+		WHERE ID = #{id}	
+	</delete>
+</mapper>

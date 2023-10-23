@@ -59,10 +59,11 @@
 	<%@include file="/WEB-INF/views/common/navbar.jsp"%>
 	<div class="login-container">
 		<form class="login-form" action="${cp}/member/loginProc" method="post">
-			<input class="form-input" type="text" name="id" placeholder="아이디" required>
-			<input class="form-input" type="password" name="pw" placeholder="비밀번호" required>
+			<input class="form-input" type="text" name="username" id="account" placeholder="아이디" required>
+			<input class="form-input" type="password" name="password" id="pwd" placeholder="비밀번호" required>
 			<button class="login-btn" type="submit">로그인</button>
-			<a href="${cp}/member/register"><button class="login-btn">회원가입</button></a>
+			<a href="${cp}/member/signup"><input type="button" class="login-btn" value="회원가입"></a>
+			<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
 		</form>
 	</div>
 	<%@include file="../common/footer.jsp"%>
@@ -70,12 +71,18 @@
 	<%@include file="../common/alertModal.jsp" %>
 </body>
 <script src="../resources/js/alertModal.js"></script>
-<script>
-$(document).ready(function(){ // 메세지 띄우기
-	if(${!empty msgType}){
-		$("#successModal").modal("show");
-	}
-});
+<script type="text/javascript">
+          $(document).ready(function(){ // 메세지 띄우기
+              if(${param.error!=null}){
+                  $("#messageType").attr("class", "modal-content panel-info");
+                  $("#checkMessage").text("아이디와 비밀번호를 확인해주세요.");
+                  $(".modal-title").text("실패 메세지");
+                  $("#alertModal").modal("show");
+              }
+              if(${!empty msgType}){
+      			$("#successModal").modal("show");
+      		}
+        });
 </script>
 
 </html>

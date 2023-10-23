@@ -3,12 +3,46 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.team3.spring.mapper.MemberMapper">
-	<select id="login" resultType="com.team3.spring.vo.MemberVO">
-		SELECT * FROM MEMBER WHERE ACCOUNT = #{id} AND PWD = #{pw}
+	
+	
+	<resultMap type="com.team3.spring.vo.MemberVO" id="memberMap">
+		<id property="id" column="id"/>
+		<result property="account" column="account"/>
+		<result property="name" column="name"/>
+		<result property="pwd" column="pwd"/>
+		<result property="email1" column="email1"/>
+		<result property="email2" column="email2"/>
+		<result property="phonenumber" column="phonenumber"/>
+		<result property="age" column="age"/>
+		<collection property="authList" resultMap="authMap">
+		</collection>
+	</resultMap>
+	
+	<resultMap type="com.team3.spring.vo.AuthVO" id="authMap">
+		<id property="no" column="no"/>
+		<result property="account" column="account"/>
+		<result property="auth" column="auth"/>
+	</resultMap>
+	
+	<select id="login" parameterType="com.team3.spring.vo.MemberVO" resultMap="memberMap">
+		SELECT * FROM MEMBER MEM 
+		LEFT OUTER JOIN MEM_AUTH AUTH ON 
+		MEM.ACCOUNT = AUTH.ACCOUNT  
+		WHERE MEM.ACCOUNT = #{username}
 	</select>
+	
+	<select id="read" resultType="com.team3.spring.vo.MemberVO">
+		SELECT * FROM MEMBER
+		WHERE ACCOUNT = #{account}
+	</select>
+	
 	<insert id="signup">
-		INSERT INTO MEMBER (account, name, pwd, email1, email2, phonenumber, age)
-		VALUES (#{account}, #{name}, #{pwd}, #{email1}, #{email2}, #{phonenumber}, #{age})
+		INSERT INTO MEMBER (ID, account, name, pwd, email1, email2, phonenumber, age)
+		VALUES ((SELECT IFNULL(MAX(ID)+1, 1) FROM MEMBER MEM),#{account}, #{name}, #{pwd}, #{email1}, #{email2}, #{phonenumber}, #{age})
+	</insert>
+	<insert id="signupAuth">
+		INSERT INTO MEM_AUTH (ACCOUNT, AUTH) 
+		VALUES (#{account}, #{auth})
 	</insert>
 	<select id="checkAccount" resultType="int">
 		SELECT COUNT(*) FROM MEMBER WHERE ACCOUNT = #{account}
@@ -22,10 +56,14 @@
 	</update>
 	<update id="userPwdModify">
 		UPDATE MEMBER SET PWD = #{pwd}
-		WHERE ID = #{id}
+		WHERE ACCOUNT = #{account}
 	</update>
 	<delete id="userDelete">
 		DELETE FROM MEMBER 
-		WHERE ID = #{id}
+		WHERE ACCOUNT = #{account}
+	</delete>
+	<delete id="userAuthDelete">
+		DELETE FROM MEM_AUTH
+		WHERE no = #{id}
 	</delete>
 </mapper>

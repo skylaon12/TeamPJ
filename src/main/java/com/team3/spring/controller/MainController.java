@@ -1,10 +1,13 @@
 package com.team3.spring.controller;
 
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -23,9 +26,12 @@ public class MainController {
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Model m) {
+	public String home(Model m, HttpServletRequest req) {
 		return "main";
 	}
-	// 소스트리 테스트
-	// 소스트리 테스트 2
+	
+	@GetMapping("/access-denied")
+	public void showAccessDenied() {
+
+	}
 }

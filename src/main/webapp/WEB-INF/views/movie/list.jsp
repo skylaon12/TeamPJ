@@ -141,7 +141,7 @@
 					output += "<span class='openDt-txt'> 개봉일 |  미정</span>";
 				}
 				output += "<div class='d-flex'>";
-				output += "<button type='button' class='btn btn-primary ticket col-5 mt-1 float-end'><a href='${cp}/ticketing/screenList?no="+movie.id+"'>예매</a></button>";
+				output += "<a href='${cp}/ticketing/screenList?no="+movie.id+"'><button type='button' class='btn btn-primary ticket col-5 mt-1 float-end'>예매</button></a>";
 				output += "</div>";
 				output += "</div>";
 				

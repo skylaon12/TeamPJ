@@ -59,6 +59,7 @@
     <!-- 비밀번호 입력란과 확인 버튼를 나란히 배치 -->
 	<form id="withdraw_form" method="post">
 	<input id="id" name="id" type="hidden" value="${LOGIN_USER.id}">
+	<input id="account" name="account" type="hidden" value="${LOGIN_USER.account}">
 	    <div class="row">
 	        <div class="col-md-6">
 	            <div class="form-group">
@@ -74,6 +75,8 @@
 	    <div class="form-group">
 	        <input id="withdrawButton" type="button" class="btn btn-danger confirm-button disabled" onclick="withdraw()" value="탈퇴하기" disabled>
 	    </div>
+	    <input type="hidden" id="pwd_ori" name = "pwd_ori" value="${LOGIN_USER.pwd}"/>
+	    <input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
 	</form>
     
 </div>
@@ -105,18 +108,35 @@
     // 사용자가 비밀번호 확인 버튼을 누를 때 호출되는 함수
     function checkPassword() {
         // 비밀번호 확인 로직 작성
+        var csrfHeaderName = "${_csrf.headerName}";
+    	var csrfTokenValue = "${_csrf.token}"
         var enteredPassword = document.getElementById("pwdInput").value;
-        var currentPassword = "${LOGIN_USER.pwd}"; // 서버에서 가져온 사용자의 현재 비밀번호
         var withdrawButton = document.getElementById("withdrawButton");
-
-        if (enteredPassword === currentPassword) {
-            withdrawButton.classList.remove("disabled");
-            withdrawButton.removeAttribute("disabled");
-        } else {
-        	pushModal("비밀번호가 일치하지 않습니다.");
-            withdrawButton.classList.add("disabled");
-            withdrawButton.setAttribute("disabled", "disabled");
-        }
+        console.log(JSON.stringify({ pwd: enteredPassword }));
+        $.ajax({
+        	type: "POST",
+        	url: "${cp}/member/checkPwd2",
+            data: { pwd: enteredPassword }, // JSON 문자열로 변환
+        	beforeSend:function(xhr){
+        		xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);        		
+        	},
+        	success: function(response){
+        		if(response.result){
+        		 console.log("if문 진입");
+                 withdrawButton.classList.remove("disabled");
+                 withdrawButton.removeAttribute("disabled");
+        		}else{
+                 pushModal("비밀번호가 일치하지 않습니다.");
+                 withdrawButton.classList.add("disabled");
+                 withdrawButton.setAttribute("disabled", "disabled");
+        		}
+        	},
+        	error: function(xhr, status, error) {
+                console.error("Ajax 오류 발생: " + error);
+                // 사용자에게 오류 메시지 표시 등 오류 처리 작업 수행
+            }
+        	
+        })
     }
 
     // 사용자가 탈퇴 버튼을 누를 때 호출되는 함수

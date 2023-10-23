@@ -1,13 +1,7 @@
 package com.team3.spring.service;
 
-import java.util.Random;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.team3.spring.mapper.MemberMapper;
@@ -30,13 +24,18 @@ public class MemberServiceImpl implements MemberService {
 	@Setter(onMethod_ = @Autowired)
 	private JavaMailSenderImpl mailSender;
 	@Override
-	public MemberVO login(String id, String pw) {
-		return mapper.login(id, pw);
+	public MemberVO login(String username) {
+		return mapper.login(username);
+	}
+	
+	@Override
+	public MemberVO read(String account) {
+		return mapper.read(account);
 	}
 
 	@Override
-	public int signup(MemberVO memberVO) {
-		return mapper.signup(memberVO);
+	public int signup(MemberVO memberVO, String auth) {
+		return mapper.signup(memberVO) + mapper.signupAuth(memberVO.getAccount(), auth);
 		
 	}
 	// 가람님 개선
@@ -72,10 +71,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void userDelete(int id) {
-		mapper.userDelete(id);
+	public void userDelete(int id, String account) {
+		mapper.userDelete(account);
 		t_mapper.userDelete(id);
 		m_mapper.userDelete(id);
 	}
+
 
 }

@@ -94,7 +94,7 @@
 <%@include file="/WEB-INF/views/common/navbar.jsp"%>
 <h1>회원 정보</h1>
 <c:choose>
-	<c:when test="${not empty LOGIN_USER}">
+	<c:when test="${not empty SPRING_SECURITY_CONTEXT}">
         <table>
             <tr>
                 <th>ID:</th>

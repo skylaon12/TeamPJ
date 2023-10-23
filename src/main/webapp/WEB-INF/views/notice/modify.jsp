@@ -142,7 +142,7 @@
 						<input type="button" value=" 수정취소 " class="button purple large" 
 						onclick="javascript:location.href='<%=cp%>/notice/list?page=${articleCurrentPage}';"/>
 					</div>
-				
+					<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
 				</form>
 			</div>
 		</div>

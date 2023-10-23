@@ -66,10 +66,11 @@ h1 {
 	<%@include file="/WEB-INF/views/common/navbar.jsp"%>
 	<div class="login-container">
 		<h1>비밀번호를 입력해주세요</h1><br>
-		<form class="login-form">
-			<input class="form-input" id="pw1" type="hidden" name="pw" value="${LOGIN_USER.pwd}">
-			<input class="form-input" id="pw2" type="password" name="pw" placeholder="비밀번호" required>
-			<input class="login-btn" onclick="checkUserPw()" type="button" value="제출">
+		<form class="login-form" action="${cp}/member/checkUserPwProc" method="POST">
+			<input type="hidden" id="s_pwd" name="s_pwd" value="${LOGIN_USER.pwd}">
+			<input class="form-input" id="pwd" name="password" type="password" placeholder="비밀번호" required>
+			<button class="login-btn" type="submit">제출</button>
+			<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
 		</form>
 		
 	</div>
@@ -79,16 +80,10 @@ h1 {
 </body>
 <script src="../resources/js/alertModal.js"></script>
 <script>
-// 세션에 저장되어 있는 유저 pw와 사용자가 직접 입력하는 pw와 비교
-function checkUserPw(){
-	let pw1 = $("#pw1").val();
-	let pw2 = $("#pw2").val();
-	if(pw1 == pw2){
-		window.location.href = "userModify";
-	}else{
-		pushModal("비밀번호가 일치하지 않습니다.");
-		return;
+$(document).ready(function(){ // 메세지 띄우기
+	if(${!empty msgType}){
+		$("#successModal").modal("show");
 	}
-}
+});
 </script>
 </html>

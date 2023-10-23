@@ -1,11 +1,15 @@
 package com.team3.spring.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team3.spring.mapper.TicketingMapper;
+import com.team3.spring.vo.MovieDetailRegionVO;
+import com.team3.spring.vo.MovieRegionVO;
+import com.team3.spring.vo.MovieTheaterVO;
 import com.team3.spring.vo.TicketingVO;
 
 import lombok.Setter;
@@ -64,5 +68,23 @@ public class TicketingServiceImpl implements TicketingService{
 		
 		return mapper.getTicketHistroy(user_id);
 	}
+	
+	@Override
+	public List<MovieRegionVO> getRegion() {
+		return mapper.getRegion();
+	}
+
+	@Override
+	public List<MovieDetailRegionVO> getDetailRegion(int id) {
+		return mapper.getDetailRegion(id);
+	}
+
+	@Override
+	public List<MovieTheaterVO> getTheater(int id) {
+		return mapper.getTheater(id);
+	}
+
+	
+
 
 }

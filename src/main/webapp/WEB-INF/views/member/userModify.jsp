@@ -120,6 +120,7 @@ select {
 	<a href="pwdModify"><input type="button" value="비밀번호 변경"></a>
     <a href="info"><input type="button" value="돌아가기"></a>
     <input type="button" onclick="validation()" id="signup_button" value="수정하기">
+    <input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
 </form>
 
 <%@include file="../common/footer.jsp"%>

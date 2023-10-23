@@ -40,5 +40,19 @@
 	<select id="getTicketHistroy" resultType="com.team3.spring.vo.TicketingVO">
 		SELECT * FROM M_MOVIETOTAL
 		WHERE USER_ID = #{user_id} ORDER BY RESERV_DATE DESC
+<!-- 		지역정보가져오기 -->
+	</select>
+		<select id="getRegion" resultType="com.team3.spring.vo.MovieRegionVO">
+		SELECT * FROM M_REGION
+	</select>
+<!-- 	상세지역정보 가져오기 -->
+	<select id="getDetailRegion" resultType="com.team3.spring.vo.MovieDetailRegionVO">
+		SELECT * FROM M_DETAIL_REGION 
+		WHERE REGION_ID = #{id}
+	</select>
+<!-- 	영화상영관 가져오기 -->
+	<select id="getTheater" resultType="com.team3.spring.vo.MovieTheaterVO">
+		SELECT * FROM M_THEATER 
+		WHERE DETAIL_REGION_ID = #{id}
 	</select>	
 </mapper>

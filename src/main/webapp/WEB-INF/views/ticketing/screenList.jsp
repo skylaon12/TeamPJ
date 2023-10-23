@@ -46,17 +46,13 @@
             <!-- 영화관 선택 -->
             <div id="select-cinema" class="reserv-select-box">
                 <select onchange="selectRegion(this)" id="region" name="reserv-location-1" id="reserv-location-1" class="select-reserv">
-                    <option value="seoul">서울</option>
-                    <option value="gyeonggi">경기</option>
-                    <option value="incheon">인천</option>
-                    <option value="chungcheong">대전/충청/세정</option>
-                    <option value="gyeongsang">부산/대구/경상</option>
-                    <option value="jeolla">광주/전라</option>
-                    <option value="gangwon">강원</option>
+                	<c:forEach var="region" items="${regions}">
+                		<option value="${region.id}" data-region="${region.region}">${region.region}</option>
+                	</c:forEach>
                 </select>
 
                 <select onchange="selectScreen(this)" id="detail-region" name="reserv-location-2" id="reserv-location-2" class="select-reserv" style="margin: -5px 0px 10px 10px;">
-                    <option>지역을 선택해</option>
+                    <option>지역을 선택하세요</option>
                 </select>
             </div>
     
@@ -111,6 +107,10 @@
 </body>
 <script src="../resources/js/alertModal.js"></script>
 <script>
+//토큰 글로벌 변수 설정
+var csrfHeaderName = "$(_csrf.headerName)";
+var scrfTokenValue = "$(_csrf.token)";
+
 $(document).ready(function(){ // 메세지 띄우기
 	if(${!empty msgType}){
 		$("#messageType").attr("class", "modal-content panel-warning");
@@ -121,67 +121,53 @@ $(document).ready(function(){ // 메세지 띄우기
 	var initialColor = 'rgb(169, 169, 169)';
 	
 	function selectRegion(e){
-        var region = ["지역을 선택해주세요"];
-		var region_seoul = ["영화관 선택","강남","강남대로(씨티)","강동"];
-		var region_gyeonggi = ["영화관 선택","고양스타필드","광명AK플라자","김포한강신도시"];
-		var region_incheon = ["영화관 선택","검단","송도","영종"];
-		var region_chungcheong = ["영화관 선택","공주","논산","대전"];
-		var region_gyeongsang = ["영화관 선택","경북도청","경산하양","구미강동"];
-		var region_jeolla = ["영화관 선택","광주상무","광주하남","목포하당(포르모)"];
-		var region_gangwon = ["영화관 선택","속초","원주"];
-		let target = document.getElementById("detail-region");
-		let d_region;
-		
-		if(e.value == "region") d_region = region;
-		else if(e.value == "seoul") d_region = region_seoul;
-		else if(e.value == "gyeonggi") d_region = region_gyeonggi;
-		else if(e.value == "incheon") d_region = region_incheon;
-		else if(e.value == "chungcheong") d_region = region_chungcheong;
-		else if(e.value == "gyeongsang") d_region = region_gyeongsang;
-		else if(e.value == "jeolla") d_region = region_jeolla;
-		else if(e.value == "gangwon") d_region = region_gangwon;
-		
-		target.options.length = 0;
-		
-		for(x in d_region){
-			var opt = document.createElement("option");
-			opt.value = d_region[x];
-			opt.innerHTML = d_region[x];
-			target.appendChild(opt);
-		}
+		var regionID = $("#region").val();
+		var regionName = $("#region option:selected").data("region");
+		console.log("id : " + regionID);
+		console.log("지역명 : " + regionName);
+		$.ajax({
+			type: "GET",
+			url: "${cp}/ticketing/getDetailRegion",
+			data: {region_id: regionID},
+			success: function(data){
+				let target = document.getElementById("detail-region");
+				target.options.length = 0;
+				data.forEach(function (detailRegion) {
+		            var opt = document.createElement("option");
+		            opt.value = detailRegion.id;
+		            opt.innerHTML = detailRegion.detail_region;
+		            opt.setAttribute("data-detail-region", detailRegion.detail_region);
+		            target.appendChild(opt);
+		        });
+				
+			}
+		})
 	}
 	
 	
 	/* 상영관 선택 */
     function selectScreen(x){
-        var nonCinema = ["상영관 선택"];
-        var defaultCinema = ["상영관 선택","1관","2관","3관"];
-        var seoul_gangnam = ["상영관 선택", "1관","2관","3관", "4관", "5관"];
-        var seoul_gangnam_city = ["상영관 선택", "1관","2관","3관", "4관"];
-        var seoul_gangdong = ["상영관 선택", "1관","2관","3관", "4관", "MX 1관"];
-        var gyeonggi_goyang_starfield = ["상영관 선택", "1관","2관","3관"];
-        var gyeonggi_gwangmyeong_akplaza = ["상영관 선택", "1관","2관","3관", "4관", "5관"];
-        var incheon_songdo = ["상영관 선택", "1관","2관","3관", "4관", "Dolby Cinema 1관", "MX 1관"];
-        let target = document.getElementById("select-theater");
-        let screen;
-
-        if (x.value == "영화관 선택") screen = nonCinema;
-        else if (x.value == "강남") screen = seoul_gangnam;
-        else if (x.value == "강남대로(씨티)") screen = seoul_gangnam_city;
-        else if (x.value == "강동") screen = seoul_gangdong;
-        else if (x.value == "고양스타필드") screen = gyeonggi_goyang_starfield;
-        else if (x.value == "광명AK플라자") screen = gyeonggi_gwangmyeong_akplaza;
-        else if (x.value == "송도") screen = incheon_songdo;
-        else screen = defaultCinema;
-
-        target.options.length = 0;
-
-        for (x in screen) {
-            var screenOption = document.createElement("option");
-            screenOption.value = screen[x];
-            screenOption.innerHTML = screen[x];
-            target.appendChild(screenOption);
-        }
+    	var detailRegionID = $("#detail-region").val();
+		var detailRegionName = $("#detail-region option:selected").data("detail-region");
+		console.log("선택된 상세지역 id : " + detailRegionID);
+		console.log("선택된 상세지역명 : " + detailRegionName);
+		
+		$.ajax({
+			type: "GET",
+			url: "${cp}/ticketing/getTheater",
+			data: {detail_region_id: detailRegionID},
+			success: function(data){
+				let target = document.getElementById("select-theater");
+				target.options.length = 0;
+				data.forEach(function (theater) {
+		            var opt = document.createElement("option");
+		            opt.value = theater.theater;
+		            opt.innerHTML = theater.theater;
+		            target.appendChild(opt);
+		        });
+				
+			}
+		})
     }
 	let seatCount = 0;      // 실질적인 좌석 선택, 예매단계까지 활용되는 count
 	let lockCount = 0;      // HTML 화면에 띄워주기만 하는 count
@@ -229,7 +215,7 @@ $(document).ready(function(){ // 메세지 띄우기
 	// 영화 제목이 겹치는 데이터는 이미 예매가 완료된 좌석이므로 해당 좌석은 'booked'라는 클래스를 추가해주고
 	// booked 클래스는 css에서 일반 좌석과 다른 효과를 넣을 예정임.
 	function showCantBookSeat(){
-		var detailRegion = "솔시네마 " + $("#detail-region").val();//영화관 지점명
+		var detailRegion = "솔시네마 " + $("#detail-region option:selected").data("detail-region");//영화관 지점명
 		var theater_num = $("#select-theater").val();// 상영관 번호
 		var reservDate = $("#reserv-date").val();// 상영 날짜
 		var reservTime = $("#reserv-time").val();// 상영 시간
@@ -245,6 +231,9 @@ $(document).ready(function(){ // 메세지 띄우기
 			url: "/solcinema/ticketing/getBookedSeat",
 			type: "POST",
 			dataType: "json",
+			beforeSend: function(xhr){// Spring security ajax 적용
+				xhr.setRequestHeader("X-CSRF-TOKEN", csrfTokenValue)
+         },
 			data: JSON.stringify({
 				theater_num: theater_num,
 				region_detail: detailRegion,
@@ -333,6 +322,9 @@ $(document).ready(function(){ // 메세지 띄우기
 		if(seatCount != lockCount){
 			pushModal("좌석 선택이 올바르지 않습니다.");
 			return;
+		}else if(seatCount == 0){
+			pushModal("최소한 한 명 이상은 선택해야 합니다.")
+			return;
 		}
 		var u_id = $("#u_id").val();			// 유저 id
 		var u_name = $("#u_name").val();		// 유저 이름
@@ -341,11 +333,11 @@ $(document).ready(function(){ // 메세지 띄우기
 		var m_title = $("#m_title").val();		// 영화 제목
 		var m_poster = $("#m_poster").val();	// 포스터 url
 		var m_runtime = $("#m_runtime").val();	// 영화 runtime
-		var detail_region = "솔시네마 " + $("#detail-region").val();//영화관 지점명
+		var detail_region = "솔시네마 " + $("#detail-region option:selected").data("detail-region");//영화관 지점명
 		var theater_num = $("#select-theater").val();// 상영관 번호
 		var reserv_date = $("#reserv-date").val();// 상영 날짜
 		var reservTime = $("#reserv-time").val();// 상영 시간
-
+		
 		
 		/*-------클릭된 좌석 번호 추출-------*/
 		// 좌석번호 selected로 가져오기
@@ -420,7 +412,7 @@ $(document).ready(function(){ // 메세지 띄우기
 	    setTimeout(function () {
 	        if (popup && !popup.closed) {
 	            popup.close();
-	            window.location.href = "check?id=${LOGIN_USER.id}";
+	            window.location.href = "check";
 	        }
 	    }, 2000);
     }	

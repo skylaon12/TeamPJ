@@ -67,12 +67,12 @@ h1 {
 	<div class="login-container">
 		<h1>비밀번호를 입력해주세요</h1><br>
 		<form id="pwModifyForm" method="post" class="login-form">
-			<input id="id" name="id" type="hidden" value="${LOGIN_USER.id}">
+			<input id="account" name="account" type="hidden" value="${LOGIN_USER.account}">
 			<input class="form-input" id="pwd_ori" type="hidden" name="pwd_ori" value="${LOGIN_USER.pwd}">
 			<input class="form-input" id="pwd_input" type="password" name="pwd_input" placeholder="현재 비밀번호 입력" required>
 			<input class="form-input" id="pwd" type="password" name="pwd" placeholder="변경할 비밀번호 입력" required>
 			<input class="form-input" id="pwd_new_re" type="password" name="pwd_re" placeholder="변경할 비밀번호 재입력" required>
-			
+			<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
 			<input class="login-btn" onclick="checkUserPw()" type="button" value="제출">
 		</form>
 		
@@ -83,20 +83,31 @@ h1 {
 </body>
 <script src="../resources/js/alertModal.js"></script>
 <script>
+$(document).ready(function(){ // 메세지 띄우기
+	if(${!empty msgType}){
+		$("#successModal").modal("show");
+	}
+});
 // 세션에 저장되어 있는 유저 pw와 사용자가 직접 입력하는 pw와 비교
 function checkUserPw(){
 	let pw_ori = $("#pwd_ori").val();
 	let pw_input = $("#pwd_input").val();
 	let pw_new = $("#pwd").val();
 	let pw_new_re = $("#pwd_new_re").val();
+	console.log("userid : " + $("#id").val());
+	console.log("세션에 등록된 비밀번호 : " + pw_ori);
+	console.log("사용자가 입력한 현재 비밀번호 : " + pw_input);
+	console.log("사용자가 입력한 바꾸려는 비밀번호 : " + pw_new);
+	
 	var regPw = /^[a-zA-Z0-9]{4,12}$/; // 신규 비밀번호 체크용정규식
 	
-	if(pw_ori == pw_input && pw_new == pw_new_re){
+	if(pw_new == pw_new_re){
 		if(regPw.test(pw_new)){
 			$("#pwModifyForm").attr("action","setPwdProc");
 			$("#pwModifyForm").submit();
 		}else{
 			pushModal("올바른 비밀번호 형식을 입력하여 주십시오.(4~12자 영문 대소문자, 숫자)");
+			return;
 		}
 	}else{
 		pushModal("비밀번호가 일치하지 않습니다.");

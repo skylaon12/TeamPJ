@@ -19,9 +19,7 @@ import com.team3.spring.vo.MovieVO;
 import com.team3.spring.vo.MovieYoutubeVO;
 
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
 
-@Log4j
 @Service
 public class MovieServiceImpl implements MovieService {
 	
@@ -157,8 +155,4 @@ public class MovieServiceImpl implements MovieService {
 		
 		return movies;
 	}
-
-	
-	
-	
 }

@@ -2,7 +2,10 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="tags.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <c:set var="cp" value="${pageContext.request.contextPath}" />
+<c:set var="memberVO" value="${SPRING_SECURITY_CONTEXT.authentication.principal}"/>
+<c:set var="auth" value="${SPRING_SECURITY_CONTEXT.authentication.authorities}"/>
 <div id="header">
 	<div class="container">
 		<nav class="navbar navbar-expand-lg navbar-light bg-top p-0"
@@ -13,16 +16,20 @@
 					<li class="nav-item"><a href="#" class="nav-link">멤버십</a></li>
 					<li class="nav-item"><a href="${cp}/notice/list" class="nav-link">1대1문의 및 공지사항</a></li>
 				</ul>
+				<security:authorize access="isAnonymous()"><!-- 인증확인 태그 / 인증이 되지않은 사용자용 --> 
 				<ul class="navbar-nav">
-					<c:if test="${empty LOGIN_USER }">
 						<li class="nav-item"><a href="${cp}/member/login" class="nav-link">로그인</a></li>
 						<li class="nav-item"><a href="${cp}/member/signup" class="nav-link">회원가입</a></li>
-					</c:if>
-					<c:if test="${not empty LOGIN_USER }">
-						<li class="nav-item"><a href="${cp}/member/logout" class="nav-link">로그아웃</a></li>
-					</c:if>
-					<li class="nav-item"><a href="#" class="nav-link">빠른예매</a></li>
-				</ul>
+				</ul>				
+				</security:authorize>
+				<security:authorize access="isAuthenticated()"><!-- 인증된 사용자 -->
+					<ul class="navbar-nav">
+						<security:authorize access="hasRole('ADMIN')">
+							<li class="nav-item"><a href="${cp}/admin/main" class="nav-link">관리자 페이지</a></li>
+						</security:authorize>					
+						<li class="nav-item"><a href="${cp}/member/navLogout" class="nav-link">로그아웃</a></li>
+					</ul>				
+				</security:authorize>
 			</div>
 		</nav>
 
@@ -62,13 +69,13 @@
 			</div>
 			<div class="collapse navbar-collapse justify-content-end">
 				<ul class="navbar-nav util-list">
-					<c:if test="${not empty LOGIN_USER }">
+					<security:authorize access="isAuthenticated()"><!-- 인증된 사용자 -->
 					<li class="nav-item">
-						<a class="nav-link" href="${cp}/ticketing/reservationInfo?id=${LOGIN_USER.id}">
+						<a class="nav-link" href="${cp}/ticketing/reservationInfo">
 							<img src="${cp}/resources/images/nav/ico-schedule.png">
 						</a>
 					</li>
-					</c:if>
+					</security:authorize>
 					<li class="nav-item">
 						<a class="nav-link" href="${cp}/member/info">
 							<img src="${cp}/resources/images/nav/ico-mymega.png">

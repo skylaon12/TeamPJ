@@ -99,7 +99,9 @@
 				</td>
 			</tr>
 		</table>
+		
 		<input type="button" onclick="validation()" id="signup_button" value="회원가입">
+		<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
 	</form>
 
 	
@@ -109,6 +111,8 @@
 </body>
 <script src="../resources/js/alertModal.js"></script>
 <script>
+	var csrfHeaderName = "${_csrf.headerName}";
+	var csrfTokenValue = "${_csrf.token}"
 	$(document).ready(function(){ // 메세지 띄우기
 		if(${!empty msgType}){
 			$("#messageType").attr("class", "modal-content panel-warning");
@@ -186,6 +190,9 @@
 			type : "POST",
 			url : "${cp}/member/emailAuth",
 			data : {email : email},
+			beforeSend: function(xhr){
+				xhr.setRequestHeader("X-CSRF-TOKEN", csrfTokenValue)
+			},
 			success: function(data){
 				email_auth_cd = data;
 				if(email_auth_cd == "false"){
