@@ -3,6 +3,8 @@ package com.team3.spring.service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import org.springframework.ui.Model;
+
 import com.team3.spring.vo.BoardVO2;
 import com.team3.spring.vo.CommentVO;
 
@@ -38,6 +40,8 @@ public interface BoardService2 {
 	
 	public int getTotalBlock(int totalPage);
 	
+	public void updateModelWithPageInfo(Model model, int page, String p_category, String searchKey, String word);
+	
 	// 조회수
 	public void updateHitCount(long p_id);
 	
@@ -57,7 +61,11 @@ public interface BoardService2 {
 	
 	public int getTotalCommentBlock(int totalCommentPage);
 	
+	public void calculateCommentPagingInfo(Model model, int coPage, long p_id);
+	
 	public void endAnswer(long p_id);
 	
 	public Timestamp getCommentCreatedTime(long p_ori_id);
+	
+	public void updateCommentInfo(ArrayList<BoardVO2> boards);
 }

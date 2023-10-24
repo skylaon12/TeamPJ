@@ -5,18 +5,21 @@
 <mapper namespace="com.team3.spring.mapper.BoardMapper2">
 	<select id="list" resultType="com.team3.spring.vo.BoardVO2">
 	    SELECT P_CATEGORY, P_ID, P_TITLE, P_STATUS, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
-	    FROM BOARD_INQUIRY LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_PAGE}
+	    FROM BOARD_INQUIRY ORDER BY P_ID DESC 
+	    LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_PAGE}
 	</select>
 	
 	<select id="listByCategory" resultType="com.team3.spring.vo.BoardVO2">
 	    SELECT P_CATEGORY, P_ID, P_TITLE, P_STATUS, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
-	    FROM BOARD_INQUIRY WHERE P_CATEGORY = #{p_category} LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_PAGE}
+	    FROM BOARD_INQUIRY WHERE P_CATEGORY = #{p_category} ORDER BY P_ID DESC 
+	    LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_PAGE}
 	</select>
 	
 	<select id="listSearch" parameterType="map" resultType="com.team3.spring.vo.BoardVO2">
 	    SELECT P_CATEGORY, P_ID, P_TITLE, P_STATUS, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
 	    FROM BOARD_INQUIRY 
 	    WHERE ${searchKey} LIKE CONCAT('%', #{word}, '%') 
+	    ORDER BY P_ID DESC 
 	    LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_PAGE}
 	</select>
 	
@@ -24,6 +27,7 @@
 	    SELECT P_CATEGORY, P_ID, P_TITLE, P_STATUS, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
 	    FROM BOARD_INQUIRY 
 	    WHERE P_CATEGORY = #{p_category} AND ${searchKey} LIKE CONCAT('%', #{word}, '%') 
+	    ORDER BY P_ID DESC 
 	    LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_PAGE}
 	</select>
 	
