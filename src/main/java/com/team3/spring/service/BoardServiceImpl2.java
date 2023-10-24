@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.team3.spring.config.BoardConfig;
 import com.team3.spring.mapper.BoardMapper2;
@@ -205,5 +206,118 @@ public class BoardServiceImpl2 implements BoardService2 {
 	public Timestamp getCommentCreatedTime(long p_ori_id) {
 		return mapper.getCommentCreatedTime(p_ori_id);
 	}
+	
+	@Override
+	public void updateCommentInfo(ArrayList<BoardVO2> boards) {
+		Long threshold = (long) 60 * 1000; // 60초 임계값 테스트
+        Long currentTime = System.currentTimeMillis(); // 현재 시간 가져오기
 
+        for (BoardVO2 board : boards) {
+            int p_id = board.getP_id();
+            int totalCommentCount = getCommentTotalCount(p_id);
+
+            Timestamp commentTime = getCommentCreatedTime(p_id);
+            log.info("댓글 작성 시간 =>" + commentTime);
+
+            if (commentTime != null) {
+                Long commentTimeMillis = commentTime.getTime();
+                log.info("댓글 작성 시간 변환 =>" + commentTimeMillis);
+
+                // 댓글이 24시간 이내에 작성되었다면 "New" 표시
+                if ((currentTime - commentTimeMillis) < threshold) {
+                    board.setNewComment(true);
+                } else {
+                    board.setNewComment(false);
+                }
+            } else {
+                // 댓글이 없거나 댓글 작성 시간이 없는 경우
+                board.setNewComment(false);
+            }
+
+            // 댓글 수 설정
+            board.setCommentCount(totalCommentCount);
+        }
+	}
+	
+	@Override
+	public void updateModelWithPageInfo(Model model, int page, String p_category, String searchKey, String word) {
+        int totalCount = getTotalPageCount(p_category, searchKey, word);
+        int totalPage = getTotalPage(totalCount);
+        int totalBlock = getTotalBlock(totalPage);
+        int currentBlock = (int) Math.ceil((double) page / BoardConfig.PAGE_PER_BLOCK);
+        int blockStartNo = (currentBlock - 1) * BoardConfig.PAGE_PER_BLOCK + 1;
+        int blockEndNo = Math.min(currentBlock * BoardConfig.PAGE_PER_BLOCK, totalPage);
+        
+        // 이전 다음 버튼 계산 처리
+	    boolean hasPrev = true;
+	    boolean hasNext = true;
+	    int prevPage = 0;
+	    int nextPage = 0;
+	    
+	    if (currentBlock == 1) {
+	    	hasPrev = false;
+	    } else {
+	    	hasPrev = true;
+	    	prevPage = (currentBlock - 1) * BoardConfig.PAGE_PER_BLOCK;
+	    }
+	    
+	    if(currentBlock < totalBlock ){
+	    	hasNext = true;
+	    	nextPage = currentBlock * BoardConfig.PAGE_PER_BLOCK + 1;
+	    } else {
+	    	hasNext = false;
+	    }
+	    
+	    model.addAttribute("totalCount", totalCount);
+	    model.addAttribute("totalPage", totalPage);
+	    model.addAttribute("totalBlock", totalBlock);
+	    model.addAttribute("currentBlock", currentBlock);
+	    model.addAttribute("blockStartNo", blockStartNo);
+	    model.addAttribute("blockEndNo", blockEndNo);
+	    model.addAttribute("hasPrev", hasPrev);
+	    model.addAttribute("hasNext", hasNext);
+	    model.addAttribute("prevPage", prevPage);
+	    model.addAttribute("nextPage", nextPage);
+    }
+	
+	@Override
+	public void calculateCommentPagingInfo(Model model, int coPage, long p_id) {
+	    int totalCount = getCommentTotalCount(p_id);
+	    int totalPage = getTotalCommentPage(p_id);
+	    int totalBlock = getTotalCommentBlock(totalPage);
+	    int currentBlock = (int) Math.ceil((double) coPage / BoardConfig.PAGE_PER_BLOCK_COMMENT);
+	    int blockStartNo = (currentBlock - 1) * BoardConfig.PAGE_PER_BLOCK_COMMENT + 1;
+	    int blockEndNo = Math.min(currentBlock * BoardConfig.PAGE_PER_BLOCK_COMMENT, totalPage);
+	    // 이전 다음 버튼 계산 처리
+	    boolean hasPrev = true;
+	    boolean hasNext = true;
+	    int prevPage = 0;
+	    int nextPage = 0;
+	    
+	    if (currentBlock == 1) {
+	        hasPrev = false;
+	    } else {
+	        hasPrev = true;
+	        prevPage = (currentBlock - 1) * BoardConfig.PAGE_PER_BLOCK_COMMENT;
+	    }
+	    
+	    if (currentBlock < totalBlock ){
+	        hasNext = true;
+	        nextPage = currentBlock * BoardConfig.PAGE_PER_BLOCK_COMMENT + 1;
+	    } else {
+	        hasNext = false;
+	    }
+
+	    // 댓글 페이징 정보를 모델에 추가
+	    model.addAttribute("commentTotalCount", totalCount);
+	    model.addAttribute("commentTotalPage", totalPage);
+	    model.addAttribute("commentTotalBlock", totalBlock);
+	    model.addAttribute("commentCurrentBlock", currentBlock);
+	    model.addAttribute("commentBlockStartNo", blockStartNo);
+	    model.addAttribute("commentBlockEndNo", blockEndNo);
+	    model.addAttribute("commentHasPrev", hasPrev);
+	    model.addAttribute("commentHasNext", hasNext);
+	    model.addAttribute("commentPrevPage", prevPage);
+	    model.addAttribute("commentNextPage", nextPage);
+	}
 }

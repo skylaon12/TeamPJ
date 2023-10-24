@@ -1,6 +1,5 @@
 package com.team3.spring.controller;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import javax.servlet.http.Cookie;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.team3.spring.config.BoardConfig;
 import com.team3.spring.service.BoardService2;
 import com.team3.spring.vo.BoardVO2;
 import com.team3.spring.vo.CommentVO;
@@ -56,109 +54,24 @@ public class BoardController2 {
 	    if (word == null) {
 	        word = "";
 	    }
-
+	    
 	    // 시작 인덱스
 	    int index = service.getStartIndex(page);
-	    log.info("시작 =>" + index);
-
-	    // 검색 결과에 따른 총 글 수 가져오기
-	    int totalCount = service.getTotalPageCount(p_category, searchKey, word);
-	    log.info("전체 글 수 =>" + totalCount);
-
-	    // 전체 페이지 수 계산
-	    int totalPage = service.getTotalPage(totalCount);
-	    log.info("전체 페이지 수 =>" + totalPage);
-
-	    // 전체 블럭 수 계산
-	    int totalBlock = service.getTotalBlock(totalPage);
-	    log.info("전체 블럭 수 =>" + totalBlock);
-
-	    // 현재 블럭 계산
-	    int currentBlock = (int) Math.ceil((double) page / BoardConfig.PAGE_PER_BLOCK);
-	    log.info("현재 블럭 =>" + currentBlock);
-
-	    // 현재 블럭의 시작과 끝 페이지 번호 계산
-	    int blockStartNo = (currentBlock - 1) * BoardConfig.PAGE_PER_BLOCK + 1;
-	    int blockEndNo = Math.min(currentBlock * BoardConfig.PAGE_PER_BLOCK, totalPage);
-	    log.info("현재 블럭 시작 번호 =>" + blockStartNo);
-	    log.info("현재 블럭 끝 번호 =>" + blockEndNo);
-
-	    // 이전 다음 버튼 계산 처리
-	    boolean hasPrev = true;
-	    boolean hasNext = true;
-	    int prevPage = 0;
-	    int nextPage = 0;
 	    
-	    if (currentBlock == 1) {
-	    	hasPrev = false;
-	    } else {
-	    	hasPrev = true;
-	    	prevPage = (currentBlock - 1) * BoardConfig.PAGE_PER_BLOCK;
-	    }
-	    
-	    if(currentBlock < totalBlock ){
-	    	hasNext = true;
-	    	nextPage = currentBlock * BoardConfig.PAGE_PER_BLOCK + 1;
-	    } else {
-	    	hasNext = false;
-	    }
-
 	    // 검색 조건에 따라 적절한 서비스 메서드 호출
 	    ArrayList<BoardVO2> lists = service.getLists(p_category, searchKey, word, index);
 
-	    // 현재 페이지 번호 추가
-	    m.addAttribute("currentPage", page);
-
-	    // 페이지 리스트 및 페이징 관련 정보 뷰로 전달
-	    m.addAttribute("totalCount", totalCount);
-	    m.addAttribute("totalPage", totalPage);
-	    m.addAttribute("totalBlock", totalBlock);
-	    m.addAttribute("currentBlock", currentBlock);
-	    m.addAttribute("blockStartNo", blockStartNo);
-	    m.addAttribute("blockEndNo", blockEndNo);
-	    m.addAttribute("hasPrev", hasPrev);
-	    m.addAttribute("hasNext", hasNext);
-	    m.addAttribute("prevPage", prevPage);
-	    m.addAttribute("nextPage", nextPage);
-	    m.addAttribute("lists", lists);
-
-	    m.addAttribute("p_category", p_category);
-	    m.addAttribute("searchKey", searchKey);
-	    m.addAttribute("word", word);
+	    // 페이징 처리
+	    service.updateModelWithPageInfo(m, page, p_category, searchKey, word);
 	    
 	    // 댓글 관련 코드
-	    Long threshold = (long) 60 * 1000; // 60초 임계값 테스트
-
-	    for (BoardVO2 board : lists) {
-	        int p_id = board.getP_id();
-	        int totalCommentCount = service.getCommentTotalCount(p_id);
-
-	        // 댓글 작성 시간 가져오기
-	        Timestamp commentTime = service.getCommentCreatedTime(p_id);
-	        log.info("댓글 작성 시간 =>" + commentTime);
-
-	        if (commentTime != null) {
-	            Long commentTimeMillis = commentTime.getTime();
-	            log.info("댓글 작성 시간 변환 =>" + commentTimeMillis);
-
-	            // "New"를 표시할 시간 임계값 (예: 24시간) 설정
-	            Long currentTime = System.currentTimeMillis(); // 현재 시간 가져오기
-	            log.info("현재 시간 =>" + currentTime);
-
-	            // 댓글이 24시간 이내에 작성되었다면 "New" 표시
-	            if ((currentTime - commentTimeMillis) < threshold) {
-	                board.setNewComment(true);
-	            } else {
-	                board.setNewComment(false);
-	            }
-	        } else {
-	            // 댓글이 없거나 댓글 작성 시간이 없는 경우
-	            board.setNewComment(false);
-	        }
-
-	        // 댓글 수 표시
-	        board.setCommentCount(totalCommentCount);
-	    }
+	    service.updateCommentInfo(lists);
+	    
+	    // 리스트 뷰로 전달
+	    m.addAttribute("lists", lists);
+	    
+	    // 현재 페이지 번호 뷰로 전달
+	    m.addAttribute("currentPage", page);
 
 	    String articleUrl = "article?p_id=";
 	    m.addAttribute("articleUrl", articleUrl);
@@ -181,7 +94,7 @@ public class BoardController2 {
 	@GetMapping({"/article", "/modify"})
 	public void article(Model m, 
 			@RequestParam("p_id") Long p_id, 
-			@RequestParam("page") int page, 
+			@RequestParam(value = "page", defaultValue = "1") int page, 
 			@RequestParam(value = "coPage", defaultValue = "1", required = false) int coPage) {
 		log.info("컨트롤러 글번호 읽기 =======>>>"+p_id);
 		
@@ -216,6 +129,7 @@ public class BoardController2 {
 	        response.addCookie(cookie);
 	    }
 		
+	    // 게시글 관련 처리
 		BoardVO2 article = service.read(p_id);
 		
 		// 이전 글의 ID와 다음 글의 ID 가져오기
@@ -245,8 +159,10 @@ public class BoardController2 {
 		String previousArticleUrl = (previousArticleId != null) ? cp + "/inquiry/article?p_id=" + previousArticleId + "&page=" + page : null;
 	    String nextArticleUrl = (nextArticleId != null) ? cp + "/inquiry/article?p_id=" + nextArticleId + "&page=" + page : null;
 		
+	    // 글 엔터 처리
 		String con = article.getP_text().replace("\n", "<br>");
 		
+		// 게시글 처리 뷰로 전달
 		m.addAttribute("article", article);
 		m.addAttribute("articleContent", con);
 		
@@ -261,58 +177,28 @@ public class BoardController2 {
 	    m.addAttribute("previousArticleCategory", previousArticleCategory); // 이전 글의 카테고리 추가
 	    m.addAttribute("nextArticleCategory", nextArticleCategory); // 다음 글의 카테고리 추가
 		
-	    
 	    /**
 	     * 댓 글 관 련 코 드
 	     */
 	    
-		// 댓글 페이징 처리
+		// 댓글 시작 인덱스
 		int index = service.getStartIndex(coPage);
-		int totalCount = service.getCommentTotalCount(p_id);
-		int totalPage = service.getTotalCommentPage(p_id);
-		int totalBlock = service.getTotalCommentBlock(totalPage);
-		int currentBlock = (int) Math.ceil((double) coPage / BoardConfig.PAGE_PER_BLOCK);
-		int blockStartNo = (currentBlock - 1) * BoardConfig.PAGE_PER_BLOCK + 1;
-	    int blockEndNo = Math.min(currentBlock * BoardConfig.PAGE_PER_BLOCK, totalPage);
-	    // 이전 다음 버튼 계산 처리
-	    boolean hasPrev = true;
-	    boolean hasNext = true;
-	    int prevPage = 0;
-	    int nextPage = 0;
-	    
-	    if (currentBlock == 1) {
-	    	hasPrev = false;
-	    } else {
-	    	hasPrev = true;
-	    	prevPage = (currentBlock - 1) * BoardConfig.PAGE_PER_BLOCK;
-	    }
-	    
-	    if(currentBlock < totalBlock ){
-	    	hasNext = true;
-	    	nextPage = currentBlock * BoardConfig.PAGE_PER_BLOCK + 1;
-	    } else {
-	    	hasNext = false;
-	    }
 		
 		ArrayList<CommentVO> comment = service.getCommentData(p_id, index);
 		
+		// 댓글이 있을 때만
 		if ( comment != null ) {
+			
+			// 댓글 엔터 처리
 			for (CommentVO commentVO : comment) {
 			    String modifiedComment = commentVO.getP_comment().replace("\n", "<br>");
 			    commentVO.setP_comment(modifiedComment);
 			}
+			
+			// 댓글 페이징 처리
+			service.calculateCommentPagingInfo(m, coPage, p_id);
 
-		    // 댓글 리스트 및 댓글 페이징 관련 정보 뷰로 전달
-		    m.addAttribute("commentTotalCount", totalCount);
-		    m.addAttribute("commentTotalPage", totalPage);
-		    m.addAttribute("commentTotalBlock", totalBlock);
-		    m.addAttribute("commentCurrentBlock", currentBlock);
-		    m.addAttribute("commentBlockStartNo", blockStartNo);
-		    m.addAttribute("commentBlockEndNo", blockEndNo);
-		    m.addAttribute("commentHasPrev", hasPrev);
-		    m.addAttribute("commentHasNext", hasNext);
-		    m.addAttribute("commentPrevPage", prevPage);
-		    m.addAttribute("commentNextPage", nextPage);
+		    // 댓글 리스트 뷰로 전달
 		    m.addAttribute("commentLists", comment);
 	    }
 	}
