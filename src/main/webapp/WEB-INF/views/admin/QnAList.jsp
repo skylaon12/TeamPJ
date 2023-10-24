@@ -32,8 +32,55 @@
       </div>
     <!-- /.content-header -->
       <!-- /.row -->
+      
       <div class="row">
         <div class="col-12">
+          <div class="card-header">
+            <form id="searchForm" method="get">
+			  <ul class="nav nav-pills ml-auto p-2">
+			    <c:choose>
+			      <c:when test="${empty param.p_category or param.p_category eq '전체'}">
+			      	<li class="nav-item"><a class="nav-link active" href="QnAList">전체</a></li>
+	            	<li class="nav-item"><a class="nav-link" href="QnAList?p_category=결제/환불">결제/환불</a></li>
+	            	<li class="nav-item"><a class="nav-link" href="QnAList?p_category=영화관">영화관</a></li>
+			      </c:when>
+				  <c:when test="${param.p_category eq '결제/환불'}">
+			      	<li class="nav-item"><a class="nav-link" href="QnAList">전체</a></li>
+	            	<li class="nav-item"><a class="nav-link active" href="QnAList?p_category=결제/환불">결제/환불</a></li>
+	            	<li class="nav-item"><a class="nav-link" href="QnAList?p_category=영화관">영화관</a></li>				  
+				  </c:when>
+				  <c:when test="${param.p_category eq '영화관'}">
+			      	<li class="nav-item"><a class="nav-link" href="QnAList">전체</a></li>
+	            	<li class="nav-item"><a class="nav-link" href="QnAList?p_category=결제/환불">결제/환불</a></li>
+	            	<li class="nav-item"><a class="nav-link active" href="QnAList?p_category=영화관">영화관</a></li>
+				  </c:when>
+				  <c:otherwise>
+			      	<li class="nav-item"><a class="nav-link" href="QnAList">전체</a></li>
+	            	<li class="nav-item"><a class="nav-link" href="QnAList?p_category=결제/환불">결제/환불</a></li>
+	            	<li class="nav-item"><a class="nav-link" href="QnAList?p_category=영화관">영화관</a></li>				  
+				  </c:otherwise>			      
+			    </c:choose>
+	            <li class="nav-item dropdown">
+	            <input type="hidden" id="page" name ="page" value="${currentPage }">
+			  	<input type="hidden" id="p_category" name ="p_category" value="${p_category }">
+	 		  	<select id="searchKey" name="searchKey" class="form-control custom-select">
+		          <option value="p_writer">작성자</option>
+		          <option value="p_title">제목</option>
+	            </select>
+	            </li>
+	            <li>
+	              <div class="card-tools">
+	              <div class="input-group input-group-sm" style="width: 150px;">
+	                <input type="text" id="word" name="word" class="form-control float-right" placeholder="Search">
+	                  <div class="input-group-append">
+	                    <input type="button" id="searchBtn" class="btn btn-default" value="검색">
+	                  </div>
+	                </div>
+	              </div>
+	            </li>
+              </ul>        	 
+		    </form>
+              </div>
             <!-- /.card-header -->
             <div class="card-body table-responsive p-0">
               <table class="table table-hover text-nowrap">
@@ -53,6 +100,7 @@
                       <td>${dto.p_title}</td>
                       <td>${dto.p_created}</td>
                       <td><a href="${articleUrl}${dto.p_id}&page=${currentPage }"><button name="info-btn" type="button" class="btn btn-block btn-info btn-sm">문의 확인</button></a></td>
+                      <td><a href="completQnAProc?id=${dto.p_id}&page=${currentPage}&p_category=${p_category}&searchKey=${searchKey}&word=${word}"><button name="info-btn" type="button" class="btn btn-block btn-success btn-sm">문의 완료</button></a></td>
                       <td><button name="delete-btn" type="button" class="btn btn-block btn-danger btn-sm">문의 삭제</button></td>
                   </tr>
                   </c:forEach>
@@ -67,17 +115,17 @@
 			  	  <c:when test="${totalCount != 0}">
 			  		<c:choose>
 			  		  <c:when test="${hasPrev}">
-			  		  	<li class="page-item"><a class="page-link" href="${pageUrl}?page=${prevPage}">«</a></li>
+			  		  	<li class="page-item"><a class="page-link" href="${pageUrl}?page=${prevPage}&p_category=${p_category}">«</a></li>
 			  		  </c:when>
 			  		</c:choose>
 			  
 			  		<c:forEach var="p" begin="${blockStartNo}" end="${blockEndNo}">
 			  		  <c:choose>
 			  			<c:when test="${word != null}">
-			  			  <li class="page-item"><a class="page-link" href="${pageUrl}?page=${p}&searchKey=${searchKey}&word=${word}">${p}</a></li>
+			  			  <li class="page-item"><a class="page-link" href="${pageUrl}?page=${p}&p_category=${p_category}&searchKey=${searchKey}&word=${word}">${p}</a></li>
 			  			</c:when>
 			  			<c:otherwise>
-			  			  <li class="page-item"><a class="page-link" href="${pageUrl}?page=${p}">${p}</a></li>
+			  			  <li class="page-item"><a class="page-link" href="${pageUrl}?page=${p}&p_category=${p_category}">${p}</a></li>
 			  			</c:otherwise>
 			  		  </c:choose>
 			  		</c:forEach>
@@ -85,7 +133,7 @@
 			  		
 			  		<c:choose>
 			  		  <c:when test="${hasNext}">
-			  		    <li class="page-item"><a class="page-link" href="${pageUrl}?page=${nextPage}">»</a></li>
+			  		    <li class="page-item"><a class="page-link" href="${pageUrl}?page=${nextPage}&p_category=${p_category}">»</a></li>
 			  		  </c:when>
 			  		</c:choose>
 			   	  </c:when>
@@ -116,8 +164,39 @@
     $("#dash-bar").removeClass('active');
     $("#info-bar").addClass('active');
     $("#board-info-bar").addClass('active');
-    $("[name='info-btn']").css("width", "40%");
-    $("[name='delete-btn']").css("width", "40%");
+    $("[name='info-btn']").css("width", "50%");
+    $("[name='delete-btn']").css("width", "50%");
+    
+    <c:if test="${not empty msgType}">
+    	<c:choose>
+        	<c:when test="${msgType eq 'Success'}">
+        		toastr.success("${msg}");
+        	</c:when>
+        	<c:when test="${msgType eq 'Fail'}">
+        		toastr.error("${msg}");
+        	</c:when>
+    	</c:choose>
+	</c:if>
   })
+  
+  
+    
+	$("#searchBtn").click(function(){
+// 		var f = $("#searchForm");
+		var curPage = $("#page").val();
+		var curCategory = $("#p_category").val();
+		
+		var sKey = $("#searchKey option:selected").val();
+		var sWord = $("#word").val();
+		var url = "";
+			if (curCategory == null || curCategory === '') {
+				url = "QnAList?page="+ curPage +"&searchKey="+ sKey +"&word="+ sWord;
+			} else {
+				url = "QnAList?page="+ curPage +"&p_category="+ curCategory +"&searchKey="+ sKey +"&word="+ sWord;
+			}
+			$("#searchForm").attr("action",url)
+			$("#searchForm").submit();
+	});
+		
 </script>
 </html>

@@ -101,31 +101,64 @@
 	
 	<!-- QnA관련 -->
 	<select id="list" resultType="com.team3.spring.vo.BoardVO2">
-	    SELECT P_ID, P_TITLE, P_STATUS, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
+	    SELECT P_ID, P_TITLE, P_WRITER, P_STATUS, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
 	    FROM BOARD_INQUIRY 
 	    WHERE P_STATUS = 'F' 
 	    ORDER BY P_ID DESC 
 	    LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_PAGE}
 	</select>
 	
+	<select id="listByCategory" resultType="com.team3.spring.vo.BoardVO2">
+	    SELECT P_CATEGORY, P_ID, P_TITLE, P_WRITER, P_STATUS, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
+	    FROM BOARD_INQUIRY 
+	    WHERE P_CATEGORY = #{p_category} AND P_STATUS = 'F' 
+	    ORDER BY P_ID DESC
+	    LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_PAGE}
+	</select>
+	
 	<select id="listSearch" parameterType="map" resultType="com.team3.spring.vo.BoardVO2">
-	    SELECT P_ID, P_TITLE, P_STATUS, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
+	    SELECT P_ID, P_TITLE, P_WRITER, P_STATUS, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
 	    FROM BOARD_INQUIRY   
 	    WHERE ${searchKey} LIKE CONCAT('%', #{word}, '%') AND P_STATUS = 'F' 
 	    ORDER BY P_ID DESC 
 	    LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_PAGE}
 	</select>
+	
+	<select id="listSearchByCategory" parameterType="map" resultType="com.team3.spring.vo.BoardVO2">
+	    SELECT P_CATEGORY, P_ID, P_TITLE, P_WRITER, P_STATUS, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
+	    FROM BOARD_INQUIRY 
+	    WHERE P_CATEGORY = #{p_category} AND ${searchKey} LIKE CONCAT('%', #{word}, '%') AND P_STATUS = 'F' 
+	    ORDER BY P_ID DESC 
+	    LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_PAGE}
+	</select>
+	
 	<select id="getTotalCount" resultType="int">
-		SELECT COUNT(*) FROM BOARD_INQUIRY
+		SELECT COUNT(*) FROM BOARD_INQUIRY 
+		WHERE P_STATUS = 'F'
+	</select>
+		<select id="getTotalCountByCategory" resultType="int">
+		SELECT COUNT(*) FROM BOARD_INQUIRY 
+		WHERE P_CATEGORY = #{p_category} AND P_STATUS = 'F' 
 	</select>
 	
 	<select id="getSearchTotalCount" resultType="int">
 		SELECT COUNT(*) FROM BOARD_INQUIRY 
-		WHERE ${searchKey} LIKE CONCAT('%', #{word}, '%')
+		WHERE ${searchKey} LIKE CONCAT('%', #{word}, '%') AND P_STATUS = 'F'
 	</select>
+	
+	<select id="getSearchTotalCountByCategory" resultType="int">
+		SELECT COUNT(*) FROM BOARD_INQUIRY 
+		WHERE P_CATEGORY = #{p_category} AND ${searchKey} LIKE CONCAT('%', #{word}, '%') AND P_STATUS = 'F'
+	</select>
+	
 	<delete id="del">
 		DELETE FROM BOARD_INQUIRY WHERE ${p_id}
 	</delete>
+	
+	<update id="completQna">
+		UPDATE BOARD_INQUIRY SET P_STATUS = 'T' 
+		WHERE P_ID = #{p_id}
+	</update>
 	
 	<!-- 예매 관련 -->
 	<select id="getTicketList" resultType="com.team3.spring.vo.TicketingVO">

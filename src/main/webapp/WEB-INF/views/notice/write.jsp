@@ -106,6 +106,8 @@
 				</div>
 	
 				<form action="" method="post" name="myForm">
+					<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
+					<input type="hidden"  name ="p_writer" value="${admin.account}">
 					<div id="bbsCreated">
 						<table class="board-form va-m">
 							<colgroup>
@@ -114,13 +116,7 @@
 								<col style="width:150px;">
 								<col>
 							</colgroup>
-							
 							<tbody>
-								<tr>
-									<th scope="row"><label for="name">이름</label> <em class="font-orange">*</em></th>
-									<td><input type="text"  name ="p_writer" class="input-text w150px" value="" maxlength="15"></td>
-								</tr>
-										
 								<tr>
 									<th scope="row"><label for="qnaCustInqTitle">제목</label> <em class="font-orange">*</em></th>
 									<td colspan="3"><input type="text" name="p_title"  class="input-text" maxlength="100"></td>
@@ -151,7 +147,6 @@
 						<input type="button" value=" 작성취소 " class="button purple large" 
 						onclick="javascript:location.href='<%=cp%>/notice/list?page=${writeCurrentPage}';"/>
 					</div>
-					<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
 				</form>
 			</div>
 		</div>

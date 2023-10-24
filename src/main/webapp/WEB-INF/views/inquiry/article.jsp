@@ -134,6 +134,7 @@
 							</c:when>
 							<c:otherwise>
 								<form action="" method="post" name="myForm">
+									<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
 									이름: <input type="text"  name ="p_writer" class="input-text w150px" value="" maxlength="15">
 									
 									<input type="hidden" name ="p_ori_id" class="input-text w150px" value="${article.p_id }">

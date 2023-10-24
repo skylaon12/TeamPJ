@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.team3.spring.config.BoardConfig;
 import com.team3.spring.mapper.BoardMapper;
 import com.team3.spring.vo.BoardVO;
+import com.team3.spring.vo.MemberVO;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -123,5 +124,11 @@ public class BoardServiceImpl implements BoardService {
     public Long getPreviousArticleId(Long currentArticleId) {
         return mapper.getPreviousArticleId(currentArticleId);
     }
+
+	@Override
+	public MemberVO getMemberInfo(String account) {
+		
+		return mapper.getMemberInfo(account);
+	}
 
 }

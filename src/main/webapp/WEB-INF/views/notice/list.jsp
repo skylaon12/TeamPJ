@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <c:set var="cp" value="${pageContext.request.contextPath}" />
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -160,10 +161,11 @@
 							</c:choose>
 						</div>
 					</div>
-					
+					<security:authorize access="hasRole('ADMIN')">
 					<div class="btn-group right">
 						<a href="write?page=${currentPage}" class="button purple" id="myQnaBtn" title="공지사항 등록">공지사항 등록</a><!-- btn-layer-open -->
 					</div>
+					</security:authorize>
 				</div>
 			</div>
 		</div>

@@ -99,22 +99,22 @@ public class MemberController {
 		return "redirect:checkUserPw";
 	}
 
-	@RequestMapping("/checkLoginStatus")
-	public String checkLoginStatus(RedirectAttributes rttr, HttpSession s, @RequestParam("id") String id, Principal p) {
-
-//		SecurityContext context = SecurityContextHolder.getContext();
-//        Authentication authentication = context.getAuthentication();
-//        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-
-       if( p != null ) {
-           return "redirect:/ticketing/screenList?no=" + id; 
-       } else {
-          rttr.addFlashAttribute("msgType", "실패 메세지");
-            rttr.addFlashAttribute("msg", "로그인이 필요한 서비스입니다. 로그인 후 이용해주세요."); 
-            return
-            "redirect:login";
-       }
-	}
+//	@RequestMapping("/checkLoginStatus")
+//	public String checkLoginStatus(RedirectAttributes rttr, HttpSession s, @RequestParam("id") String id, Principal p) {
+//
+////		SecurityContext context = SecurityContextHolder.getContext();
+////        Authentication authentication = context.getAuthentication();
+////        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+//
+//       if( p != null ) {
+//           return "redirect:/ticketing/screenList?no=" + id; 
+//       } else {
+//          rttr.addFlashAttribute("msgType", "실패 메세지");
+//            rttr.addFlashAttribute("msg", "로그인이 필요한 서비스입니다. 로그인 후 이용해주세요."); 
+//            return
+//            "redirect:login";
+//       }
+//	}
 
 	// 회원가입 페이지 이동
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)

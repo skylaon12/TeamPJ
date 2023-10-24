@@ -60,7 +60,7 @@
               </li>
               <li class="nav-item">
               	<!-- a태그 id 내가 추가함 -->
-                <a id="board-info-bar" href="${cp}/admin/QnAList" class="nav-link">
+                <a id="board-info-bar" href="${cp}/admin/QnAList?page=1" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Q&A 관리</p>
                 </a>

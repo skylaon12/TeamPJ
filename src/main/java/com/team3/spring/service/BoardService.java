@@ -3,6 +3,7 @@ package com.team3.spring.service;
 import java.util.ArrayList;
 
 import com.team3.spring.vo.BoardVO;
+import com.team3.spring.vo.MemberVO;
 
 
 
@@ -34,4 +35,6 @@ public interface BoardService {
 	public Long getNextArticleId(Long currentArticleId);
 
 	public Long getPreviousArticleId(Long currentArticleId);
+	
+	public MemberVO getMemberInfo(String account);
 }

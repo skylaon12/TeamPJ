@@ -34,9 +34,23 @@ public interface AdminMapper {
 	public int boardModify(BoardVO vo);
 	// QnA 관리 관련
 	public ArrayList<BoardVO2> list(int page);
+	public ArrayList<BoardVO2> listByCategory(@Param("p_category") String p_category, int page);
 	public ArrayList<BoardVO2> listSearch(@Param("searchKey") String searchKey, @Param("word") String word, @Param("page") int page);
+	public ArrayList<BoardVO2> listSearchByCategory(@Param("p_category") String p_category, 
+			@Param("searchKey") String searchKey, 
+			@Param("word") String word, 
+			@Param("page") int page);
 	public int getTotalCount();
-	public int getSearchTotalCount(@Param("searchKey") String searchKey, @Param("word") String word);
+	public int getTotalCountByCategory(@Param("p_category") String p_category);
+	
+	public int getSearchTotalCount(@Param("searchKey") String searchKey, 
+			@Param("word") String word);
+	
+	public int getSearchTotalCountByCategory(@Param("p_category") String p_category, 
+			@Param("searchKey") String searchKey, 
+			@Param("word") String word);
+	public int completQna(int p_id);
+	
 	// 예매 관련
 	public ArrayList<TicketingVO> getTicketList();
 	public int delTicket(int id);

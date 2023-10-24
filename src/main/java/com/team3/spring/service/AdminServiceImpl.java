@@ -89,16 +89,37 @@ public class AdminServiceImpl implements AdminService{
 
 	// Q&A 관련 서비스
 	@Override
-	public ArrayList<BoardVO2> list(int page) {
-		// TODO Auto-generated method stub
-		return mapper.list(page);
+	public ArrayList<BoardVO2> getLists(String p_category, String searchKey, String word, int page) {
+		if ( word == null || word.equals("null") ) {
+	    	if ( p_category == null || p_category.isEmpty() ) {
+	    		log.info("서비스 진입 - 일반 리스트");
+	    		return mapper.list(page);
+	        } else {
+	        	log.info("서비스 진입 - 카테고리 리스트");
+	        	return mapper.listByCategory(p_category, page);
+	        }
+	    } else {
+	    	if ( p_category == null || p_category.isEmpty() ) {
+	    		log.info("서비스 진입 - 일반 검색 리스트");
+	    		return mapper.listSearch(searchKey, word, page);
+	        } else {
+	        	log.info("서비스 진입 - 카테고리 검색 리스트");
+	        	return mapper.listSearchByCategory(p_category, searchKey, word, page);
+	        }
+	    }
 	}
-
-	@Override
-	public ArrayList<BoardVO2> listSearch(String searchKey, String word, int page) {
-		// TODO Auto-generated method stub
-		return mapper.listSearch(searchKey, word, page);
-	}
+	
+//	@Override
+//	public ArrayList<BoardVO2> list(int page) {
+//		// TODO Auto-generated method stub
+//		return mapper.list(page);
+//	}
+//
+//	@Override
+//	public ArrayList<BoardVO2> listSearch(String searchKey, String word, int page) {
+//		// TODO Auto-generated method stub
+//		return mapper.listSearch(searchKey, word, page);
+//	}
 
 	@Override
 	public int getStartIndex(int page) {
@@ -112,21 +133,44 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	@Override
+	public int getTotalCountByCategory(String p_category) {
+		return mapper.getTotalCountByCategory(p_category);
+	}
+	
+	@Override
 	public int getSearchTotalCount(String searchKey, String word) {
 		return mapper.getSearchTotalCount(searchKey, word);
 	}
 	
 	@Override
-	public int getTotalPage(String searchKey, String word) {
+	public int getSearchTotalCountByCategory(String p_category, String searchKey, String word) {
+		return mapper.getSearchTotalCountByCategory(p_category, searchKey, word);
+	}
+	
+	@Override
+	public int getTotalPageCount(String p_category, String searchKey, String word) {
 		int totalCount;
 	    
-	    if (word == null || word.equals("null")) {
-	        totalCount = getTotalCount();
+	    if ( word == null || word.equals("null") ) {
+	    	if ( p_category == null || p_category.isEmpty() ) {
+	            totalCount = getTotalCount(); // 전체 카테고리 글 수 가져오기
+	        } else {
+	            totalCount = getTotalCountByCategory(p_category); // 특정 카테고리 글 수 가져오기
+	        }
 	    } else {
-	        totalCount = getSearchTotalCount(searchKey, word);
+	    	if ( p_category == null || p_category.isEmpty() ) {
+	            totalCount = getSearchTotalCount(searchKey, word); // 전체 카테고리에서 검색한 글 수 가져오기
+	        } else {
+	            totalCount = getSearchTotalCountByCategory(p_category, searchKey, word); // 특정 카테고리에서 검색한 글 수 가져오기
+	        }
 	    }
-		
-	    // 전체 페이지 수 = 전체 글 수 / [페이지당 글 수]
+	    
+	    return totalCount;
+	}
+	
+	
+	@Override
+	public int getTotalPage(int totalCount) {
 	    int totalPage = 0;
 	    
 	    if (totalCount % BoardConfig.AMOUNT_PER_PAGE == 0) {
@@ -148,6 +192,11 @@ public class AdminServiceImpl implements AdminService{
 			totalBlock = totalPage / BoardConfig.PAGE_PER_BLOCK + 1;
 		}		
 		return totalBlock;
+	}
+	
+	@Override
+	public int completQna(int p_id) {
+		return mapper.completQna(p_id);
 	}
 	// Q&A 관련 서비스 끝////
 	

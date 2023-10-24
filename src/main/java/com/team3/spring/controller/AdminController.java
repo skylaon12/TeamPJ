@@ -1,5 +1,8 @@
 package com.team3.spring.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +111,8 @@ public class AdminController {
 	}
 
 	@GetMapping("/QnAList")
-	public void getBoardList(Model m, @RequestParam(value = "page", defaultValue = "1") int page,
+	public void getBoardList(Model m, @RequestParam(value = "p_category", required = false) String p_category,
+			@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "searchKey", required = false) String searchKey,
 			@RequestParam(value = "word", required = false) String word, Principal p) {
 		MemberVO vo = service.loadInfo(p.getName());
@@ -128,11 +132,13 @@ public class AdminController {
 		log.info("시작 =>" + index);
 
 		// 검색 결과에 따른 총 글 수 가져오기
-		int totalCount = word.isEmpty() ? service.getTotalCount() : service.getSearchTotalCount(searchKey, word);
-		log.info("전체 글 수 =>" + totalCount);
+//		int totalCount = word.isEmpty() ? service.getTotalCount() : service.getSearchTotalCount(searchKey, word);
+//		log.info("전체 글 수 =>" + totalCount);
+		int totalCount = service.getTotalPageCount(p_category, searchKey, word);
+	    log.info("전체 글 수 =>" + totalCount);
 
 		// 전체 페이지 수 계산
-		int totalPage = service.getTotalPage(searchKey, word);
+		int totalPage = service.getTotalPage(totalCount);
 		log.info("전체 페이지 수 =>" + totalPage);
 
 		// 전체 블럭 수 계산
@@ -170,14 +176,7 @@ public class AdminController {
 		}
 
 		// 검색 조건에 따라 적절한 서비스 메서드 호출
-		ArrayList<BoardVO2> lists;
-		if (word.isEmpty()) {
-			// 검색어가 없는 경우 전체 리스트 가져오기
-			lists = service.list(index);
-		} else {
-			// 검색어가 있는 경우 검색 조건에 맞게 리스트 가져오기
-			lists = service.listSearch(searchKey, word, index);
-		}
+		ArrayList<BoardVO2> lists = service.getLists(p_category, searchKey, word, index);
 
 		// 현재 페이지 번호 추가
 		m.addAttribute("currentPage", page);
@@ -195,6 +194,7 @@ public class AdminController {
 		m.addAttribute("nextPage", nextPage);
 		m.addAttribute("lists", lists);
 
+		m.addAttribute("p_category", p_category);
 		m.addAttribute("searchKey", searchKey);
 		m.addAttribute("word", word);
 
@@ -203,6 +203,35 @@ public class AdminController {
 		m.addAttribute("articleUrl", articleUrl);
 		m.addAttribute("pageUrl", pageUrl);
 
+	}
+	
+	@GetMapping("/completQnAProc")
+	public String completQnaProc(RedirectAttributes rttr, 
+			@RequestParam("id")int id,
+			@RequestParam("page")String page,
+			@RequestParam("p_category")String category,
+			@RequestParam("searchKey")String searchKey,
+			@RequestParam("word") String word) {
+		int result = service.completQna(id);
+		
+		String encodedCategory = "";
+		String encodedWord = "";
+		try {
+			encodedCategory = (category != null) ? URLEncoder.encode(category, StandardCharsets.UTF_8.toString()) : "";
+			encodedWord = (word != null) ? URLEncoder.encode(word, StandardCharsets.UTF_8.toString()) : "";
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
+		if(result == 1) {
+			rttr.addFlashAttribute("msgType", "Success");
+			rttr.addFlashAttribute("msg", "처리가 완료되었습니다.");
+			return "redirect:QnAList?page="+page+"&p_category="+encodedCategory+"&searchKey="+searchKey+"&word="+encodedWord;
+		}else {
+			rttr.addFlashAttribute("msgType", "Fail");
+			rttr.addFlashAttribute("msg", "처리가 완료되었습니다.");
+			return "redirect:QnAList?page="+page+"&p_category="+encodedCategory+"&searchKey="+searchKey+"&word="+encodedWord;
+		}
 	}
 
 

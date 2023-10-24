@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import com.team3.spring.vo.BoardVO;
+import com.team3.spring.vo.MemberVO;
 
 public interface BoardMapper {
 	//  리스트
@@ -29,4 +30,6 @@ public interface BoardMapper {
 	public Long getNextArticleId(Long currentArticleId);
 	
 	public Long getPreviousArticleId(Long currentArticleId);
+	
+	public MemberVO getMemberInfo(String account);
 }

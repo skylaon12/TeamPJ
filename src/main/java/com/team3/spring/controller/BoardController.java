@@ -1,5 +1,6 @@
 package com.team3.spring.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.team3.spring.config.BoardConfig;
 import com.team3.spring.service.BoardService;
 import com.team3.spring.vo.BoardVO;
+import com.team3.spring.vo.MemberVO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -136,9 +138,9 @@ public class BoardController {
 	}
 	
 	@GetMapping("/write")
-	public void write(Model m, @RequestParam("page") int page) {
-		log.info("글 작성 현재 페이지 번호는? =======>>>"+page);
-		
+	public void write(Model m, @RequestParam("page") int page, Principal p) {
+		MemberVO vo = service.getMemberInfo(p.getName());
+		m.addAttribute("admin", vo);
 		m.addAttribute("writeCurrentPage", page);
 	}
 	

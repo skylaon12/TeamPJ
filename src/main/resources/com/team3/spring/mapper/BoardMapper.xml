@@ -6,7 +6,7 @@
 	<select id="list" resultType="com.team3.spring.vo.BoardVO">
 	    SELECT P_ID, P_TITLE, P_WRITER, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
 	    FROM BOARD ORDER BY P_ID DESC 
-	    LIMIT #{page}, ${@com.team3.spring.vo.BoardConfig@AMOUNT_PER_PAGE} 
+	    LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_PAGE} 
 	</select>
 	
 	<select id="listSearch" parameterType="map" resultType="com.team3.spring.vo.BoardVO">
@@ -14,7 +14,7 @@
 	    FROM BOARD 
 	    WHERE ${searchKey} LIKE CONCAT('%', #{word}, '%')
 	    ORDER BY P_ID DESC  
-	    LIMIT #{page}, ${@com.team3.spring.vo.BoardConfig@AMOUNT_PER_PAGE}
+	    LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_PAGE}
 	</select>
 	
 	<insert id="write">
@@ -52,5 +52,9 @@
     
     <select id="getPreviousArticleId" parameterType="Long" resultType="Long">
     	SELECT MAX(p_id) FROM BOARD WHERE p_id &lt; #{currentArticleId}
+	</select>
+	
+	<select id="getMemberInfo" resultType="com.team3.spring.vo.MemberVO">
+		SELECT * FROM MEMBER WHERE ACCOUNT = #{account}
 	</select>
 </mapper>

@@ -5,13 +5,13 @@
 <!-- Google Font: Source Sans Pro -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 <!-- Font Awesome Icons -->
-<link rel="stylesheet" href="../resources/css/admin/all.min.css">
+<link rel="stylesheet" href="../resources/css/admin/allmin.css">
 <!-- Theme style -->
 <link rel="stylesheet" href="../resources/css/admin/adminlte.min.css">
 <!-- Google Font: Source Sans Pro -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- SweetAlert2 -->
-<link rel="stylesheet" href="../../plugins/sweetalert2/sweetalert2.min.css">
+<link rel="stylesheet" href="../resources/css/admin/sweetalert2.min.css">
 <link rel="stylesheet" href="../resources/css/admin/bootstrap-4.min.css">
 <!-- Toastr -->
 <link rel="stylesheet" href="../resources/css/admin/toastr.min.css">

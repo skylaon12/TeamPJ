@@ -143,6 +143,7 @@
 				</div>
 	
 				<form action="" method="post" name="myForm">
+					<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
 					<div id="bbsCreated">
 						<table class="board-form va-m">
 							<colgroup>
