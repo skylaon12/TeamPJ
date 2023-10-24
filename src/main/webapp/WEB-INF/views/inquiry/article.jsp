@@ -14,13 +14,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>MEET PLAY SHARE, 솔 시네마</title>
 	
-	<link rel="stylesheet" type="text/css" href="${cp}/resources/css/style.css?ver=<%=System.currentTimeMillis()%>"/>
-	<link rel="stylesheet" type="text/css" href="${cp}/resources/css/list.css?ver=<%=System.currentTimeMillis()%>"/>
-	<link rel="stylesheet" type="text/css" href="${cp}/resources/css/main_files/megabox.min.css?ver=<%=System.currentTimeMillis()%>" media="all">
-	<link rel="stylesheet" href="${cp}/resources/css/navbar.css" />
-	<link rel="stylesheet" href="${cp}/resources/css/common.css" />
+	<link rel="stylesheet" href="${cp}/resources/css/board.css" />
 	
-	<script type="text/javascript" src="/resources/js/util.js"></script>
 	<script type="text/javascript">
 	
 		function sendIt(){
@@ -49,7 +44,7 @@
 			}
 			f.p_comment.value = str;
 			
-			f.action = "<%=cp%>/inquiry/writeComment?p_id=" + id + "&page="+ page;
+			f.action = "<%=cp%>/inquiry/writeComment?p_id=" + id + "&page=" + page;
 			f.submit();
 			alert("댓글 등록이 완료 되었습니다.");
 		}
@@ -66,183 +61,171 @@
 	</script>
 </head>
 <body>
-	<div class="container has-lnb">
-		<div class="page-util fixed">
-			<div class="inner-wrap">
-				<div class="location">
-					<a href="${cp}" title="메인 페이지 이동"><span>Home</span></a>
-					<a href="https://www.megabox.co.kr/support" title="고객센터 페이지로 이동">고객센터</a>
-					<a href="list?page=${articleCurrentPage }" title="내 문의로 이동">내 문의 내역</a>
-					<a href="article?p_id=${article.p_id}" title="글">${article.p_title }</a>
-				</div>
-	
-			</div>
-		</div>
+	<div id="back-container">
+        <div id="main-container">
+            <div id="left-nav-bar">
+                <span style="display: flex; justify-content: center; padding: 30px 20px; border-radius: 10px 10px 0 0; background-color: #8b0bd6; letter-spacing: 1px; font-weight: 500;">고객센터</span>
+                <nav id="left-nav-column">
+                    <ul>
+                        <li class="left-nav">
+                            <a href="home">고객센터 홈</a>
+                        </li>
+                        <li class="left-nav">
+                            <a href="${cp}/notice/list?page=1">공지사항</a>
+                        </li>
+                        <li class="left-nav select">
+                            <a href="list?page=${articleCurrentPage }">내 문의 내역</a>
+                        </li>
+                        <li class="left-nav">
+                            <a href="write?page=${articleCurrentPage }">1:1 문의</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
 
-		<div class="inner-wrap">
-			<div class="lnb-area addchat location-fixed">
-				<nav id="lnb">
-					<p class="tit"><a href="https://www.megabox.co.kr/support" title="고객센터">고객센터</a></p>
-					<ul>
-						<li><a href="https://www.megabox.co.kr/support" title="고객센터 홈">고객센터 홈</a></li>
-						<li><a href="${cp}/notice/list?page=1" title="공지사항">공지사항</a></li>
-						<li><a href="write?page=${articleCurrentPage }" title="1:1문의">1:1 문의 하기</a></li>
-						<li class="on"><a href="list?page=${articleCurrentPage }" title="1:1문의">내 문의 내역</a></li>
-					</ul>
-				</nav>
-			</div>
+            <article id="content-container">
+                <h2 id="post-title" style="padding-bottom: 0.2em;">[${article.p_category }] ${article.p_title }</h2>
 
-			<div id="contents" class="location-fixed">
-				<h2 class="tit">내 문의 내역</h2>
+                <div id="detail-area" style="display: flex; border-bottom: 1px solid #cacaca; padding-top: 0.5em; padding-bottom: 1em; margin-bottom: 1em; font-size: 13px;">
+                    <div>등록일</div>
+                    <span id="post-date" class="post-detail">${article.p_created }</span>
+                    <div>조회수</div>
+                    <span id="post-view" class="post-detail">${article.p_hitcount }</span>
+                    <div>답변 상태 :</div>
+                    <c:choose>
+						<c:when test="${article.p_status == 'T'}">
+							<span id="post-status" class="post-detail">완료</span>
+						</c:when>
+						<c:otherwise>
+							<span id="post-status" class="post-detail">접수</span>
+						</c:otherwise>
+					</c:choose>
+                </div>
 
-				<div class="table-wrap">
-					<div class="board-view">
-						<div class="tit-area">
-							<p class="tit">[${article.p_category }] ${article.p_title }</p>
-						</div>
+                <div id="content-area">
+                    <span>${articleContent }</span>
+                </div>
 
-						<div class="info">
-							<p>
-								<span class="tit">등록일</span>
-								<span class="txt">${article.p_created }</span>
-							</p>
-							
-							<p>
-								<span class="tit">조회수</span>
-								<span class="txt">${article.p_hitcount }</span>
-							</p>
-							
-							<p>
-								<span class="tit">문의 상태</span>
+                <span id="comment-total">전체 댓글 ${commentTotalCount }개</span>
+
+                <div id="comment-area">
+                	<c:choose>
+	                	<c:when test="${commentTotalCount != 0}">
+		                	<c:forEach var="dto" items="${commentLists}">
+			                    <div class="comment">
+			                        <span class="comment-author">${dto.p_writer }</span>
+			                        <span class="comment-date">(${dto.p_created })</span>
+			                        <span class="comment-text">${dto.p_comment }</span>
+			                    </div>
+			                </c:forEach>
+			            </c:when>
+			            <c:otherwise>
+			            	<div class="comment">
+								<span class="comment-text">등록된 댓글이 없습니다.</span>
+							</div>
+						</c:otherwise>
+			        </c:choose>
+                </div>
+				
+				<c:if test="${article.p_status == 'F'}">
+	                <div id="paging-area" style="display: flex; justify-content: center; margin-bottom: 10px;">
+	                    <c:if test="${commentTotalCount != 0}">
+							<c:choose>
+								<c:when test="${commentHasPrev}">
+									<a href="${cp}/inquiry/article?p_id=${article.p_id }&page=${articleCurrentPage }&coPage=${commentPrevPage}" class="paging-prev">이전</a>
+								</c:when>
+								<c:otherwise>
+									<a href="#" class="paging-prev">이전</a>
+								</c:otherwise>
+							</c:choose>
+		
+							<c:forEach var="p" begin="${commentBlockStartNo}" end="${commentBlockEndNo}">
 								<c:choose>
-									<c:when test="${article.p_status == 'T'}">
-										<span class="txt">완료</span>
+									<c:when test="${commentCurrentPage == p}">
+										<a href="${cp}/inquiry/article?p_id=${article.p_id }&page=${articleCurrentPage }&coPage=${p}" class="paging paging-on">${p}</a>
 									</c:when>
 									<c:otherwise>
-										<span class="txt">진행 중...</span>
+										<a href="${cp}/inquiry/article?p_id=${article.p_id }&page=${articleCurrentPage }&coPage=${p}" class="paging">${p}</a>
 									</c:otherwise>
 								</c:choose>
-							</p>
-						</div>
-
-						<div class="cont">${articleContent }</div>
-						
-						<br/>	<hr/>	<br/>
-						<c:choose>
-							<c:when test="${article.p_status == 'T'}">
-								<div class="cont">문의가 마감되었습니다.</div>
-							</c:when>
-							<c:otherwise>
-								<form action="" method="post" name="myForm">
-									<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
-									이름: <input type="text"  name ="p_writer" class="input-text w150px" value="" maxlength="15">
-									
-									<input type="hidden" name ="p_ori_id" class="input-text w150px" value="${article.p_id }">
-									
-									<div class="textarea">
-										<textarea name="p_comment" rows="5" cols="10" title="내용입력" placeholder="※ 댓글을 써주세요." class="input-textarea"></textarea>
-										<div class="util">
-											<p class="count">
-												<span id="textareaCnt">0</span> / 2000
-											</p>
-										</div>
-									</div>
-									
-									<input type="button" value=" 등록하기 " class="button purple large" onclick="sendIt();"/>
-									<input type="reset" value=" 다시입력 " class="button purple large" 
-									onclick="document.myForm.p_comment.focus();"/>
-								</form>
-							</c:otherwise>
-						</c:choose>
-						
-						
-						<br/>
-						
-						<div id="lists">
-							<c:forEach var="dto" items="${commentLists}">
-								<div class="cont">${dto.p_writer } | ${dto.p_created } -> ${dto.p_comment }</div>
 							</c:forEach>
-						</div>
-						
-						<br/>
-						
-						<c:choose>
-							<c:when test="${commentTotalCount != 0}">
-								<c:choose>
-									<c:when test="${commentHasPrev}">
-										[<a href="${cp}/inquiry/article?p_id=${article.p_id }&page=${articleCurrentPage }&coPage=${commentPrevPage}"><b>이전</b></a>]
-									</c:when>
-									<c:otherwise>
-										[이전]
-									</c:otherwise>
-								</c:choose>
-			
-								<c:forEach var="p" begin="${commentBlockStartNo}" end="${commentBlockEndNo}">
-									[<a href="${cp}/inquiry/article?p_id=${article.p_id }&page=${articleCurrentPage }&coPage=${p}">${p}</a>]
-								</c:forEach>
-								
-								<c:choose>
-									<c:when test="${commentHasNext}">
-										[<a href="${cp}/inquiry/article?p_id=${article.p_id }&page=${articleCurrentPage }&coPage=${commentNextPage}"><b>다음</b></a>]
-									</c:when>
-									<c:otherwise>
-										[다음]
-									</c:otherwise>
-								</c:choose>
-							</c:when>
 							
-							<c:otherwise>
-								<div class="cont">등록된 댓글이 없습니다.</div>
-							</c:otherwise>
-						</c:choose>
-					</div>
-				</div>
-				
-				<br/>
-				
-				<div class="prev-next">
-				    <div class="line prev">
-				        <p class="tit">이전</p>
-				        <c:choose>
-				            <c:when test="${not empty previousArticleUrl}">
-				                <a href="${previousArticleUrl}" class="link moveBtn" title="이전 글">[${previousArticleCategory }] ${previousArticleTitle }</a>
-				            </c:when>
-				            <c:otherwise>
-				                <p class="link">이전글이 없습니다.</p>
-				            </c:otherwise>
-				        </c:choose>
-				    </div>
-				    <div class="line next">
-				        <p class="tit">다음</p>
-				        <c:choose>
-				            <c:when test="${not empty nextArticleUrl}">
-				                <a href="${nextArticleUrl}" class="link moveBtn" title="다음 글">[${nextArticleCategory }] ${nextArticleTitle }</a>
-				            </c:when>
-				            <c:otherwise>
-				                <p class="link">다음글이 없습니다.</p>
-				            </c:otherwise>
-				        </c:choose>
-				    </div>
-				</div>
+							<c:choose>
+								<c:when test="${commentHasNext}">
+									<a href="${cp}/inquiry/article?p_id=${article.p_id }&page=${articleCurrentPage }&coPage=${commentNextPage}" class="paging-next">다음</a>
+								</c:when>
+								<c:otherwise>
+									<a href="#" class="paging-next">다음</a>
+								</c:otherwise>
+							</c:choose>
+						</c:if>
+	                </div>
+	             </c:if>
+                
+                <c:choose>
+					<c:when test="${article.p_status == 'T'}">
+						<div class="comment" >
+							<span class="comment-text" style="margin-top: 0;">문의가 마감되었습니다.</span>
+						</div>
+					</c:when>
+					<c:otherwise>
+		               	<form action="" method="post" name="myForm" id="comment-write-area">
+		               		<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
+		               	
+		                    <input type="text" name="p_writer" id="write-author-set" placeholder="이름">
+		                    
+		                    <input type="hidden" name ="p_ori_id" value="${article.p_id }">
+		                    
+		                    <div style="width: 100%; max-width: 100%; display: flex; flex-direction: column; align-items: center;" >
+		                        <textarea name="p_comment" id="write-area" placeholder="댓글 입력"></textarea>
+		                        <input type="submit" name="write-submit" id="write-submit" value="등록" onclick="sendIt();">
+		                    </div>
+		               </form>
+		           </c:otherwise>
+		        </c:choose>
 
-				<div class="btn-group pt40">
-					<c:if test="${article.p_status == 'F'}">
-						<a href="javascript:location.href='<%=cp%>/inquiry/modify?p_id=${article.p_id}&page=${articleCurrentPage }';" class="button large listBtn" title="수정">수정</a>
-					</c:if>
-					
-					<a href="javascript:location.href='<%=cp%>/inquiry/list?page=${articleCurrentPage }';" class="button large listBtn" title="리스트">리스트</a>
-					
-					<c:if test="${article.p_status == 'F'}">
-						<input type="button" class="button large listBtn" value="문의 마감" onclick="endAnswer(${article.p_id}, ${articleCurrentPage});">
-					</c:if>
-				</div>
-			</div>
-		</div>
-	</div>
+                <div id="post-change-area">
+                    <div id="post-prev" style="border-bottom: 1px solid #cacaca;">
+                        <div style="width: 20%; background: #e4e4e4 url('../resources/images/supports/arrow-top.png') no-repeat center right 15px; background-size: 10%; line-height: 39px;">
+                            <span style="margin-left: 20px;">이전 글</span>
+                        </div>
+                        <div style="line-height: 39px;">
+                        	<c:choose>
+				            	<c:when test="${not empty previousArticleUrl}">
+                            		<a href="${previousArticleUrl}" style="margin-left: 20px;">[${previousArticleCategory }] ${previousArticleTitle }</a>
+                            	</c:when>
+                            	<c:otherwise>
+				                	<span style="margin-left: 20px;">이전 글이 없습니다.</span>
+				            	</c:otherwise>
+				            </c:choose>
+                        </div>
+                    </div>
+                    <div id="post-next">
+                        <div style="width: 20%; background: #e4e4e4 url('../resources/images/supports/arrow-bottom.png') no-repeat center right 15px; background-size: 10%; line-height: 39px;">
+                            <span style="margin-left: 20px;">다음 글</span>
+                        </div>
+                        <div style="line-height: 39px;">
+                        	<c:choose>
+				            	<c:when test="${not empty nextArticleUrl}">
+                            		<a href="${nextArticleUrl}" style="margin-left: 20px;">[${nextArticleCategory }] ${nextArticleTitle }</a>
+                            	</c:when>
+					            <c:otherwise>
+					                <span style="margin-left: 20px;">다음 글이 없습니다.</span>
+					            </c:otherwise>
+					        </c:choose>
+                        </div>
+                    </div>
+                </div>
 
-	<%@include file="../common/footer.jsp"%>
-	<!-- 오류 모달 -->
-	<%@include file="../common/alertModal.jsp" %>
+                <div id="button-area" style="display: flex; justify-content: flex-end; margin: 15px 0 15px 0px;">
+                    <a id="post-list-btn" href="javascript:location.href='<%=cp%>/inquiry/list?page=${articleCurrentPage }';">목록</a>
+                    <c:if test="${article.p_status == 'F'}">
+                    	<a id="edit" href="javascript:location.href='<%=cp%>/inquiry/modify?p_id=${article.p_id}&page=${articleCurrentPage }';">수정하기</a>
+                    	<input type="button" id="edit" value="문의 마감" onclick="endAnswer(${article.p_id}, ${articleCurrentPage});">
+                    </c:if>
+                </div>
+            </article>
+        </div>
+    </div>
 </body>
-<script src="../resources/js/alertModal.js"></script>
 </html>

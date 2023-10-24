@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.team3.spring.service.BoardService2;
@@ -31,6 +32,11 @@ public class BoardController2 {
 	private BoardService2 service;
 	private HttpServletRequest request;
 	private HttpServletResponse response;
+	
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	public String home(Model m, HttpServletRequest req) {
+		return "inquiry/home";
+	}
 	
 	@GetMapping("/list")
 	public void getList(Model m,
@@ -56,7 +62,7 @@ public class BoardController2 {
 	    }
 	    
 	    // 시작 인덱스
-	    int index = service.getStartIndex(page);
+	    int index = service.getStartIndex(page, false);
 	    
 	    // 검색 조건에 따라 적절한 서비스 메서드 호출
 	    ArrayList<BoardVO2> lists = service.getLists(p_category, searchKey, word, index);
@@ -70,8 +76,9 @@ public class BoardController2 {
 	    // 리스트 뷰로 전달
 	    m.addAttribute("lists", lists);
 	    
-	    // 현재 페이지 번호 뷰로 전달
+	    // 현재 페이지 번호 / 카테고리 뷰로 전달
 	    m.addAttribute("currentPage", page);
+	    m.addAttribute("currentCate", p_category);
 
 	    String articleUrl = "article?p_id=";
 	    m.addAttribute("articleUrl", articleUrl);
@@ -182,7 +189,7 @@ public class BoardController2 {
 	     */
 	    
 		// 댓글 시작 인덱스
-		int index = service.getStartIndex(coPage);
+		int index = service.getStartIndex(coPage, true);
 		
 		ArrayList<CommentVO> comment = service.getCommentData(p_id, index);
 		
@@ -200,6 +207,9 @@ public class BoardController2 {
 
 		    // 댓글 리스트 뷰로 전달
 		    m.addAttribute("commentLists", comment);
+		    
+		    // 댓글 현재 페이지 뷰로 전달
+		    m.addAttribute("commentCurrentPage", coPage);
 	    }
 	}
 	
@@ -224,5 +234,4 @@ public class BoardController2 {
 		
 		return "redirect:/inquiry/article?p_id=" + p_id + "&page=" + page;
 	}
-
 }

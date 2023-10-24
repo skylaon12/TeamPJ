@@ -16,12 +16,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>MEET PLAY SHARE, 솔 시네마</title>
 	
-	<link rel="stylesheet" type="text/css" href="${cp}/resources/css/style.css?ver=<%=System.currentTimeMillis()%>"/>
-	<link rel="stylesheet" type="text/css" href="${cp}/resources/css/list.css?ver=<%=System.currentTimeMillis()%>"/>
-	<link rel="stylesheet" type="text/css" href="${cp}/resources/css/main_files/megabox.min.css?ver=<%=System.currentTimeMillis()%>" media="all">
-	<link rel="stylesheet" href="${cp}/resources/css/navbar.css" />
-	<link rel="stylesheet" href="${cp}/resources/css/common.css" />
-
+	<link rel="stylesheet" href="${cp}/resources/css/board.css" />
 
 	<script type="text/javascript">
 		function sendIt(){
@@ -33,147 +28,151 @@
 			f.action = "<%=cp%>/notice/list?page="+ curPage +"&searchKey="+ sKey +"&word="+ sWord;
 			f.submit();
 		}
-		
-		function sendList(){
-			var curPage = "${currentPage}";
-		    // 페이지 이동
-			window.location.href = "<%=cp%>/notice/list?page="+ curPage;
-		}
 	</script>
 
 </head>
 <body>
-	<!-- container -->
-	<div class="container has-lnb">
-		<div class="page-util fixed">
-			<div class="inner-wrap">
-				<div class="location">
-					<a href="${cp}" title="메인 페이지 이동"><span>Home</span></a>
-					<a href="https://www.megabox.co.kr/support" title="고객센터 페이지로 이동">고객센터</a>
-					<a href="list?page=${currentPage}" title="공지사항 페이지로 이동">공지사항</a>
-				</div>
-			</div>
-		</div>
+	<div id="back-container">
+        <div id="main-container">
+            <div id="left-nav-bar">
+                <span style="display: flex; justify-content: center; padding: 30px 20px; border-radius: 10px 10px 0 0; background-color: #8b0bd6; letter-spacing: 1px; font-weight: 500;">고객센터</span>
+                <nav id="left-nav-column">
+                    <ul>
+                        <li class="left-nav">
+                            <a href="${cp}/inquiry/home">고객센터 홈</a>
+                        </li>
+                        <li class="left-nav select">
+                            <a href="list?page=${currentPage}">공지사항</a>
+                        </li>
+                        <li class="left-nav">
+                            <a href="${cp}/inquiry/list?page=1">내 문의 내역</a>
+                        </li>
+                        <li class="left-nav">
+                            <a href="${cp}/inquiry/write?page=1">1:1 문의</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <article id="content-container">
+                <h2 style="padding-bottom: 0.5em;">공지사항</h2>
+                <div id="category-area" style="border-top: 1px solid #cacaca; padding: 0.3em 0;">
+                    <ul style="display: flex;">
+                        <li><button id="cate-all" class="category category-on">전체</button></li>
+                        <span style="margin-left: auto; font-size: 12px;">전체 글 수 : </span>
+                        <span style="padding: 0 0.3em; font-size: 12px" id="total-post">${totalCount}</span>
+                    </ul>
+                </div>
+                <table style="border-collapse: collapse;">
+                    <colgroup>
+                        <col style="width: 6%">
+                        <col>
+                        <col style="width: 10%">
+                        <col style="width: 20%">
+                        <col style="width: 6%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>제목</th>
+                            <th>작성자</th>
+                            <th>작성일</th>
+                            <th>조회</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    	<c:choose>
+							<c:when test="${totalCount != 0}">
+		                    	<c:forEach var="dto" items="${lists}">
+			                        <tr>
+			                            <td class="text-align-center"><span>${dto.p_id }</span></td>
+			                            <td><a href="${articleUrl}${dto.p_id }&page=${currentPage }">${dto.p_title }</a></td>
+			                            <td class="text-align-center">${dto.p_writer }</td>
+			                            <td class="text-align-center"><span>${dto.p_created }</span></td>
+			                            <td class="text-align-center"><span>${dto.p_hitcount }</span></td>
+			                        </tr>
+			                    </c:forEach>
+			              	</c:when>
+
+				            <c:otherwise>
+				            	<td>&nbsp</td>
+								<td style="margin-left: auto;">등록된 게시물이 없습니다.</td>
+								<td>&nbsp</td>
+								<td>&nbsp</td>
+								<td>&nbsp</td>
+							</c:otherwise>
+						</c:choose>
+                    </tbody>
+                </table>
+                
+               	<form action="" method="get" name="searchForm" id="button-area" style="display: flex; justify-content: flex-end; margin: 15px 0 15px 0px;">
+               		<input type="hidden" name ="page" value="${currentPage }">
+					
+                    <select name="searchKey" id="keyword">
+                        <option value="p_title">제목</option>
+                        <option value="p_writer">작성자</option>
+                        <option value="p_text">내용</option>
+                    </select>
+                    
+                    <input type="text" id="search" name="word">
+                    
+                    <button id="search-btn" onclick="sendIt()"></button>
+                    
+                    <a id="post-list-btn" href="list?page=${currentPage }">목록</a>
+                    <security:authorize access="hasRole('ADMIN')">
+                   		<a id="write" href="write?page=${currentPage}">글쓰기</a>
+                   	</security:authorize>
+                </form>
+                    
+
+                <div id="paging-area" style="display: flex; justify-content: center;">
+                	<c:if test="${totalCount != 0}">
+						<c:choose>
+							<c:when test="${hasPrev}">
+								<a href="${cp}/notice/list?page=${prevPage}" class="paging-prev">이전</a>
+							</c:when>
+							<c:otherwise>
+								<a href="#" class="paging-prev">이전</a>
+							</c:otherwise>
+						</c:choose>
 	
-		<div class="inner-wrap">
-			<div class="lnb-area addchat location-fixed">
-				<nav id="lnb">
-					<p class="tit"><a href="https://www.megabox.co.kr/support" title="고객센터">고객센터</a></p>
-					<ul>
-						<li><a href="https://www.megabox.co.kr/support" title="고객센터 홈">고객센터 홈</a></li>
-						<li class="on"><a href="list?page=${currentPage}" title="공지사항">공지사항</a></li>
-						<li><a href="${cp}/inquiry/write?page=1" title="1:1문의">1:1 문의 하기</a></li>
-						<li><a href="${cp}/inquiry/list?page=1" title="1:1문의">내 문의 내역</a></li>
-					</ul>
-				</nav>
-			</div>
-	
-			<div id="contents" class="location-fixed">
-				<h2 class="tit">공지사항</h2>
-	
-				<div class="tab-block mb30">
-					<ul>
-						<li class="on tabBtn"><button type="button" class="btn tabBtn" data-no="" title="전체공지 보기">전체</button></li>
-					</ul>
-				</div>
-	
-				<div id="bbsList">
-					<div id="bbsList_header">
-						<div id="leftHeader">
-							<form action="" method="get" name="searchForm">
-								<input type="hidden" name ="page" class="input-text w150px" value="${currentPage }">
-								<select name="searchKey" class="selectField">
-									<option value="p_title">제목</option>
-									<option value="p_writer">작성자</option>
-									<option value="p_text">내용</option>
-								</select>
-								<input type="text" name="word" class="textField"/>
-								<input type="button" value=" 검 색 " class="btn2" 	
-								onclick="sendIt()"/>
-								<input type="button" value=" 리 스 트 " class="btn2" 	
-								onclick="sendList()"/>
-							</form>
-						</div>
-						<div id="rightHeader">
-							전체 글 수: ${totalCount}
-						</div>	
-					</div>
-					<div id="bbsList_list">
-						<div id="title">
-							<dl>
-								<dt class="num">번호</dt>
-								<dt class="subject">제목</dt>
-								<dt class="name">작성자</dt>
-								<dt class="created">작성일</dt>
-								<dt class="hitCount">조회수</dt>
-							</dl>
-						</div>
-						<div id="lists">
-						<c:forEach var="dto" items="${lists}"> <%-- BoardDTO : lists와 동일 EL로 받은것  --%>
-							<dl>								<%-- EL로 받은것은 변수명을 게터로받지않고 그대로 사용 그렇다고 DAO의 게터세터를 지우면안됌. --%>
-								<dd class="num">${dto.p_id }</dd> 
-								<dd class="subject">
-								<a href="${articleUrl}${dto.p_id }&page=${currentPage }">
-								${dto.p_title }</a>
-								</dd>
-								<dd class="name">${dto.p_writer }</dd>
-								<dd class="created">${dto.p_created }</dd>
-								<dd class="hitCount">${dto.p_hitcount }</dd>
-							</dl>
-						</c:forEach>
-						</div>
-						<div nav class="pagination" id="footer">
+						<c:forEach var="p" begin="${blockStartNo}" end="${blockEndNo}">
 							<c:choose>
-								<c:when test="${totalCount != 0}">
+								<c:when test="${currentPage == p}">
 									<c:choose>
-										<c:when test="${hasPrev}">
-											[<a href="${cp}/notice/list?page=${prevPage}"><b>이전</b></a>]
+										<c:when test="${not empty word}">
+											<a href="${cp}/notice/list?page=${p}&searchKey=${searchKey}&word=${word}" class="paging paging-on">${p}</a>
 										</c:when>
 										<c:otherwise>
-											[이전]
-										</c:otherwise>
-									</c:choose>
-				
-									<c:forEach var="p" begin="${blockStartNo}" end="${blockEndNo}">
-										<c:choose>
-											<c:when test="${word != null}">
-												[<a href="${cp}/notice/list?page=${p}&searchKey=${searchKey}&word=${word}">${p}</a>]
-											</c:when>
-											<c:otherwise>
-												[<a href="${cp}/notice/list?page=${p}">${p}</a>]
-											</c:otherwise>
-										</c:choose>
-									</c:forEach>
-									
-									<c:choose>
-										<c:when test="${hasNext}">
-											[<a href="${cp}/notice/list?page=${nextPage}"><b>다음</b></a>]
-										</c:when>
-										<c:otherwise>
-											[다음]
+											<a href="${cp}/notice/list?page=${p}" class="paging paging-on">${p}</a>
 										</c:otherwise>
 									</c:choose>
 								</c:when>
-								
 								<c:otherwise>
-									등록된 게시물이 없습니다.
+									<c:choose>
+										<c:when test="${not empty word}">
+											<a href="${cp}/notice/list?page=${p}&searchKey=${searchKey}&word=${word}" class="paging">${p}</a>
+										</c:when>
+										<c:otherwise>
+											<a href="${cp}/notice/list?page=${p}" class="paging">${p}</a>
+										</c:otherwise>
+									</c:choose>
 								</c:otherwise>
 							</c:choose>
-						</div>
-					</div>
-					<security:authorize access="hasRole('ADMIN')">
-					<div class="btn-group right">
-						<a href="write?page=${currentPage}" class="button purple" id="myQnaBtn" title="공지사항 등록">공지사항 등록</a><!-- btn-layer-open -->
-					</div>
-					</security:authorize>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<%@include file="/WEB-INF/views/common/footer.jsp"%>
-	<!-- 오류 모달 -->
-	<%@include file="../common/alertModal.jsp" %>
+						</c:forEach>
+						
+						<c:choose>
+							<c:when test="${hasNext}">
+								<a href="${cp}/notice/list?page=${nextPage}" class="paging-next">다음</a>
+							</c:when>
+							<c:otherwise>
+								<a href="#" class="paging-next">다음</a>
+							</c:otherwise>
+						</c:choose>
+					</c:if>
+                </div>
+            </article>
+        </div>
+    </div>
 </body>
-<script src="../resources/js/alertModal.js"></script>
 </html>

@@ -62,8 +62,15 @@ public class BoardServiceImpl2 implements BoardService2 {
 	}
 	
 	@Override
-	public int getStartIndex(int page) {
-		int index = (page-1)* BoardConfig.AMOUNT_PER_PAGE;
+	public int getStartIndex(int page, boolean comment) {
+		int index;
+		
+		if ( comment ) {
+			index = (page-1)* BoardConfig.AMOUNT_PER_COMMENT_PAGE;
+		} else {
+			index = (page-1)* BoardConfig.AMOUNT_PER_PAGE;
+		}
+		
 		return index;
 	}
 
@@ -176,10 +183,10 @@ public class BoardServiceImpl2 implements BoardService2 {
 	    // 전체 페이지 수 = 전체 글 수 / [페이지당 글 수]
 	    int totalCommentPage = 0;
 	    
-	    if (totalCount % BoardConfig.AMOUNT_PER_PAGE == 0) {
-	    	totalCommentPage = totalCount / BoardConfig.AMOUNT_PER_PAGE;
+	    if (totalCount % BoardConfig.AMOUNT_PER_COMMENT_PAGE == 0) {
+	    	totalCommentPage = totalCount / BoardConfig.AMOUNT_PER_COMMENT_PAGE;
 	    } else {
-	    	totalCommentPage = totalCount / BoardConfig.AMOUNT_PER_PAGE + 1;
+	    	totalCommentPage = totalCount / BoardConfig.AMOUNT_PER_COMMENT_PAGE + 1;
 	    }
 		
 		return totalCommentPage;
@@ -189,10 +196,10 @@ public class BoardServiceImpl2 implements BoardService2 {
 	public int getTotalCommentBlock(int totalCommentPage) {
 		//전체 블럭 수 = 전체 페이지 수 / [블럭당 페이지 수]
 		int totalCommentBlock = 0;
-		if(totalCommentPage % BoardConfig.PAGE_PER_BLOCK == 0) {
-			totalCommentBlock = totalCommentPage / BoardConfig.PAGE_PER_BLOCK;
+		if(totalCommentPage % BoardConfig.PAGE_PER_BLOCK_COMMENT == 0) {
+			totalCommentBlock = totalCommentPage / BoardConfig.PAGE_PER_BLOCK_COMMENT;
 		}else {
-			totalCommentBlock = totalCommentPage / BoardConfig.PAGE_PER_BLOCK + 1;
+			totalCommentBlock = totalCommentPage / BoardConfig.PAGE_PER_BLOCK_COMMENT + 1;
 		}		
 		return totalCommentBlock;
 	}

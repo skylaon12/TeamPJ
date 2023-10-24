@@ -24,7 +24,7 @@ public interface BoardService2 {
 	public void modify(BoardVO2 gvo);
 	
 	// 페이징 처리 관련
-	public int getStartIndex(int page);
+	public int getStartIndex(int page, boolean comment);
 	
 	public int getTotalCount();
 	

@@ -15,13 +15,25 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>MEET PLAY SHARE, 솔 시네마</title>
 	
-	<link rel="stylesheet" type="text/css" href="${cp}/resources/css/style.css?ver=<%=System.currentTimeMillis()%>"/>
-	<link rel="stylesheet" type="text/css" href="${cp}/resources/css/list.css?ver=<%=System.currentTimeMillis()%>"/>
-	<link rel="stylesheet" type="text/css" href="${cp}/resources/css/main_files/megabox.min.css?ver=<%=System.currentTimeMillis()%>" media="all">
-	<link rel="stylesheet" href="${cp}/resources/css/navbar.css" />
-	<link rel="stylesheet" href="${cp}/resources/css/common.css" />
+	<link rel="stylesheet" href="${cp}/resources/css/board.css" />
 
 	<script type="text/javascript">
+		window.onload = function() {
+		    // 현재 페이지 URL에서 파라미터를 읽어옴
+		    var urlParams = new URLSearchParams(window.location.search);
+		    var category = urlParams.get("p_category");
+	
+		    // 선택된 버튼에 해당하는 ID를 찾아서 클래스를 추가
+		    if (category === "결제/환불") {
+		        document.getElementById('cate-pay').classList.add('category-on');
+		    } else if (category === "영화관") {
+		        document.getElementById('cate-cinema').classList.add('category-on');
+		    } else {
+		    	document.getElementById('cate-all').classList.add('category-on');
+		    }
+		    // 기타 버튼에 대한 처리도 추가 가능
+		};
+		
 		function sendIt(){
 			var f = document.searchForm;
 			var curPage = f.page.value;
@@ -38,181 +50,230 @@
 			f.submit();
 		}
 		
-		function sendList(){
-			var curPage = "${currentPage}";
-		    // 페이지 이동
-			window.location.href = "<%=cp%>/inquiry/list?page="+ curPage;
-		}
+		function cateChange(id) {
+	        let all = document.getElementById('cate-all');
+	        let pay = document.getElementById('cate-pay');
+	        let cinema = document.getElementById('cate-cinema');
+	        
+	        var newUrl = "";
+	        
+	        var curPage = "${currentPage}";
+			
+	     	// 모든 버튼 클래스 제거
+	        all.classList.remove('category-on');
+	        pay.classList.remove('category-on');
+	        cinema.classList.remove('category-on');
+
+	     	// 선택한 버튼에 클래스 추가
+	        if (id == "cate-all") {
+	        	newUrl = "<%=cp%>/inquiry/list?page=" + curPage;
+	            all.classList.add('category-on');
+	        } else if (id == "cate-pay") {
+	        	newUrl = "<%=cp%>/inquiry/list?page=" + curPage + "&p_category=결제/환불";
+	            pay.classList.add('category-on');
+	        } else if (id == "cate-cinema") {
+	        	newUrl = "<%=cp%>/inquiry/list?page=" + curPage + "&p_category=영화관";
+	            cinema.classList.add('category-on');
+	        } else return;
+	     	
+	     	// URL을 업데이트하여 선택한 카테고리 정보를 유지
+	        history.pushState(null, "", newUrl);
+	     	
+	        window.location.replace(newUrl);
+	    }
 	</script>
 
 </head>
 <body>
-	<!-- container -->
-	<div class="container has-lnb">
-		<div class="page-util fixed">
-			<div class="inner-wrap">
-				<div class="location">
-					<a href="${cp}" title="메인 페이지 이동"><span>Home</span></a>
-					<a href="https://www.megabox.co.kr/support" title="고객센터 페이지로 이동">고객센터</a>
-					<a href="list?page=${currentPage}" title="내 문의로 이동">내 문의 내역</a>
-				</div>
-			</div>
-		</div>
-	
-		<div class="inner-wrap">
-			<div class="lnb-area addchat location-fixed">
-				<nav id="lnb">
-					<p class="tit"><a href="https://www.megabox.co.kr/support" title="고객센터">고객센터</a></p>
-					<ul>
-						<li><a href="https://www.megabox.co.kr/support" title="고객센터 홈">고객센터 홈</a></li>
-						<li><a href="${cp}/notice/list?page=1" title="공지사항">공지사항</a></li>
-						<li><a href="write?page=${currentPage }" title="1:1문의">1:1 문의 하기</a></li>
-						<li class="on"><a href="list?page=${currentPage }" title="1:1문의">내 문의 내역</a></li>
-					</ul>
-				</nav>
-			</div>
-	
-			<div id="contents" class="location-fixed">
-				<h2 class="tit">내 문의 내역</h2>
-				
-				<div class="tab-block mb30">
-				    <ul>
-				        <c:choose>
-				            <c:when test="${empty param.p_category or param.p_category eq '전체'}">
-				                <li class="on tabBtn"><a href="list?page=${currentPage }" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="전체 내 문의 내역">전체</button></a></li>
-				                <li class="tabBtn"><a href="list?page=${currentPage }&p_category=결제/환불" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="결제/환불">결제/환불</button></a></li>
-								<li class="tabBtn"><a href="list?page=${currentPage }&p_category=영화관" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="영화관">영화관</button></a></li>
-				            </c:when>
-				            <c:when test="${param.p_category eq '결제/환불'}">
-				            	<li class="tabBtn"><a href="list?page=${currentPage }" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="전체 내 문의 내역">전체</button></a></li>
-				                <li class="on tabBtn"><a href="list?page=${currentPage }&p_category=결제/환불" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="결제/환불">결제/환불</button></a></li>
-				                <li class="tabBtn"><a href="list?page=${currentPage }&p_category=영화관" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="영화관">영화관</button></a></li>
-				            </c:when>
-				            <c:when test="${param.p_category eq '영화관'}">
-				            	<li class="tabBtn"><a href="list?page=${currentPage }" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="전체 내 문의 내역">전체</button></a></li>
-								<li class="tabBtn"><a href="list?page=${currentPage }&p_category=결제/환불" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="결제/환불">결제/환불</button></a></li>
-				                <li class="on tabBtn"><a href="list?page=${currentPage }&p_category=영화관" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="영화관">영화관</button></a></li>
-				            </c:when>
+	<div id="back-container">
+        <div id="main-container">
+            <div id="left-nav-bar">
+                <span style="display: flex; justify-content: center; padding: 30px 20px; border-radius: 10px 10px 0 0; background-color: #8b0bd6; letter-spacing: 1px; font-weight: 500;">고객센터</span>
+                <nav id="left-nav-column">
+                    <ul>
+                        <li class="left-nav">
+                            <a href="home">고객센터 홈</a>
+                        </li>
+                        <li class="left-nav">
+                            <a href="${cp}/notice/list?page=1">공지사항</a>
+                        </li>
+                        <li class="left-nav select">
+                            <a href="list?page=${currentPage }">내 문의 내역</a>
+                        </li>
+                        <li class="left-nav">
+                            <a href="write?page=${currentPage }">1:1 문의</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <article id="content-container">
+                <h2 style="padding-bottom: 0.5em;">내 문의 내역</h2>
+                <div id="category-area" style="border-top: 1px solid #cacaca; padding: 0.3em 0;">
+                    <ul style="display: flex;">
+                        <li><button id="cate-all" onclick="cateChange(this.id)" class="category">전체</button></li>
+                        <li><button id="cate-pay" onclick="cateChange(this.id)" class="category">결제/환불</button></li>
+                        <li><button id="cate-cinema" onclick="cateChange(this.id)" class="category">영화관</button></li>
+                        <span style="margin-left: auto; font-size: 12px;">전체 글 수 : </span>
+                        <span style="padding: 0 0.3em; font-size: 12px" id="total-post">${totalCount}</span>
+                    </ul>
+                </div>
+                <table style="border-collapse: collapse;">
+                    <colgroup>
+                        <col style="width: 6%">
+                        <col>
+                        <col style="width: 10%">
+                        <col style="width: 20%">
+                        <col style="width: 6%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>제목</th>
+                            <th>문의 상태</th>
+                            <th>작성일</th>
+                            <th>조회</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    	<c:choose>
+							<c:when test="${totalCount != 0}">
+		                    	<c:forEach var="dto_inquiry" items="${lists}">
+			                        <tr>
+			                            <td class="text-align-center"><span>${dto_inquiry.p_id }</span></td>
+			                            <td>
+				                            <c:choose>
+				                            	<c:when test="${dto_inquiry.newComment}">
+						                            [${dto_inquiry.p_category }] 
+						                            <a href="${articleUrl}${dto_inquiry.p_id }&page=${currentPage }" title=${dto_inquiry.p_title }>${dto_inquiry.p_title }</a>
+						                             [${dto_inquiry.commentCount}] New
+						                        </c:when>
+						                        <c:otherwise>
+						                        	[${dto_inquiry.p_category }] 
+						                            <a href="${articleUrl}${dto_inquiry.p_id }&page=${currentPage }" title=${dto_inquiry.p_title }>${dto_inquiry.p_title }</a>
+						                             [${dto_inquiry.commentCount}]
+						                        </c:otherwise>
+											</c:choose>
+										</td>
+			                            <td class="text-align-center">
+			                            	<c:choose>
+												<c:when test="${dto_inquiry.p_status == 'T'}">
+													<span>완료</span>
+												</c:when>
+												<c:otherwise>
+													<span>진행 중...</span>
+												</c:otherwise>
+											</c:choose>
+			                            </td>
+			                            <td class="text-align-center"><span>${dto_inquiry.p_created }</span></td>
+			                            <td class="text-align-center"><span>${dto_inquiry.p_hitcount }</span></td>
+			                        </tr>
+			                    </c:forEach>
+			              	</c:when>
+
 				            <c:otherwise>
-				                <li class="tabBtn"><a href="list?page=${currentPage }" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="전체 내 문의 내역">전체</button></a></li>
-								<li class="tabBtn"><a href="list?page=${currentPage }&p_category=결제/환불" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="결제/환불">결제/환불</button></a></li>
-								<li class="tabBtn"><a href="list?page=${currentPage }&p_category=영화관" title="카테고리"><button type="button" class="btn tabBtn" data-no="" title="영화관">영화관</button></a></li>
-				            </c:otherwise>
-				        </c:choose>
-				    </ul>
-				</div>
-	
-				<div id="bbsList">
-					<div id="bbsList_header">
-						<div id="leftHeader">
-							<form action="" method="get" name="searchForm">
-								<input type="hidden" name ="page" class="input-text w150px" value="${currentPage }">
-								<input type="hidden" name ="p_category" class="input-text w150px" value="${p_category }">
-								<select name="searchKey" class="selectField">
-									<option value="p_title">제목</option>
-									<option value="p_text">내용</option>
-								</select>
-								<input type="text" name="word" class="textField"/>
-								<input type="button" value=" 검 색 " class="btn2" 	
-								onclick="sendIt()"/>
-								<input type="button" value=" 리 스 트 " class="btn2" 	
-								onclick="sendList()"/>
-							</form>
-						</div>
-						<div id="rightHeader">
-							전체 글 수: ${totalCount}
-						</div>	
-					</div>
-					<div id="bbsList_list">
-						<div id="title">
-							<dl>
-								<dt class="num">번호</dt>
-								<dt class="subject">제목</dt>
-								<dt class="name">문의 상태</dt>
-								<dt class="created">작성일</dt>
-								<dt class="hitCount">조회수</dt>
-							</dl>
-						</div>
-						<div id="lists">
-						<c:forEach var="dto_inquiry" items="${lists}"> <%-- BoardDTO : lists와 동일 EL로 받은것  --%>
-							<dl>								<%-- EL로 받은것은 변수명을 게터로받지않고 그대로 사용 그렇다고 DAO의 게터세터를 지우면안됌. --%>
-								<dd class="num">${dto_inquiry.p_id }</dd> 
-								<dd class="subject">
-									<c:choose>
-										<c:when test="${dto_inquiry.newComment}">
-											[${dto_inquiry.p_category }] <a href="${articleUrl}${dto_inquiry.p_id }&page=${currentPage }">
-											${dto_inquiry.p_title } </a> [${dto_inquiry.commentCount}] NEW
-										</c:when>
-										<c:otherwise>
-											[${dto_inquiry.p_category }] <a href="${articleUrl}${dto_inquiry.p_id }&page=${currentPage }">
-											${dto_inquiry.p_title } </a> [${dto_inquiry.commentCount}]
-										</c:otherwise>
-									</c:choose>
-								</dd>
+				            	<td>&nbsp</td>
+								<td style="margin-left: auto;">등록된 게시물이 없습니다.</td>
+								<td>&nbsp</td>
+								<td>&nbsp</td>
+								<td>&nbsp</td>
+							</c:otherwise>
+						</c:choose>
+                    </tbody>
+                </table>
+                
+               	<form action="" method="get" name="searchForm" id="button-area" style="display: flex; justify-content: flex-end; margin: 15px 0 15px 0px;">
+               		<input type="hidden" name ="page" value="${currentPage }">
+					<input type="hidden" name ="p_category" value="${currentCate }">
+					
+                    <select name="searchKey" id="keyword">
+                        <option value="p_title">제목</option>
+                        <option value="p_text">내용</option>
+                    </select>
+                    
+                    <input type="text" id="search" name="word">
+                    
+                    <button id="search-btn" onclick="sendIt()"></button>
+                    
+                    <a id="post-list-btn" href="list?page=${currentPage }">목록</a>
+                   	<a id="write" href="write?page=${currentPage}">글쓰기</a>
+                </form>
+                    
+
+                <div id="paging-area" style="display: flex; justify-content: center;">
+                	<c:if test="${totalCount != 0}">
+						<c:choose>
+							<c:when test="${hasPrev}">
 								<c:choose>
-									<c:when test="${dto_inquiry.p_status == 'T'}">
-										<dd class="name">완료</dd>
+									<c:when test="${not empty currentCate}">
+										<a href="${cp}/inquiry/list?page=${prevPage}&p_category=${currentCate}" class="paging-prev">이전</a>
 									</c:when>
 									<c:otherwise>
-										<dd class="name">진행 중...</dd>
+										<a href="${cp}/inquiry/list?page=${prevPage}" class="paging-prev">이전</a>
 									</c:otherwise>
 								</c:choose>
-								<dd class="created">${dto_inquiry.p_created }</dd>
-								<dd class="hitCount">${dto_inquiry.p_hitcount }</dd>
-							</dl>
-						</c:forEach>
-						</div>
-						<div nav class="pagination" id="footer">
+							</c:when>
+							<c:otherwise>
+								<a href="#" class="paging-prev">이전</a>
+							</c:otherwise>
+						</c:choose>
+	
+						<c:forEach var="p" begin="${blockStartNo}" end="${blockEndNo}">
 							<c:choose>
-								<c:when test="${totalCount != 0}">
+								<c:when test="${currentPage == p}">
 									<c:choose>
-										<c:when test="${hasPrev}">
-											[<a href="${cp}/inquiry/list?page=${prevPage}&p_category=${p_category}"><b>이전</b></a>]
+										<c:when test="${not empty currentCate && not empty word}">
+											<a href="${cp}/inquiry/list?page=${p}&p_category=${currentCate}&searchKey=${searchKey}&word=${word}" class="paging paging-on">${p}</a>
+										</c:when>
+										<c:when test="${empty currentCate && not empty word}">
+											<a href="${cp}/inquiry/list?page=${p}&searchKey=${searchKey}&word=${word}" class="paging paging-on">${p}</a>
+										</c:when>
+										<c:when test="${not empty currentCate && empty word}">
+											<a href="${cp}/inquiry/list?page=${p}&p_category=${currentCate}" class="paging paging-on">${p}</a>
 										</c:when>
 										<c:otherwise>
-											[이전]
-										</c:otherwise>
-									</c:choose>
-				
-									<c:forEach var="p" begin="${blockStartNo}" end="${blockEndNo}">
-										<c:choose>
-											<c:when test="${word != null}">
-												[<a href="${cp}/inquiry/list?page=${p}&p_category=${p_category}&searchKey=${searchKey}&word=${word}">${p}</a>]
-											</c:when>
-											<c:otherwise>
-												[<a href="${cp}/inquiry/list?page=${p}&p_category=${p_category}">${p}</a>]
-											</c:otherwise>
-										</c:choose>
-									</c:forEach>
-									
-									<c:choose>
-										<c:when test="${hasNext}">
-											[<a href="${cp}/inquiry/list?page=${nextPage}&p_category=${p_category}"><b>다음</b></a>]
-										</c:when>
-										<c:otherwise>
-											[다음]
+											<a href="${cp}/inquiry/list?page=${p}" class="paging paging-on">${p}</a>
 										</c:otherwise>
 									</c:choose>
 								</c:when>
-								
 								<c:otherwise>
-									등록된 게시물이 없습니다.
+									<c:choose>
+										<c:when test="${not empty currentCate && not empty word}">
+											<a href="${cp}/inquiry/list?page=${p}&p_category=${currentCate}&searchKey=${searchKey}&word=${word}" class="paging">${p}</a>
+										</c:when>
+										<c:when test="${empty currentCate && not empty word}">
+											<a href="${cp}/inquiry/list?page=${p}&searchKey=${searchKey}&word=${word}" class="paging">${p}</a>
+										</c:when>
+										<c:when test="${not empty currentCate && empty word}">
+											<a href="${cp}/inquiry/list?page=${p}&p_category=${currentCate}" class="paging">${p}</a>
+										</c:when>
+										<c:otherwise>
+											<a href="${cp}/inquiry/list?page=${p}" class="paging">${p}</a>
+										</c:otherwise>
+									</c:choose>
 								</c:otherwise>
 							</c:choose>
-						</div>
-					</div>
-					
-					<div class="btn-group right">
-						<a href="write?page=${currentPage}" class="button purple" id="myQnaBtn" title="1:1 문의 남기기">문의 하기</a><!-- btn-layer-open -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<%@include file="../common/footer.jsp"%>
-	<!-- 오류 모달 -->
-	<%@include file="../common/alertModal.jsp" %>
+						</c:forEach>
+						
+						<c:choose>
+							<c:when test="${hasNext}">
+								<c:choose>
+									<c:when test="${not empty currentCate}">
+										<a href="${cp}/inquiry/list?page=${nextPage}&p_category=${currentCate}" class="paging-next">다음</a>
+									</c:when>
+									<c:otherwise>
+										<a href="${cp}/inquiry/list?page=${nextPage}" class="paging-next">다음</a>
+									</c:otherwise>
+								</c:choose>
+							</c:when>
+							<c:otherwise>
+								<a href="#" class="paging-next">다음</a>
+							</c:otherwise>
+						</c:choose>
+					</c:if>
+                </div>
+            </article>
+        </div>
+    </div>
 </body>
-<script src="../resources/js/alertModal.js"></script>
 </html>

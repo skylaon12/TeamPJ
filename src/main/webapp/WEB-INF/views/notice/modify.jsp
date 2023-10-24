@@ -8,22 +8,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="UTF-8">
+
 	<link rel="shortcut icon"
 		href="https://www.megabox.co.kr/static/pc/images/favicon.ico">
-<!-- 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-<!--   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script> -->
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>MEET PLAY SHARE, 솔 시네마</title>
-	<link rel="stylesheet" type="text/css" href="${cp}/resources/css/style.css?ver=<%=System.currentTimeMillis()%>"/>
-	<link rel="stylesheet" type="text/css" href="${cp}/resources/css/list.css?ver=<%=System.currentTimeMillis()%>"/>
-	<link rel="stylesheet" type="text/css" href="${cp}/resources/css/main_files/megabox.min.css?ver=<%=System.currentTimeMillis()%>" media="all">
-	<link rel="stylesheet" href="${cp}/resources/css/navbar.css" />
-	<link rel="stylesheet" href="${cp}/resources/css/common.css" />
 	
-	<script type="text/javascript" src="../resources/js/util.js"></script>
+	<link rel="stylesheet" href="${cp}/resources/css/board.css" />
+	
 	<script type="text/javascript">
-	
 		function sendIt(){
 			
 			var f = document.myForm;
@@ -55,102 +49,69 @@
 			alert("글 수정이 완료 되었습니다.");
 			
 		}
-	
 	</script>
 </head>
 <body>
+	<div id="back-container">
+        <div id="main-container">
+            <div id="left-nav-bar">
+                <span style="display: flex; justify-content: center; padding: 30px 20px; border-radius: 10px 10px 0 0; background-color: #8b0bd6; letter-spacing: 1px; font-weight: 500;">고객센터</span>
+                <nav id="left-nav-column">
+                    <ul>
+                        <li class="left-nav">
+                            <a href="${cp}/inquiry/home">고객센터 홈</a>
+                        </li>
+                        <li class="left-nav select">
+                            <a href="list?page=${articleCurrentPage}">공지사항</a>
+                        </li>
+                        <li class="left-nav">
+                            <a href="${cp}/inquiry/list?page=1">내 문의 내역</a>
+                        </li>
+                        <li class="left-nav">
+                            <a href="${cp}/inquiry/write?page=1">1:1 문의</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
 
-	<!-- container -->
-	<div class="container has-lnb">
-		<div class="page-util fixed">
-			<div class="inner-wrap">
-				<div class="location">
-					<a href="${cp}" title="메인 페이지 이동"><span>Home</span></a>
-					<a href="https://www.megabox.co.kr/support" title="고객센터 페이지로 이동">고객센터</a>
-					<a href="list?page=${articleCurrentPage}" title="공지사항 페이지로 이동">공지사항</a>
-					<a href="article?p_id=${article.p_id}&page=${articleCurrentPage}" title="글">${article.p_title }</a>
-				</div>
-	
-			</div>
-		</div>
-	
-		<div class="inner-wrap">
-			<div class="lnb-area addchat location-fixed">
-				<nav id="lnb">
-					<p class="tit"><a href="https://www.megabox.co.kr/support" title="고객센터">고객센터</a></p>
-					<ul>
-						<li><a href="http://localhost:8080/list" title="고객센터 홈">고객센터 홈</a></li>
-						<li class="on"><a href="list?page=${articleCurrentPage}" title="공지사항">공지사항</a></li>
-						<li><a href="${cp}/inquiry/write?page=1" title="1:1문의">1:1 문의 하기</a></li>
-						<li><a href="${cp}/inquiry/list?page=1" title="1:1문의">내 문의 내역</a></li>
-					</ul>
-				</nav>
-			</div>
-	
-			<div id="contents" class="location-fixed">
-				<h2 class="tit">[관리자] 공지사항 수정</h2>
-	
-				<div class="btn-group right">
-					<a href="list" class="button purple" id="myQnaBtn" title="공지사항 이동">공지사항 메인</a><!-- btn-layer-open -->
-				</div>
-	
-				<form action="" method="post" name="myForm">
-					<div id="bbsCreated">
-						<table class="board-form va-m">
-							<colgroup>
-								<col style="width:150px;">
-								<col>
-								<col style="width:150px;">
-								<col>
-							</colgroup>
-							
-							<tbody>
-								<tr>
-									<td><input type="hidden" name ="p_id" class="input-text w150px" value="${article.p_id }"></td>
-								</tr>
-								
-								<tr>
-									<th scope="row"><label for="name">이름</label> <em class="font-orange">*</em></th>
-									<td><input type="text" name ="p_writer" class="input-text w150px" value="${article.p_writer }" maxlength="15" readonly></td>
-								</tr>
-										
-								<tr>
-									<th scope="row"><label for="qnaCustInqTitle">제목</label> <em class="font-orange">*</em></th>
-									<td colspan="3"><input type="text" name="p_title" value="${article.p_title }" class="input-text" maxlength="100"></td>
-								</tr>
-								
-								<tr>
-									<th scope="row"><label for="textarea">내용</label> <em class="font-orange">*</em></th>
-									<td colspan="3">
-										<div class="textarea">
-											<textarea name="p_text" rows="5" cols="30" title="내용입력" class="input-textarea">${article.p_text }</textarea>
-											<div class="util">
-												<p class="count">
-													
-												</p>
-											</div>
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				
-					<br/>	<br/>	
-					<div id="bbsCreated_footer" align="center">
-						<input type="button" value=" 수정하기 " class="button purple large" onclick="sendIt();"/>
-						<input type="button" value=" 수정취소 " class="button purple large" 
-						onclick="javascript:location.href='<%=cp%>/notice/list?page=${articleCurrentPage}';"/>
-					</div>
-					<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
-				</form>
-			</div>
-		</div>
-	</div>
-	
-	<%@include file="/WEB-INF/views/common/footer.jsp"%>
-	<!-- 오류 모달 -->
-		<%@include file="../common/alertModal.jsp" %>
+            <article id="content-container">
+                <h2 style="padding-bottom: 0.5em; border-bottom: 1px solid #cacaca;">공지사항 수정</h2>
+                
+                <form action="" method="post" name="myForm" id="post-write-area">
+                	<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
+                	
+                	<input type="hidden" name ="p_id" value="${article.p_id }">
+                	<input type="hidden" name ="p_writer" value="${admin.account}">
+                	
+                    <div id="category-select">
+                        <div id="select-area-1">
+                            
+                        </div>
+                        <div id="select-area-2">
+                            <div class="write-category-text">
+                                <span style="margin-left: 15px;">제목<span style="color: red;">*</span></span>
+                            </div>
+                            <div style="display: flex; justify-content: center; align-items: center;">
+                                <input type="text" name="p_title" id="write-post-title" class="write-category" style="padding-right: 0px;" value="${article.p_title }">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="write-text-area" style="border-bottom: 1px solid #cacaca;">
+                        <div class="write-category-text" style="width: 20%;">
+                            <span style="margin-left: 15px;">내용<span style="color: red;">*</span></span>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <textarea name="p_text" id="text-area" cols="30" rows="10" maxlength="20">${article.p_text }</textarea>
+                        </div>
+                    </div>
+
+	                <div id="btn-area" style="display: flex; justify-content: center;">
+	                    <button class="write-btn-class" id="write-btn" onclick="sendIt();">수정하기</button>
+	                    <a href="javascript:location.href='<%=cp%>/notice/list?page=${articleCurrentPage}';" class="write-btn-class">돌아가기</a>
+	                </div>
+	           	</form>
+            </article>
+        </div>
+    </div>
 </body>
-<script src="../resources/js/alertModal.js"></script>
 </html>

@@ -80,7 +80,8 @@
 	<select id="getCommentData" resultType="com.team3.spring.vo.CommentVO">
 	    SELECT P_WRITER, P_COMMENT, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED 
 	    FROM BOARD_INQUIRY_COMMENT 
-	    WHERE P_ORI_ID = #{p_ori_id} LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_COMMENT_PAGE}
+	    WHERE P_ORI_ID = #{p_ori_id} ORDER BY P_ID DESC
+	    LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_COMMENT_PAGE}
 	</select>
 	
 	<select id="getCommentTotalCount" resultType="int">
