@@ -106,7 +106,7 @@
                       <td>${dto.p_title}</td>
                       <td>${dto.p_created}</td>
                       <td><a href="${articleUrl}${dto.p_id}&page=${currentPage }"><button name="info-btn" type="button" class="btn btn-block btn-info btn-sm">문의 확인</button></a></td>
-                      <td><a href="delQnAProc?id=${dto.p_id}&page=${currentPage}&p_category=${p_category}&searchKey=${searchKey}&word=${word}"><button name="delete-btn" type="button" class="btn btn-block btn-danger btn-sm">문의 삭제</button></a></td>
+                      <td><a href="delComQnAProc?id=${dto.p_id}&page=${currentPage}&p_category=${p_category}&searchKey=${searchKey}&word=${word}"><button name="delete-btn" type="button" class="btn btn-block btn-danger btn-sm">문의 삭제</button></a></td>
                   </tr>
                   </c:forEach>
                 </tbody>

@@ -13,13 +13,13 @@ public interface BoardMapper {
 	
 	public ArrayList<BoardVO> listSearch(@Param("searchKey") String searchKey, @Param("word") String word, @Param("page") int page);
 	
-	public void write(BoardVO gvo);
+	public int write(BoardVO gvo);
 	
 	public BoardVO read(long p_id);
 	
-	public void del(long p_id);
+	public int del(long p_id);
 	
-	public void modify(BoardVO gvo);
+	public int modify(BoardVO gvo);
 	
 	public int getTotalCount();
 	

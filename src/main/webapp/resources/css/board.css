@@ -105,7 +105,7 @@ tbody tr td:nth-child(2), tbody tr td:nth-child(3) {
     width: 100%;
 }
 
-#post-list-btn, #write, #edit {
+#post-list-btn, #write, #edit, #del {
     background: #ececec;
     border: 1px solid #cacaca;
     display: block;

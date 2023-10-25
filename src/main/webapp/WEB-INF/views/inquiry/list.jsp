@@ -263,11 +263,15 @@
         </div>
     </div>
     <%@include file="../common/footer.jsp"%>
+    <%@include file="../common/alertModal.jsp" %>
 </body>
 <script>
 $(document).ready(function(){
 	$("#notice-bar").removeClass("select");
 	$("#my-inquiry-bar").addClass("select");
+	if(${!empty msgType}){
+			$("#successModal").modal("show");
+		}
 })
 </script>
 </html>

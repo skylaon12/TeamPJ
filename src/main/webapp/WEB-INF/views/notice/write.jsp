@@ -19,7 +19,6 @@
 	<link rel="stylesheet" href="${cp}/resources/css/board.css" />
 	<link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
   	<link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
-	
 	<script type="text/javascript">
 		function sendIt(){
 			
@@ -30,7 +29,7 @@
 			str = f.p_title.value;
 			str = str.trim();
 			if(!str){
-				alert("\n제목을 입력하세요.");
+				pushModal("\n제목을 입력하세요.");
 				f.p_title.focus();
 				return;
 			}
@@ -39,7 +38,7 @@
 			str = f.p_writer.value;
 			str = str.trim();
 			if(!str){
-				alert("\n이름을 입력하세요.");
+				pushModal("\n이름을 입력하세요.");
 				f.p_writer.focus();
 				return;
 			}		
@@ -50,7 +49,7 @@
 			str = f.p_text.value;
 			str = str.trim();
 			if(!str){
-				alert("\n내용을 입력하세요.");
+				pushModal("\n내용을 입력하세요.");
 				f.p_text.focus();
 				return;
 			}
@@ -58,7 +57,6 @@
 			
 			f.action = "<%=cp%>/notice/write?page=" + page;
 			f.submit();
-			alert("글 등록이 완료 되었습니다.");
 		}
 	</script>
 </head>
@@ -99,7 +97,7 @@
                     </div>
 
 	                <div id="btn-area" style="display: flex; justify-content: center;">
-	                    <button class="write-btn-class" id="write-btn" onclick="sendIt();">등록</button>
+	                    <input type="button" class="write-btn-class" id="write-btn" onclick="sendIt();" value="등록하기">
 	                    <a href="javascript:location.href='<%=cp%>/notice/list?page=${writeCurrentPage}';" class="write-btn-class">돌아가기</a>
 	                </div>
 	           	</form>
@@ -107,5 +105,7 @@
         </div>
     </div>
     <%@include file="../common/footer.jsp"%>
+    <%@include file="../common/alertModal.jsp" %>
 </body>
+<script src="../resources/js/alertModal.js"></script>
 </html>

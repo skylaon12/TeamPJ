@@ -5,6 +5,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 import com.team3.spring.mapper.AdminMapper;
+import com.team3.spring.mapper.BoardMapper2;
 import com.team3.spring.mapper.MemberMapper;
 import com.team3.spring.mapper.MovieMapper;
 import com.team3.spring.mapper.TicketingMapper;
@@ -24,6 +25,8 @@ public class MemberServiceImpl implements MemberService {
 	private TicketingMapper t_mapper;
 	@Setter(onMethod_ = @Autowired)
 	private AdminMapper a_mapper;
+	@Setter(onMethod_ = @Autowired)
+	private BoardMapper2 b_mapper;
 	@Setter(onMethod_ = @Autowired)
 	private JavaMailSenderImpl mailSender;
 	@Override

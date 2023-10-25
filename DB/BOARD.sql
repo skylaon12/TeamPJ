@@ -37,7 +37,8 @@ create table board_inquiry_comment(				# 1대1 게시판 댓글 테이블
     p_comment text not null,					# 댓글 내용
     p_created datetime not null default now() 	# 작성일자
 );
-
+# 문의 삭제 시 해당 문
+alter table board_inquiry_comment add foreign key(p_ori_id) references board_inquiry(p_id) on delete cascade;
 # test 데이터삽입 ( 공지 사항 )
 insert into board(p_writer, p_title, p_text) values ('user1', '테스트1입니다.', '테스트1이에요');
 insert into board(p_writer, p_title, p_text) values ('user1', '테스트2입니다.', '테스트2이에요');

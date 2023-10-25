@@ -161,5 +161,13 @@
         </div>
     </div>
     <%@include file="../common/footer.jsp"%>
+    <%@include file="../common/alertModal.jsp" %>
 </body>
+<script>
+$(document).ready(function(){
+	if(${!empty msgType}){
+			$("#successModal").modal("show");
+		}
+})
+</script>
 </html>

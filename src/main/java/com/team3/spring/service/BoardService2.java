@@ -18,13 +18,13 @@ public interface BoardService2 {
 	public ArrayList<BoardVO2> getLists(String p_category, String searchKey, String word, int page, String account);
 	
 	// 쓰기
-	public void write(BoardVO2 gvo);
+	public int write(BoardVO2 gvo);
 	
 	// 읽기
 	public BoardVO2 read(long p_id);
 	
 	// 수정
-	public void modify(BoardVO2 gvo);
+	public int modify(BoardVO2 gvo);
 	
 	// 페이징 처리 관련
 	public int getStartIndex(int page, boolean comment);

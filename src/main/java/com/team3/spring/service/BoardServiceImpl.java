@@ -36,8 +36,8 @@ public class BoardServiceImpl implements BoardService {
 	
 	// 쓰기
 	@Override
-	public void write(BoardVO gvo) {
-		mapper.write(gvo);
+	public int write(BoardVO gvo) {
+		return mapper.write(gvo);
 	}
 	
 	// 읽기
@@ -48,14 +48,14 @@ public class BoardServiceImpl implements BoardService {
 	
 	// 삭제
 	@Override
-	public void del(long p_id) {
-		mapper.del(p_id);
+	public int del(long p_id) {
+		return mapper.del(p_id);
 	}
 	
 	// 수정
 	@Override
-	public void modify(BoardVO gvo) {
-		mapper.modify(gvo);
+	public int modify(BoardVO gvo) {
+		return mapper.modify(gvo);
 	}
 	
 	@Override

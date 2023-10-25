@@ -34,7 +34,7 @@
 			str = f.p_title.value;
 			str = str.trim();
 			if(!str){
-				alert("\n제목을 입력하세요.");
+				pushModal("\n제목을 입력하세요.");
 				f.p_title.focus();
 				return;
 			}
@@ -43,7 +43,7 @@
 			str = f.p_text.value;
 			str = str.trim();
 			if(!str){
-				alert("\n내용을 입력하세요.");
+				pushModal("\n내용을 입력하세요.");
 				f.p_text.focus();
 				return;
 			}
@@ -53,8 +53,6 @@
 			
 			f.action = "<%=cp%>/inquiry/modify?p_id=" + num + "&page=" + page;
 			f.submit();
-			alert("글 수정이 완료 되었습니다.");
-			
 		}
 	
 	</script>
@@ -107,7 +105,7 @@
                     </div>
 
 	                <div id="btn-area" style="display: flex; justify-content: center;">
-	                    <button class="write-btn-class" id="write-btn" onclick="sendIt();">수정하기</button>
+	                    <input type="button" class="write-btn-class" id="write-btn" onclick="sendIt();" value="수정하기">
 	                    <a href="javascript:location.href='<%=cp%>/inquiry/list?page=${articleCurrentPage}';" class="write-btn-class">돌아가기</a>
 	                </div>
 	           	</form>
@@ -115,5 +113,13 @@
         </div>
     </div>
     <%@include file="../common/footer.jsp"%>
+    <%@include file="../common/alertModal.jsp" %>
 </body>
+<script src="../resources/js/alertModal.js"></script>
+<script>
+$(document).ready(function(){
+	$("#notice-bar").removeClass("select");
+	$("#write-inquiry-bar").addClass("select");
+})
+</script>
 </html>

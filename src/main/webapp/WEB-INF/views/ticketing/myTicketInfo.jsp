@@ -16,7 +16,8 @@
 <title>SOL CINEMA</title>
 </head>
 <style>
-    @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@100;200;300;400;500;600;700&display=swap');
+
     @font-face {
     font-family: 'NanumSquareNeo';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
@@ -94,7 +95,26 @@
         font-size: 70%;
         line-height: 25px;
         text-wrap: nowrap;
+        
     }
+    .ticket-status {
+        font-family: Noto Sans KR, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 13px;
+        width: 250px;
+        border: 1px solid #ececec;
+        height: 50px;
+        margin: 10px 10px 0 -50px;
+        border-radius: 30px;
+    }
+
+    .hidden { display: none; }
+    .not-used { background: green; }
+    .used { background: #c41313 }
+    
 </style>
 <body>
 
@@ -132,6 +152,12 @@
                         <div id="count" class="detail-text" style="width: 200px;">count | 성인 ${ticket.ticket_cnt}명</div>
                         <div id="seat" class="detail-text" style="width: 200px;">seat | ${ticket.seat_num}</div>
                         <button id="phone-ticket" style="border-radius: 10px; border: none; color: white; background-color: rgb(222, 0, 0); padding: 0.7em 2.5em; line-height: 20px; margin: 20px 10px 10px -30px;">카카오톡으로 티켓받기</button>
+                        <div id="ticket-status-not" class="ticket-status not-used hidden">
+                            <span style="padding: 10px;">아직 상영시간 전이에요!</span>
+                        </div>
+                        <div id="ticket-status-used" class="ticket-status used hidden">
+                            <span style="padding: 10px;">이미 사용한 티켓이에요!</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -173,7 +199,7 @@
         <div>
             <div style="display: flex;"></div>
             <a href="${cp}/"><button id="redirect-home" style="border-radius: 10px; border: none; color: white; background-color: rgb(222, 0, 0); padding: 0.7em 2.5em; line-height: 20px; margin: 20px 50px 20px 20px;">홈으로 돌아가기</button></a>
-            <a href="${cp}/ticketing/bookCancel?id=${ticket.id}"><button id="redirect-home" style="border-radius: 10px; border: none; color: white; background-color: rgb(222, 0, 0); padding: 0.7em 2.5em; line-height: 20px; margin: 20px 20px 20px 50px;">예약 취소</button></a>
+            <a href="${cp}/ticketing/bookCancel?id=${ticket.id}"><button id="cancelBtn" style="border-radius: 10px; border: none; color: white; background-color: rgb(222, 0, 0); padding: 0.7em 2.5em; line-height: 20px; margin: 20px 20px 20px 50px;">예약 취소</button></a>
         </div>
     </div>
 <%@include file="../common/footer.jsp"%>
@@ -181,4 +207,44 @@
 	<%@include file="../common/alertModal.jsp" %>
 </body>
 <script src="../resources/js/alertModal.js"></script>
+<script>
+// ticket 정보를 JavaScript 객체로 파싱
+var ticket = {
+  reserv_date: "${ticket.reserv_date}",
+  str_hour: "${ticket.str_hour}",
+  str_min: "${ticket.str_min}"
+};
+
+// 현재 날짜와 시간 정보 얻기
+var currentDate = new Date();
+var currentYear = currentDate.getFullYear();
+var currentMonth = currentDate.getMonth() + 1; // 월은 0부터 시작하므로 1을 더합니다.
+var currentDay = currentDate.getDate();
+var currentHour = currentDate.getHours();
+var currentMinute = currentDate.getMinutes();
+
+// 예매 정보의 날짜와 시간 얻기
+var reservedDate = new Date(ticket.reserv_date);
+var reservedYear = reservedDate.getFullYear();
+var reservedMonth = reservedDate.getMonth() + 1;
+var reservedDay = reservedDate.getDate();
+var reservedHour = parseInt(ticket.str_hour);
+var reservedMinute = parseInt(ticket.str_min);
+
+// 예매 정보의 시간을 20분 앞당겨야함.
+reservedDate.setMinutes(reservedDate.getMinutes() - 20);
+
+// 날짜 및 시간 비교
+if (currentDate < reservedDate) {
+  // 아직 상영시간 전인 경우
+  var notUsedStatus = document.getElementById("ticket-status-not");
+  notUsedStatus.classList.remove("hidden");
+} else {
+  // 이미 사용한 티켓인 경우
+//   var cancelButton = documentc.
+  var usedStatus = document.getElementById("ticket-status-used");
+  usedStatus.classList.remove("hidden");
+  document.getElementById("cancelBtn").style.display = "none"; // 또는 "inline-block", "inline", 등으로 변경 가능
+}
+</script>
 </html>

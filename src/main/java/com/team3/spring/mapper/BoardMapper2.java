@@ -27,13 +27,13 @@ public interface BoardMapper2 {
 			@Param("p_writer")String account);
 	
 	// 쓰기
-	public void write(BoardVO2 gvo);
+	public int write(BoardVO2 gvo);
 	
 	// 읽기
 	public BoardVO2 read(long p_id);
 	
 	// 수정
-	public void modify(BoardVO2 gvo);
+	public int modify(BoardVO2 gvo);
 	
 	// 전체 글 수
 	public int getTotalCount();

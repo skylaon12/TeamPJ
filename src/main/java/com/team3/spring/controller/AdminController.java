@@ -363,6 +363,34 @@ public class AdminController {
 
 	}
 	
+	@GetMapping("/delComQnAProc")
+	public String delComQnaProc(RedirectAttributes rttr, 
+			@RequestParam("id")int id,
+			@RequestParam("page")String page,
+			@RequestParam("p_category")String category,
+			@RequestParam("searchKey")String searchKey,
+			@RequestParam("word") String word) {
+		int result = service.delQna(id);
+		
+		String encodedCategory = "";
+		String encodedWord = "";
+		try {
+			encodedCategory = (category != null) ? URLEncoder.encode(category, StandardCharsets.UTF_8.toString()) : "";
+			encodedWord = (word != null) ? URLEncoder.encode(word, StandardCharsets.UTF_8.toString()) : "";
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
+		if(result == 1) {
+			rttr.addFlashAttribute("msgType", "Success");
+			rttr.addFlashAttribute("msg", "삭제가 완료되었습니다.");
+			return "redirect:QnACompleList?page="+page+"&p_category="+encodedCategory+"&searchKey="+searchKey+"&word="+encodedWord;
+		}else {
+			rttr.addFlashAttribute("msgType", "Fail");
+			rttr.addFlashAttribute("msg", "처리가 완료되었습니다.");
+			return "redirect:QnACompleList?page="+page+"&p_category="+encodedCategory+"&searchKey="+searchKey+"&word="+encodedWord;
+		}
+	}
 	
 	// 완료된 Q&A 관련 컨트롤러 끝
 	//공지사항 관련 컨트롤러 시작

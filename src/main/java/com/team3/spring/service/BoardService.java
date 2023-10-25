@@ -12,13 +12,13 @@ public interface BoardService {
 	
 	public ArrayList<BoardVO> listSearch(String searchKey, String word, int page);
 	
-	public void write(BoardVO gvo);
+	public int write(BoardVO gvo);
 	
 	public BoardVO read(long p_id);
 	
-	public void del(long p_id);
+	public int del(long p_id);
 	
-	public void modify(BoardVO gvo);
+	public int modify(BoardVO gvo);
 	
 	public int getStartIndex(int page);
 	

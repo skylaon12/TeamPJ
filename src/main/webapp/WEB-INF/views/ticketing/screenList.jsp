@@ -112,12 +112,6 @@
 //글로벌 변수 설정
 	var csrfHeaderName = "${_csrf.headerName}";
 	var csrfTokenValue = "${_csrf.token}";
-$(document).ready(function(){ // 메세지 띄우기
-// 	if(${!empty msgType}){
-// 		$("#messageType").attr("class", "modal-content panel-warning");
-// 		$("#myMessage").modal("show");
-// 	}
-});
 	var popup;
 	var initialColor = 'rgb(169, 169, 169)';
 	

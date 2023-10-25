@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.team3.spring.config.BoardConfig;
 import com.team3.spring.service.BoardService;
@@ -131,8 +132,15 @@ public class BoardController {
 	}
 	
 	@PostMapping("/write")
-	public String write(BoardVO gvo, @RequestParam("page") int page) {
-		service.write(gvo);
+	public String write(RedirectAttributes rttr, BoardVO gvo, @RequestParam("page") int page) {
+		int result = service.write(gvo);
+		if(result == 1) {
+			rttr.addFlashAttribute("msgType", "성공 메세지");
+			rttr.addFlashAttribute("msg", "공지사항이 등록되었습니다.");
+		}else {
+			rttr.addFlashAttribute("msgType", "오류 메세지");
+			rttr.addFlashAttribute("msg", "오류가 발생하였습니다.");
+		}
 		
 		return "redirect:/notice/list?page="+page;
 	}
@@ -218,17 +226,28 @@ public class BoardController {
 	}
 	
 	@GetMapping("/del")
-	public String del(@RequestParam("p_id") Long p_id, @RequestParam("page") int page) {
-		log.info("컨트롤러 글번호 삭제 =======>>>"+p_id);
-		service.del(p_id);
-		
+	public String del(RedirectAttributes rttr, @RequestParam("p_id") Long p_id, @RequestParam("page") int page) {
+		int result = service.del(p_id);
+		if(result == 1) {
+			rttr.addFlashAttribute("msgType", "성공 메세지");
+			rttr.addFlashAttribute("msg", "삭제가 완료되었습니다.");
+		}else {
+			rttr.addFlashAttribute("msgType", "오류 메세지");
+			rttr.addFlashAttribute("msg", "오류가 발생하였습니다.");
+		}
 		return "redirect:/notice/list?page="+page;
 	}
 	
 	@PostMapping("/modify")
-	public String modify(BoardVO gvo, @RequestParam("page") int page) {
-		service.modify(gvo);
-		
+	public String modify(RedirectAttributes rttr, BoardVO gvo, @RequestParam("page") int page) {
+		int result = service.modify(gvo);
+		if(result == 1) {
+			rttr.addFlashAttribute("msgType", "성공 메세지");
+			rttr.addFlashAttribute("msg", "게시판 수정이 완료되었습니다.");
+		}else {
+			rttr.addFlashAttribute("msgType", "오류 메세지");
+			rttr.addFlashAttribute("msg", "오류가 발생하였습니다.");
+		}
 		return "redirect:/notice/list?page="+page;
 	}	
 

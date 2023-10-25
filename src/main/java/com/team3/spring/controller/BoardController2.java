@@ -94,8 +94,15 @@ public class BoardController2 {
 	}
 	
 	@PostMapping("/write")
-	public String write(BoardVO2 gvo, @RequestParam("page") int page) {
-		service.write(gvo);
+	public String write(RedirectAttributes rttr, BoardVO2 gvo, @RequestParam("page") int page) {
+		int result = service.write(gvo);
+		if(result == 1) {
+			rttr.addFlashAttribute("msgType", "성공 메세지");
+			rttr.addFlashAttribute("msg", "문의가 등록되었습니다.");
+		}else {
+			rttr.addFlashAttribute("msgType", "오류 메세지");
+			rttr.addFlashAttribute("msg", "오류가 발생하였습니다.");
+		}
 		
 		return "redirect:/inquiry/list?page="+page;
 	}
@@ -223,9 +230,15 @@ public class BoardController2 {
 	}
 	
 	@PostMapping("/modify")
-	public String modify(BoardVO2 gvo, @RequestParam("page") int page) {
-		service.modify(gvo);
-		
+	public String modify(RedirectAttributes rttr ,BoardVO2 gvo, @RequestParam("page") int page) {
+		int result = service.modify(gvo); 
+		if(result == 1) {
+			rttr.addFlashAttribute("msgType", "성공 메세지");
+			rttr.addFlashAttribute("msg", "문의가 수정되었습니다.");
+		}else {
+			rttr.addFlashAttribute("msgType", "오류 메세지");
+			rttr.addFlashAttribute("msg", "수정에 실패하였습니다.");
+		}
 		return "redirect:/inquiry/list?page="+page;
 	}
 	

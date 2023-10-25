@@ -53,8 +53,8 @@ public class BoardServiceImpl2 implements BoardService2 {
 	
 	// 쓰기
 	@Override
-	public void write(BoardVO2 gvo) {
-		mapper.write(gvo);
+	public int write(BoardVO2 gvo) {
+		return mapper.write(gvo);
 	}
 	
 	// 읽기
@@ -65,8 +65,8 @@ public class BoardServiceImpl2 implements BoardService2 {
 	
 	// 수정
 	@Override
-	public void modify(BoardVO2 gvo) {
-		mapper.modify(gvo);
+	public int modify(BoardVO2 gvo) {
+		return mapper.modify(gvo);
 	}
 	
 	@Override
