@@ -52,7 +52,7 @@ public class AdminController {
 		m.addAttribute("totalPage", totalPage);
 
 	}
-
+	// 회원 관련 컨트롤러 시작
 	@GetMapping("/memberList")
 	public void getMemberList(Model m, Principal p) {
 		MemberVO vo = service.loadInfo(p.getName());
@@ -98,7 +98,7 @@ public class AdminController {
 	@GetMapping("/userDeleteProc")
 	public String userDeleteProc(RedirectAttributes rttr, @RequestParam("id")int id, @RequestParam("account")String account) {
 		
-		int result = service.deleteUser(id, account);
+		int result = service.deleteUser(account);
 		if(result == 1) {
 			rttr.addFlashAttribute("msgType", "Success");
 			rttr.addFlashAttribute("msg", "삭제가 완료되었습니다.");
@@ -109,12 +109,15 @@ public class AdminController {
 			return "redirect:memberList";
 		}
 	}
-
+	// 회원 관련 컨트롤러 끝
+	
+	// Q&A 관련 컨트롤러 시작
 	@GetMapping("/QnAList")
 	public void getBoardList(Model m, @RequestParam(value = "p_category", required = false) String p_category,
 			@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "searchKey", required = false) String searchKey,
 			@RequestParam(value = "word", required = false) String word, Principal p) {
+		String p_status = "F";
 		MemberVO vo = service.loadInfo(p.getName());
 		m.addAttribute("admin", vo);
 		// 기본 검색 조건 설정
@@ -134,7 +137,7 @@ public class AdminController {
 		// 검색 결과에 따른 총 글 수 가져오기
 //		int totalCount = word.isEmpty() ? service.getTotalCount() : service.getSearchTotalCount(searchKey, word);
 //		log.info("전체 글 수 =>" + totalCount);
-		int totalCount = service.getTotalPageCount(p_category, searchKey, word);
+		int totalCount = service.getTotalPageCount(p_category, searchKey, word, p_status);
 	    log.info("전체 글 수 =>" + totalCount);
 
 		// 전체 페이지 수 계산
@@ -176,7 +179,7 @@ public class AdminController {
 		}
 
 		// 검색 조건에 따라 적절한 서비스 메서드 호출
-		ArrayList<BoardVO2> lists = service.getLists(p_category, searchKey, word, index);
+		ArrayList<BoardVO2> lists = service.getLists(p_category, searchKey, word, index, p_status);
 
 		// 현재 페이지 번호 추가
 		m.addAttribute("currentPage", page);
@@ -233,9 +236,136 @@ public class AdminController {
 			return "redirect:QnAList?page="+page+"&p_category="+encodedCategory+"&searchKey="+searchKey+"&word="+encodedWord;
 		}
 	}
+	
+	@GetMapping("/delQnAProc")
+	public String delQnaProc(RedirectAttributes rttr, 
+			@RequestParam("id")int id,
+			@RequestParam("page")String page,
+			@RequestParam("p_category")String category,
+			@RequestParam("searchKey")String searchKey,
+			@RequestParam("word") String word) {
+		int result = service.delQna(id);
+		
+		String encodedCategory = "";
+		String encodedWord = "";
+		try {
+			encodedCategory = (category != null) ? URLEncoder.encode(category, StandardCharsets.UTF_8.toString()) : "";
+			encodedWord = (word != null) ? URLEncoder.encode(word, StandardCharsets.UTF_8.toString()) : "";
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 
+		if(result == 1) {
+			rttr.addFlashAttribute("msgType", "Success");
+			rttr.addFlashAttribute("msg", "삭제가 완료되었습니다.");
+			return "redirect:QnAList?page="+page+"&p_category="+encodedCategory+"&searchKey="+searchKey+"&word="+encodedWord;
+		}else {
+			rttr.addFlashAttribute("msgType", "Fail");
+			rttr.addFlashAttribute("msg", "처리가 완료되었습니다.");
+			return "redirect:QnAList?page="+page+"&p_category="+encodedCategory+"&searchKey="+searchKey+"&word="+encodedWord;
+		}
+	}
+	// Q&A관련 컨트롤러 끝
+	// 완료된 Q&A 관련 컨트롤러 시작
+	@GetMapping("/QnACompleList")
+	public void getComBoardList(Model m, @RequestParam(value = "p_category", required = false) String p_category,
+			@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "searchKey", required = false) String searchKey,
+			@RequestParam(value = "word", required = false) String word, Principal p) {
+		String p_status = "T";
+		MemberVO vo = service.loadInfo(p.getName());
+		m.addAttribute("admin", vo);
+		// 기본 검색 조건 설정
+		if (searchKey == null || searchKey.isEmpty()) {
+			searchKey = "p_title";
+		}
 
-//	공지사항 관련
+		// 검색어가 없으면 빈 문자열로 초기화
+		if (word == null) {
+			word = "";
+		}
+
+		// 시작 인덱스
+		int index = service.getStartIndex(page);
+		log.info("시작 =>" + index);
+
+		// 검색 결과에 따른 총 글 수 가져오기
+//		int totalCount = word.isEmpty() ? service.getTotalCount() : service.getSearchTotalCount(searchKey, word);
+//		log.info("전체 글 수 =>" + totalCount);
+		int totalCount = service.getTotalPageCount(p_category, searchKey, word, p_status);
+	    log.info("전체 글 수 =>" + totalCount);
+
+		// 전체 페이지 수 계산
+		int totalPage = service.getTotalPage(totalCount);
+		log.info("전체 페이지 수 =>" + totalPage);
+
+		// 전체 블럭 수 계산
+		int totalBlock = service.getTotalBlock(totalPage);
+		log.info("전체 블럭 수 =>" + totalBlock);
+
+		// 현재 블럭 계산
+		int currentBlock = (int) Math.ceil((double) page / BoardConfig.PAGE_PER_BLOCK);
+		log.info("현재 블럭 =>" + currentBlock);
+
+		// 현재 블럭의 시작과 끝 페이지 번호 계산
+		int blockStartNo = (currentBlock - 1) * BoardConfig.PAGE_PER_BLOCK + 1;
+		int blockEndNo = Math.min(currentBlock * BoardConfig.PAGE_PER_BLOCK, totalPage);
+		log.info("현재 블럭 시작 번호 =>" + blockStartNo);
+		log.info("현재 블럭 끝 번호 =>" + blockEndNo);
+
+		// 이전 다음 버튼 계산 처리
+		boolean hasPrev = true;
+		boolean hasNext = true;
+		int prevPage = 0;
+		int nextPage = 0;
+
+		if (currentBlock == 1) {
+			hasPrev = false;
+		} else {
+			hasPrev = true;
+			prevPage = (currentBlock - 1) * BoardConfig.PAGE_PER_BLOCK;
+		}
+
+		if (currentBlock < totalBlock) {
+			hasNext = true;
+			nextPage = currentBlock * BoardConfig.PAGE_PER_BLOCK + 1;
+		} else {
+			hasNext = false;
+		}
+
+		// 검색 조건에 따라 적절한 서비스 메서드 호출
+		ArrayList<BoardVO2> lists = service.getLists(p_category, searchKey, word, index, p_status);
+
+		// 현재 페이지 번호 추가
+		m.addAttribute("currentPage", page);
+
+		// 페이지 리스트 및 페이징 관련 정보 뷰로 전달
+		m.addAttribute("totalCount", totalCount);
+		m.addAttribute("totalPage", totalPage);
+		m.addAttribute("totalBlock", totalBlock);
+		m.addAttribute("currentBlock", currentBlock);
+		m.addAttribute("blockStartNo", blockStartNo);
+		m.addAttribute("blockEndNo", blockEndNo);
+		m.addAttribute("hasPrev", hasPrev);
+		m.addAttribute("hasNext", hasNext);
+		m.addAttribute("prevPage", prevPage);
+		m.addAttribute("nextPage", nextPage);
+		m.addAttribute("lists", lists);
+
+		m.addAttribute("p_category", p_category);
+		m.addAttribute("searchKey", searchKey);
+		m.addAttribute("word", word);
+
+		String articleUrl = "/solcinema/inquiry/article?p_id=";
+		String pageUrl = "QnAList";
+		m.addAttribute("articleUrl", articleUrl);
+		m.addAttribute("pageUrl", pageUrl);
+
+	}
+	
+	
+	// 완료된 Q&A 관련 컨트롤러 끝
+	//공지사항 관련 컨트롤러 시작
 	@GetMapping("/getBoardData")
 	public String getBoardData(@RequestParam(name = "page", defaultValue = "1") int page, Model m, Principal p) {
 		MemberVO vo = service.loadInfo(p.getName());
@@ -303,8 +433,9 @@ public class AdminController {
 			return "redirect:/admin/read?id=" + vo.getP_id();
 		}
 	}
+	// 공지사항 관련 컨트롤러 끝
 	
-//	예매 관련
+	//예매 관련 컨트롤러 시작
 	@GetMapping("/ticketList")
 	public void getTicketList(Model m, Principal p) {
 		MemberVO vo = service.loadInfo(p.getName());
@@ -326,7 +457,9 @@ public class AdminController {
 		}
 		
 	}
+	// 예매관련 컨트롤러 끝
 	
+	// 권한 없을 시
 	@GetMapping("/access-denied")
 	public void showAccessDenied() {
 	}

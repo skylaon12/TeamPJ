@@ -9,8 +9,10 @@ import org.springframework.ui.Model;
 
 import com.team3.spring.config.BoardConfig;
 import com.team3.spring.mapper.BoardMapper2;
+import com.team3.spring.mapper.MemberMapper;
 import com.team3.spring.vo.BoardVO2;
 import com.team3.spring.vo.CommentVO;
+import com.team3.spring.vo.MemberVO;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -21,24 +23,30 @@ public class BoardServiceImpl2 implements BoardService2 {
 
 	@Setter(onMethod_ = @Autowired)
 	private BoardMapper2 mapper;
+	@Setter(onMethod_ = @Autowired)
+	private MemberMapper m_mapper;
+	@Override
+	public MemberVO getUserInfo(String account) {
+		return m_mapper.read(account);
+	}
 	
 	@Override
-	public ArrayList<BoardVO2> getLists(String p_category, String searchKey, String word, int page) {
+	public ArrayList<BoardVO2> getLists(String p_category, String searchKey, String word, int page, String account) {
 	    if ( word == null || word.equals("null") ) {
 	    	if ( p_category == null || p_category.isEmpty() ) {
 	    		log.info("서비스 진입 - 일반 리스트");
-	    		return mapper.list(page);
+	    		return mapper.list(page, account);
 	        } else {
 	        	log.info("서비스 진입 - 카테고리 리스트");
-	        	return mapper.listByCategory(p_category, page);
+	        	return mapper.listByCategory(p_category, page, account);
 	        }
 	    } else {
 	    	if ( p_category == null || p_category.isEmpty() ) {
 	    		log.info("서비스 진입 - 일반 검색 리스트");
-	    		return mapper.listSearch(searchKey, word, page);
+	    		return mapper.listSearch(searchKey, word, page, account);
 	        } else {
 	        	log.info("서비스 진입 - 카테고리 검색 리스트");
-	        	return mapper.listSearchByCategory(p_category, searchKey, word, page);
+	        	return mapper.listSearchByCategory(p_category, searchKey, word, page, account);
 	        }
 	    }
 	}
@@ -327,4 +335,5 @@ public class BoardServiceImpl2 implements BoardService2 {
 	    model.addAttribute("commentPrevPage", prevPage);
 	    model.addAttribute("commentNextPage", nextPage);
 	}
+
 }

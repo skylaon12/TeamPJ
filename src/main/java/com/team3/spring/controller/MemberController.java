@@ -99,23 +99,6 @@ public class MemberController {
 		return "redirect:checkUserPw";
 	}
 
-//	@RequestMapping("/checkLoginStatus")
-//	public String checkLoginStatus(RedirectAttributes rttr, HttpSession s, @RequestParam("id") String id, Principal p) {
-//
-////		SecurityContext context = SecurityContextHolder.getContext();
-////        Authentication authentication = context.getAuthentication();
-////        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-//
-//       if( p != null ) {
-//           return "redirect:/ticketing/screenList?no=" + id; 
-//       } else {
-//          rttr.addFlashAttribute("msgType", "실패 메세지");
-//            rttr.addFlashAttribute("msg", "로그인이 필요한 서비스입니다. 로그인 후 이용해주세요."); 
-//            return
-//            "redirect:login";
-//       }
-//	}
-
 	// 회원가입 페이지 이동
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public void signupGET() {
@@ -151,13 +134,36 @@ public class MemberController {
 			return "redirect:signup";
 		}
 	}
+	
+	@GetMapping("/findID")
+	public void findId() {
+	}
+	@GetMapping("/findPW")
+	public void findPw() {
+		
+	}
 
-	// 가람님 아이디 중복검사 개선함..
 	@RequestMapping("/checkAccount")
 	public @ResponseBody int memRegisterCheck(@RequestParam("account") String account) {
 		int count = service.checkAccount(account); // memberVO에 있는 값의 유무를 보고 result 1 or 0
 		return count;
 	}
+	
+	@RequestMapping(value="/changePwProc", method = RequestMethod.POST)
+	public String changPwProc(RedirectAttributes rttr, @RequestParam("account")String account, @RequestParam("pwd")String pwd) {
+		String encyptPw = pwEncoder.encode(pwd);
+		int result = service.changePwProc(account, encyptPw);
+		if(result == 1) {
+			rttr.addFlashAttribute("msgType", "성공 메세지");
+			rttr.addFlashAttribute("msg", "비밀번호 변경이 완료되었습니다.");
+			return "redirect:login";
+		}else {
+			rttr.addFlashAttribute("msgType", "실패 메세지");
+			rttr.addFlashAttribute("msg", "오류가 발생하였습니다.");
+			return "redirect:login";
+		}
+	}
+	
 
 	@ResponseBody
 	@RequestMapping(value = "/emailAuth", method = RequestMethod.POST)
@@ -174,8 +180,34 @@ public class MemberController {
 		} else {
 			return mailService.joinEmail(email);
 		}
-
 	}
+	@ResponseBody
+	@RequestMapping(value = "/findEmailAuth", method = RequestMethod.POST)
+	public String findEmailAuth(RedirectAttributes rttr, String email) {
+			return mailService.joinEmail(email);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getAccount", method = RequestMethod.POST)
+	public String getAccount(String name, String email1, String email2) {
+		log.info("getAccount진입");
+		String account = service.getAccount(name, email1, email2);
+		log.info(account);
+		return account;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/checkInfo", method = RequestMethod.POST)
+	public int checkUserInfo(String account, String email1, String email2) {
+		log.info("getAccount진입.. 받은 데이터" + account + email1 + email2);
+		int result = service.checkInfo(account, email1, email2);
+		log.info("받은 결과 : " + result);
+		return result;
+	}
+	
+	
+	
+	
+	
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/info")
 	public String userInfoView(Model m, Principal p, RedirectAttributes rttr) {

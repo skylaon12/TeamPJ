@@ -21,7 +21,7 @@ public interface AdminService {
 	public String getAuth(String account);
 	public void authDelete(String account);
 	public int authInsert(AuthVO vo);
-	public int deleteUser(int id, String account);
+	public int deleteUser(String account);
 	
 	//공자시항 관련
 	public ArrayList<BoardVO> getBoardList(int page);
@@ -33,19 +33,20 @@ public interface AdminService {
 	public int boardModify(BoardVO vo);
 	
 	// QnA관련
-	public ArrayList<BoardVO2> getLists(String p_category, String searchKey, String word, int page);
+	public ArrayList<BoardVO2> getLists(String p_category, String searchKey, String word, int page, String status);
 //	public ArrayList<BoardVO2> list(int page);
 //	public ArrayList<BoardVO2> listSearch(String searchKey, String word, int page);
 	public int getStartIndex(int page);
-	public int getTotalCount();
-	public int getTotalCountByCategory(String p_category);
-	public int getSearchTotalCountByCategory(String p_category, String searchKey, String word);
-	public int getTotalPageCount(String p_category, String searchKey, String word);
-	public int getSearchTotalCount(String searchKey, String word);
+	public int getTotalCount(String status);
+	public int getTotalCountByCategory(String p_category, String status);
+	public int getSearchTotalCountByCategory(String p_category, String searchKey, String word, String status);
+	public int getTotalPageCount(String p_category, String searchKey, String word, String status);
+	public int getSearchTotalCount(String searchKey, String word, String status);
 	public int getTotalPage(int totalCount);
 	public int getTotalBlock(int totalPage);
 	
 	public int completQna(int p_id);
+	public int delQna(int p_id);
 	// QnA관련 끝
 	
 	// 예매 관련

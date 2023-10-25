@@ -13,13 +13,23 @@
 	<link rel="stylesheet" href="../resources/css/tickethistory.css?ver=<%=System.currentTimeMillis()%>">
 	<link rel="icon" href="../resources/images/favicon.ico" type="image/x-icon">
     <title>SOL CINEMA</title>
+    <style type="text/css">
+    
+    </style>
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/navbar.jsp"%>
     <!-- 임시 임시 임시 임시 임시 -->
 	<div id="reservation-container">
 		<c:if test="${empty tickets}">
-			예매내역 없음
+			<div id="history-container">
+        <!-- 기존 div 지우고 얘만 추가했음 -->
+        <div id="history-empty">
+            <div id="cross-img"></div>
+            <span>예매 내역이 존재하지 않습니다.</span>
+        </div>
+        <!-- 여기까지 추가했음 -->
+    </div>
 		</c:if>
 		<c:if test="${not empty tickets}">
 			<c:forEach var="ticket" items="${tickets}">

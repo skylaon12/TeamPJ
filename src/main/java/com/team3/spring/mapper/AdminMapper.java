@@ -33,23 +33,28 @@ public interface AdminMapper {
 	public int boardDel(int p_id);
 	public int boardModify(BoardVO vo);
 	// QnA 관리 관련
-	public ArrayList<BoardVO2> list(int page);
-	public ArrayList<BoardVO2> listByCategory(@Param("p_category") String p_category, int page);
-	public ArrayList<BoardVO2> listSearch(@Param("searchKey") String searchKey, @Param("word") String word, @Param("page") int page);
+	public ArrayList<BoardVO2> list(@Param("page")int page, @Param("p_status")String status);
+	public ArrayList<BoardVO2> listByCategory(@Param("p_category") String p_category, int page, @Param("p_status")String status);
+	public ArrayList<BoardVO2> listSearch(@Param("searchKey") String searchKey, @Param("word") String word, @Param("page") int page, @Param("p_status")String status);
 	public ArrayList<BoardVO2> listSearchByCategory(@Param("p_category") String p_category, 
 			@Param("searchKey") String searchKey, 
 			@Param("word") String word, 
-			@Param("page") int page);
-	public int getTotalCount();
-	public int getTotalCountByCategory(@Param("p_category") String p_category);
+			@Param("page") int page,
+			@Param("p_status")String status);
+	public int getTotalCount(@Param("p_status")String status);
+	public int getTotalCountByCategory(@Param("p_category") String p_category, @Param("p_status")String status);
 	
 	public int getSearchTotalCount(@Param("searchKey") String searchKey, 
-			@Param("word") String word);
+			@Param("word") String word, @Param("p_status")String status);
 	
 	public int getSearchTotalCountByCategory(@Param("p_category") String p_category, 
 			@Param("searchKey") String searchKey, 
-			@Param("word") String word);
+			@Param("word") String word,
+			@Param("p_status")String status);
 	public int completQna(int p_id);
+	public int delQna(int p_id);
+	public void deleteFQnA(String account);
+	public void modifyTQnA(String account);
 	
 	// 예매 관련
 	public ArrayList<TicketingVO> getTicketList();

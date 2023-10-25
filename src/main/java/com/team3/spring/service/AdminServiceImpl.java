@@ -28,6 +28,7 @@ public class AdminServiceImpl implements AdminService{
 	private TicketingMapper t_mapper;
 	@Setter(onMethod_ = @Autowired)
 	private MovieMapper m_mapper;
+	// 현재 정보 가져오기
 	@Override
 	public MemberVO loadInfo(String account) {
 		return mapper.loadInfo(account);
@@ -82,44 +83,38 @@ public class AdminServiceImpl implements AdminService{
 		log.info("권한 삽입 시작");
 		return mapper.authInsert(vo);
 	}
+	// 관리자가 회원삭제 버튼을 눌렀을 때
+	// 완료되지 않은 QnA에 대해서는 삭제
+	// 완료된 QnA는 나중에 써먹을 수 있으니 writer를 del_user로 바꿔줌
+	// 왜? 해당 아이디로 다른 누군가가 회원가입 할 수도 있으니 회원가입이 불가능한(_) 문자를 넣어줌
 	@Override
-	public int deleteUser(int id, String account) {
+	public int deleteUser(String account) {
+		mapper.deleteFQnA(account);
+		mapper.modifyTQnA(account);
 		return mapper.deleteUser(account);
 	}
 
 	// Q&A 관련 서비스
 	@Override
-	public ArrayList<BoardVO2> getLists(String p_category, String searchKey, String word, int page) {
+	public ArrayList<BoardVO2> getLists(String p_category, String searchKey, String word, int page, String status) {
 		if ( word == null || word.equals("null") ) {
 	    	if ( p_category == null || p_category.isEmpty() ) {
 	    		log.info("서비스 진입 - 일반 리스트");
-	    		return mapper.list(page);
+	    		return mapper.list(page, status);
 	        } else {
 	        	log.info("서비스 진입 - 카테고리 리스트");
-	        	return mapper.listByCategory(p_category, page);
+	        	return mapper.listByCategory(p_category, page, status);
 	        }
 	    } else {
 	    	if ( p_category == null || p_category.isEmpty() ) {
 	    		log.info("서비스 진입 - 일반 검색 리스트");
-	    		return mapper.listSearch(searchKey, word, page);
+	    		return mapper.listSearch(searchKey, word, page, status);
 	        } else {
 	        	log.info("서비스 진입 - 카테고리 검색 리스트");
-	        	return mapper.listSearchByCategory(p_category, searchKey, word, page);
+	        	return mapper.listSearchByCategory(p_category, searchKey, word, page, status);
 	        }
 	    }
 	}
-	
-//	@Override
-//	public ArrayList<BoardVO2> list(int page) {
-//		// TODO Auto-generated method stub
-//		return mapper.list(page);
-//	}
-//
-//	@Override
-//	public ArrayList<BoardVO2> listSearch(String searchKey, String word, int page) {
-//		// TODO Auto-generated method stub
-//		return mapper.listSearch(searchKey, word, page);
-//	}
 
 	@Override
 	public int getStartIndex(int page) {
@@ -128,40 +123,40 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public int getTotalCount() {
-		return mapper.getTotalCount();
+	public int getTotalCount(String status) {
+		return mapper.getTotalCount(status);
 	}
 	
 	@Override
-	public int getTotalCountByCategory(String p_category) {
-		return mapper.getTotalCountByCategory(p_category);
+	public int getTotalCountByCategory(String p_category, String status) {
+		return mapper.getTotalCountByCategory(p_category, status);
 	}
 	
 	@Override
-	public int getSearchTotalCount(String searchKey, String word) {
-		return mapper.getSearchTotalCount(searchKey, word);
+	public int getSearchTotalCount(String searchKey, String word, String status) {
+		return mapper.getSearchTotalCount(searchKey, word, status);
 	}
 	
 	@Override
-	public int getSearchTotalCountByCategory(String p_category, String searchKey, String word) {
-		return mapper.getSearchTotalCountByCategory(p_category, searchKey, word);
+	public int getSearchTotalCountByCategory(String p_category, String searchKey, String word, String status) {
+		return mapper.getSearchTotalCountByCategory(p_category, searchKey, word, status);
 	}
 	
 	@Override
-	public int getTotalPageCount(String p_category, String searchKey, String word) {
+	public int getTotalPageCount(String p_category, String searchKey, String word, String status) {
 		int totalCount;
 	    
 	    if ( word == null || word.equals("null") ) {
 	    	if ( p_category == null || p_category.isEmpty() ) {
-	            totalCount = getTotalCount(); // 전체 카테고리 글 수 가져오기
+	            totalCount = getTotalCount(status); // 전체 카테고리 글 수 가져오기
 	        } else {
-	            totalCount = getTotalCountByCategory(p_category); // 특정 카테고리 글 수 가져오기
+	            totalCount = getTotalCountByCategory(p_category, status); // 특정 카테고리 글 수 가져오기
 	        }
 	    } else {
 	    	if ( p_category == null || p_category.isEmpty() ) {
-	            totalCount = getSearchTotalCount(searchKey, word); // 전체 카테고리에서 검색한 글 수 가져오기
+	            totalCount = getSearchTotalCount(searchKey, word, status); // 전체 카테고리에서 검색한 글 수 가져오기
 	        } else {
-	            totalCount = getSearchTotalCountByCategory(p_category, searchKey, word); // 특정 카테고리에서 검색한 글 수 가져오기
+	            totalCount = getSearchTotalCountByCategory(p_category, searchKey, word, status); // 특정 카테고리에서 검색한 글 수 가져오기
 	        }
 	    }
 	    
@@ -198,6 +193,11 @@ public class AdminServiceImpl implements AdminService{
 	public int completQna(int p_id) {
 		return mapper.completQna(p_id);
 	}
+	@Override
+	public int delQna(int p_id) {
+		return mapper.delQna(p_id);
+	}
+
 	// Q&A 관련 서비스 끝////
 	
 	// 공자시항 관련 서비스

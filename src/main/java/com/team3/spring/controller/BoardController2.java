@@ -1,5 +1,6 @@
 package com.team3.spring.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 
 import javax.servlet.http.Cookie;
@@ -7,17 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
-
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.team3.spring.service.BoardService2;
 import com.team3.spring.vo.BoardVO2;
 import com.team3.spring.vo.CommentVO;
+import com.team3.spring.vo.MemberVO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -39,49 +41,56 @@ public class BoardController2 {
 	}
 	
 	@GetMapping("/list")
-	public void getList(Model m,
+	public void getList(Model m, RedirectAttributes rttr, Principal p,
 			@RequestParam(value = "p_category", required = false) String p_category,
 			@RequestParam(value = "page", defaultValue = "1") int page,
 	        @RequestParam(value = "searchKey", required = false) String searchKey,
 	        @RequestParam(value = "word", required = false) String word) {
-	    log.info("컨트롤러에서 호출 ==========");
-	    
-	    // "전체 카테고리"의 경우 p_category를 비워서 모든 글을 가져옴
-	    if (p_category == null || p_category.isEmpty()) {
-	    	p_category = "";
-	    }
+		if(p != null) {
+			MemberVO vo = service.getUserInfo(p.getName());
+			m.addAttribute("LOGIN_USER", vo);
+			 // "전체 카테고리"의 경우 p_category를 비워서 모든 글을 가져옴
+		    if (p_category == null || p_category.isEmpty()) {
+		    	p_category = "";
+		    }
 
-	    // 기본 검색 조건 설정
-	    if (searchKey == null || searchKey.isEmpty()) {
-	        searchKey = "p_title";
-	    }
+		    // 기본 검색 조건 설정
+		    if (searchKey == null || searchKey.isEmpty()) {
+		        searchKey = "p_title";
+		    }
 
-	    // 검색어가 없으면 빈 문자열로 초기화
-	    if (word == null) {
-	        word = "";
-	    }
-	    
-	    // 시작 인덱스
-	    int index = service.getStartIndex(page, false);
-	    
-	    // 검색 조건에 따라 적절한 서비스 메서드 호출
-	    ArrayList<BoardVO2> lists = service.getLists(p_category, searchKey, word, index);
+		    // 검색어가 없으면 빈 문자열로 초기화
+		    if (word == null) {
+		        word = "";
+		    }
+		    
+		    // 시작 인덱스
+		    int index = service.getStartIndex(page, false);
+		    
+		    // 검색 조건에 따라 적절한 서비스 메서드 호출
+		    ArrayList<BoardVO2> lists = service.getLists(p_category, searchKey, word, index, vo.getAccount());
 
-	    // 페이징 처리
-	    service.updateModelWithPageInfo(m, page, p_category, searchKey, word);
-	    
-	    // 댓글 관련 코드
-	    service.updateCommentInfo(lists);
-	    
-	    // 리스트 뷰로 전달
-	    m.addAttribute("lists", lists);
-	    
-	    // 현재 페이지 번호 / 카테고리 뷰로 전달
-	    m.addAttribute("currentPage", page);
-	    m.addAttribute("currentCate", p_category);
+		    // 페이징 처리
+		    service.updateModelWithPageInfo(m, page, p_category, searchKey, word);
+		    
+		    // 댓글 관련 코드
+		    service.updateCommentInfo(lists);
+		    
+		    // 리스트 뷰로 전달
+		    m.addAttribute("lists", lists);
+		    
+		    // 현재 페이지 번호 / 카테고리 뷰로 전달
+		    m.addAttribute("currentPage", page);
+		    m.addAttribute("currentCate", p_category);
 
-	    String articleUrl = "article?p_id=";
-	    m.addAttribute("articleUrl", articleUrl);
+		    String articleUrl = "article?p_id=";
+		    m.addAttribute("articleUrl", articleUrl);
+		    
+		}else {
+			rttr.addFlashAttribute("msgType", "오류 메세지");
+			rttr.addFlashAttribute("msg", "로그인이 필요한 서비스입니다.");
+		}
+	    
 	}
 	
 	@PostMapping("/write")
@@ -92,10 +101,10 @@ public class BoardController2 {
 	}
 	
 	@GetMapping("/write")
-	public void write(Model m, @RequestParam("page") int page) {
-		log.info("글 작성 현재 페이지 번호는? =======>>>"+page);
-		
-		m.addAttribute("writeCurrentPage", page);
+	public void write(Model m,RedirectAttributes rttr, Principal p, @RequestParam("page") int page) {
+			MemberVO vo = service.getUserInfo(p.getName());
+			m.addAttribute("LOGIN_USER", vo);
+			m.addAttribute("writeCurrentPage", page);
 	}
 	
 	@GetMapping({"/article", "/modify"})

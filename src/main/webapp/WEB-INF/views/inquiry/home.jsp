@@ -8,48 +8,37 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-
-	<link rel="shortcut icon"
-		href="https://www.megabox.co.kr/static/pc/images/favicon.ico">
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>MEET PLAY SHARE, 솔 시네마</title>
 	
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	
 	<link rel="stylesheet" href="${cp}/resources/css/board.css" />
+	<link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
+  	<link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
 
 </head>
 <body>
+	<%@include file="../common/tags.jsp" %>
+	<%@include file="../common/navbar.jsp"%>
 	<div id="back-container">
         <div id="main-container">
-            <div id="left-nav-bar">
-                <span style="display: flex; justify-content: center; padding: 30px 20px; border-radius: 10px 10px 0 0; background-color: #8b0bd6; letter-spacing: 1px; font-weight: 500;">고객센터</span>
-                <nav id="left-nav-column">
-                    <ul>
-                        <li class="left-nav select">
-                            <a href="home">고객센터 홈</a>
-                        </li>
-                        <li class="left-nav">
-                            <a href="${cp}/notice/list?page=1">공지사항</a>
-                        </li>
-                        <li class="left-nav">
-                            <a href="${cp}/inquiry/list?page=1">내 문의 내역</a>
-                        </li>
-                        <li class="left-nav">
-                            <a href="${cp}/inquiry/write?page=1">1:1 문의</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+            <%@include file="../common/boardSideBar.jsp"%>
 
             <div id="content-container">
                 <h2 style="border-bottom: 1px solid #cacaca; padding-bottom: 0.5em; margin-bottom: 0.5em;">고객센터 홈</h2>
                 <div id="service-container">
+                	<security:authorize access="isAuthenticated()">
                     <div class="home-content">
                         <a href="${cp}/inquiry/write?page=1" class="block">
                             <h2 class="service">1:1 문의</h2>
                             <span>1:1 문의로 문의주세요</span>
                         </a>
                     </div>
+                    </security:authorize>
                     <div class="home-content">
                         <a href="${cp}/notice/list?page=1" class="block">
                             <h2 class="service">공지사항</h2>
@@ -60,5 +49,12 @@
             </div>
         </div>
     </div>
+    <%@include file="../common/footer.jsp"%>
 </body>
+<script>
+$(document).ready(function(){
+	$("#notice-bar").removeClass("select");
+	$("#home-bar").addClass("select");
+})
+</script>
 </html>

@@ -31,6 +31,21 @@
 		WHERE MEM.ACCOUNT = #{username}
 	</select>
 	
+	<select id="getAccount" resultType="String">
+		SELECT ACCOUNT FROM MEMBER 
+		WHERE NAME = #{name} AND EMAIL1 = #{email1} AND EMAIL2 = #{email2}
+	</select>
+	
+	<select id="checkInfo" resultType="int">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE ACCOUNT = #{account} AND EMAIL1 = #{email1} AND EMAIL2 = #{email2}
+	</select>
+	
+	<update id="changePwProc">
+		UPDATE MEMBER SET PWD = #{pwd} 
+		WHERE ACCOUNT = #{account}
+	</update>
+	
 	<select id="read" resultType="com.team3.spring.vo.MemberVO">
 		SELECT * FROM MEMBER
 		WHERE ACCOUNT = #{account}

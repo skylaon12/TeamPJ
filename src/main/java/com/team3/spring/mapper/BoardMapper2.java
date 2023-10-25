@@ -11,18 +11,20 @@ import com.team3.spring.vo.CommentVO;
 
 public interface BoardMapper2 {
 	// 리스트 ( 검색, 카테고리 )
-	public ArrayList<BoardVO2> list(int page);
+	public ArrayList<BoardVO2> list(int page, @Param("p_writer")String account);
 	
-	public ArrayList<BoardVO2> listByCategory(@Param("p_category") String p_category, int page);
+	public ArrayList<BoardVO2> listByCategory(@Param("p_category") String p_category, int page, @Param("p_writer")String account);
 	
 	public ArrayList<BoardVO2> listSearch(@Param("searchKey") String searchKey, 
 			@Param("word") String word, 
-			@Param("page") int page);
+			@Param("page") int page,
+			@Param("p_writer")String account);
 	
 	public ArrayList<BoardVO2> listSearchByCategory(@Param("p_category") String p_category, 
 			@Param("searchKey") String searchKey, 
 			@Param("word") String word, 
-			@Param("page") int page);
+			@Param("page") int page,
+			@Param("p_writer")String account);
 	
 	// 쓰기
 	public void write(BoardVO2 gvo);

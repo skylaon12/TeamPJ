@@ -112,7 +112,7 @@
 <script src="../resources/js/alertModal.js"></script>
 <script>
 	var csrfHeaderName = "${_csrf.headerName}";
-	var csrfTokenValue = "${_csrf.token}"
+	var csrfTokenValue = "${_csrf.token}";
 	$(document).ready(function(){ // 메세지 띄우기
 		if(${!empty msgType}){
 			$("#messageType").attr("class", "modal-content panel-warning");

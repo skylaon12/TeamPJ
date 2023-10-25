@@ -74,6 +74,7 @@
             <!-- 관람시간 선택 -->
             <div id="select-time" class="reserv-select-box">
                 <select name="reserv-time" id="reserv-time" class="select-reserv">
+                	<option>시간 선택</option>
                     <option value="1200">12시 00분</option>
                     <option value="1300">13시 00분</option>
                     <option value="1400">14시 00분</option>
@@ -107,15 +108,15 @@
 </body>
 <script src="../resources/js/alertModal.js"></script>
 <script>
-//토큰 글로벌 변수 설정
-var csrfHeaderName = "$(_csrf.headerName)";
-var scrfTokenValue = "$(_csrf.token)";
-
+	
+//글로벌 변수 설정
+	var csrfHeaderName = "${_csrf.headerName}";
+	var csrfTokenValue = "${_csrf.token}";
 $(document).ready(function(){ // 메세지 띄우기
-	if(${!empty msgType}){
-		$("#messageType").attr("class", "modal-content panel-warning");
-		$("#myMessage").modal("show");
-	}
+// 	if(${!empty msgType}){
+// 		$("#messageType").attr("class", "modal-content panel-warning");
+// 		$("#myMessage").modal("show");
+// 	}
 });
 	var popup;
 	var initialColor = 'rgb(169, 169, 169)';
@@ -183,7 +184,7 @@ $(document).ready(function(){ // 메세지 띄우기
 				console.log(seatCount);
 				seatCount--;
 				console.log("인원수에 맞게 선택");
-				$("#checkMessage").html("인원수에 맞게 선택해라");
+				$("#checkMessage").html("인원수에 맞게 선택해주세요");
 				$("#alertModal").modal("show");
 				return;
 			}
@@ -221,7 +222,6 @@ $(document).ready(function(){ // 메세지 띄우기
 		var reservTime = $("#reserv-time").val();// 상영 시간
 		var str_hour = reservTime/100;
 		var m_title = $("#m_title").val();	// 영화 제목
-		
 		console.log("detailregion : " + detailRegion);
 		console.log("theaeter_num : " + theater_num);
 		console.log("reservDate : " + reservDate);
@@ -246,7 +246,6 @@ $(document).ready(function(){ // 메세지 띄우기
 				for(let i = 0; i < seatNumbers.length; i++){
 					var seatNumber = seatNumbers[i];
 					var $targetDiv = $("#" + seatNumber);
-					console.log($targetDiv);
 					if ($targetDiv.length > 0){
 						$targetDiv.addClass("booked");
 						$targetDiv.text('X');
@@ -284,7 +283,7 @@ $(document).ready(function(){ // 메세지 띄우기
 		// 좌석 뿌려주기
 	    let $div = $(".select-seat-box");
 	    $div.empty();
-		let countScreen = "";
+	    let countScreen = "";
         countScreen += "<div id='seat-count-box' style='order: 1;'>"
         countScreen += "    <div id='seat-count'>"
         countScreen += "        <span id='temp-02'>0</span>"
@@ -293,11 +292,12 @@ $(document).ready(function(){ // 메세지 띄우기
         countScreen += "    <button onclick='plusCount()' id='seatCount'>+</button>"
         countScreen += "    <button onclick='minusCount()' id='seatCount'>-</button>"
         countScreen += "    <button onclick='sell()' id='temp-03'>결제하기</button>"
-        countScreen += "    <span id='temp-01'>일반석 : 54/54석</span>"
+        countScreen += "    <span id='temp-01'>일반석 : 48/48석</span>"
         countScreen += "    <p class='select-reserv-max'>※ 최대 8명 선택 가능</p>"
         countScreen += "</div>"
         countScreen += "<div id='screen-box'>SCREEN</div>"
-			
+        	// 스크린 추가
+    	$div.prepend(countScreen);
 	    // 알파벳 A부터 F까지 반복
 	    for (let row = 'A'.charCodeAt(0); row <= 'F'.charCodeAt(0); row++) {
 	        let columnHTML = "<div class='select-seat-column'>";
@@ -309,10 +309,8 @@ $(document).ready(function(){ // 메세지 띄우기
 	        columnHTML += "</div>";
 	        $div.append(columnHTML);
 	    }
-	    // 스크린 추가
-	    $div.prepend(countScreen);
 		// 이미 예약된 좌석은 클릭 못하도록 해야함.	    
-	    showCantBookSeat();
+	   	showCantBookSeat();
 	}
 	
 	
@@ -337,7 +335,10 @@ $(document).ready(function(){ // 메세지 띄우기
 		var theater_num = $("#select-theater").val();// 상영관 번호
 		var reserv_date = $("#reserv-date").val();// 상영 날짜
 		var reservTime = $("#reserv-time").val();// 상영 시간
-		
+		if(reservTime === '시간 선택'){
+			pushModal("시간을 선택해주세요");
+			return;
+		}
 		
 		/*-------클릭된 좌석 번호 추출-------*/
 		// 좌석번호 selected로 가져오기
@@ -408,7 +409,7 @@ $(document).ready(function(){ // 메세지 띄우기
 	    	    'width=400,height=400,left=' + popupLeft + ',top=' + popupTop
 	    	);
 	    
-	    // 2초 후에 팝업 창을 닫기 위한 타이머 시작
+// 	    2초 후에 팝업 창을 닫기 위한 타이머 시작
 	    setTimeout(function () {
 	        if (popup && !popup.closed) {
 	            popup.close();

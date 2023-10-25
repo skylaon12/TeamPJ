@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
+import com.team3.spring.mapper.AdminMapper;
 import com.team3.spring.mapper.MemberMapper;
 import com.team3.spring.mapper.MovieMapper;
 import com.team3.spring.mapper.TicketingMapper;
@@ -22,11 +23,29 @@ public class MemberServiceImpl implements MemberService {
 	@Setter(onMethod_ = @Autowired)
 	private TicketingMapper t_mapper;
 	@Setter(onMethod_ = @Autowired)
+	private AdminMapper a_mapper;
+	@Setter(onMethod_ = @Autowired)
 	private JavaMailSenderImpl mailSender;
 	@Override
 	public MemberVO login(String username) {
 		return mapper.login(username);
 	}
+	
+	@Override
+	public String getAccount(String name, String email1, String email2) {
+		return mapper.getAccount(name,email1,email2);
+	}
+
+	@Override
+	public int checkInfo(String account, String email1, String email2) {
+		return mapper.checkInfo(account, email1, email2);
+	}
+
+	@Override
+	public int changePwProc(String account, String pwd) {
+		return mapper.changePwProc(account, pwd);
+	}
+
 	
 	@Override
 	public MemberVO read(String account) {
@@ -72,6 +91,8 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void userDelete(int id, String account) {
+		a_mapper.deleteFQnA(account);
+		a_mapper.modifyTQnA(account);
 		mapper.userDelete(account);
 	}
 

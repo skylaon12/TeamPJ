@@ -53,18 +53,42 @@
 	cursor: pointer;
 	margin: 5px;
 }
+.forgot-links {
+    width: 300px; /* 링크 너비를 폼과 동일하게 설정 */
+    margin: 0 auto; /* 가운데 정렬 */
+    text-align: center; /* 텍스트를 가운데 정렬 */
+    margin-top: 10px; /* 폼과의 간격을 설정 (상단 여백) */
+}
+
+/* 링크 스타일 */
+.forgot-links a {
+    text-decoration: none; /* 링크 밑줄 제거 */
+    color: #007bff; /* 링크 색상 설정 */
+    margin: 0 10px; /* 링크 사이 여백 설정 */
+}
+
+.forgot-links .separator {
+    color: #ccc; /* 구분선 색상 설정 */
+}
 </style>
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/navbar.jsp"%>
 	<div class="login-container">
-		<form class="login-form" action="${cp}/member/loginProc" method="post">
-			<input class="form-input" type="text" name="username" id="account" placeholder="아이디" required>
-			<input class="form-input" type="password" name="password" id="pwd" placeholder="비밀번호" required>
-			<button class="login-btn" type="submit">로그인</button>
-			<a href="${cp}/member/signup"><input type="button" class="login-btn" value="회원가입"></a>
-			<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
-		</form>
+	    <div>
+			<form class="login-form" action="${cp}/member/loginProc" method="post">
+				<input class="form-input" type="text" name="username" id="account" placeholder="아이디" required>
+				<input class="form-input" type="password" name="password" id="pwd" placeholder="비밀번호" required>
+				<button class="login-btn" type="submit">로그인</button>
+				<a href="${cp}/member/signup"><input type="button" class="login-btn" value="회원가입"></a>
+				<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
+			</form>
+			<div class="forgot-links">
+				<a href="${cp}/member/findID">아이디 찾기</a>
+				<span class="separator">|</span>
+				<a href="${cp}/member/findPW">비밀번호 찾기</a>
+			</div>
+		</div>
 	</div>
 	<%@include file="../common/footer.jsp"%>
 	<!-- 오류 모달 -->

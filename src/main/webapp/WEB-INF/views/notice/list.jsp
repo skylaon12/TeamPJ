@@ -10,14 +10,16 @@
 <html>
 <head>
 
-	<link rel="shortcut icon"
-		href="https://www.megabox.co.kr/static/pc/images/favicon.ico">
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>MEET PLAY SHARE, 솔 시네마</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	
 	<link rel="stylesheet" href="${cp}/resources/css/board.css" />
-
+	<link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
+  	<link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
 	<script type="text/javascript">
 		function sendIt(){
 			var f = document.searchForm;
@@ -32,27 +34,11 @@
 
 </head>
 <body>
+	<%@include file="../common/tags.jsp" %>
+	<%@include file="../common/navbar.jsp"%>
 	<div id="back-container">
         <div id="main-container">
-            <div id="left-nav-bar">
-                <span style="display: flex; justify-content: center; padding: 30px 20px; border-radius: 10px 10px 0 0; background-color: #8b0bd6; letter-spacing: 1px; font-weight: 500;">고객센터</span>
-                <nav id="left-nav-column">
-                    <ul>
-                        <li class="left-nav">
-                            <a href="${cp}/inquiry/home">고객센터 홈</a>
-                        </li>
-                        <li class="left-nav select">
-                            <a href="list?page=${currentPage}">공지사항</a>
-                        </li>
-                        <li class="left-nav">
-                            <a href="${cp}/inquiry/list?page=1">내 문의 내역</a>
-                        </li>
-                        <li class="left-nav">
-                            <a href="${cp}/inquiry/write?page=1">1:1 문의</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+            <%@include file="../common/boardSideBar.jsp"%>
 
             <article id="content-container">
                 <h2 style="padding-bottom: 0.5em;">공지사항</h2>
@@ -174,5 +160,6 @@
             </article>
         </div>
     </div>
+    <%@include file="../common/footer.jsp"%>
 </body>
 </html>

@@ -103,7 +103,7 @@
 	<select id="list" resultType="com.team3.spring.vo.BoardVO2">
 	    SELECT P_ID, P_TITLE, P_WRITER, P_STATUS, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
 	    FROM BOARD_INQUIRY 
-	    WHERE P_STATUS = 'F' 
+	    WHERE P_STATUS = #{p_status} 
 	    ORDER BY P_ID DESC 
 	    LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_PAGE}
 	</select>
@@ -111,7 +111,7 @@
 	<select id="listByCategory" resultType="com.team3.spring.vo.BoardVO2">
 	    SELECT P_CATEGORY, P_ID, P_TITLE, P_WRITER, P_STATUS, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
 	    FROM BOARD_INQUIRY 
-	    WHERE P_CATEGORY = #{p_category} AND P_STATUS = 'F' 
+	    WHERE P_CATEGORY = #{p_category} AND P_STATUS = #{p_status}
 	    ORDER BY P_ID DESC
 	    LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_PAGE}
 	</select>
@@ -119,7 +119,7 @@
 	<select id="listSearch" parameterType="map" resultType="com.team3.spring.vo.BoardVO2">
 	    SELECT P_ID, P_TITLE, P_WRITER, P_STATUS, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
 	    FROM BOARD_INQUIRY   
-	    WHERE ${searchKey} LIKE CONCAT('%', #{word}, '%') AND P_STATUS = 'F' 
+	    WHERE ${searchKey} LIKE CONCAT('%', #{word}, '%') AND P_STATUS = #{p_status}
 	    ORDER BY P_ID DESC 
 	    LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_PAGE}
 	</select>
@@ -127,28 +127,28 @@
 	<select id="listSearchByCategory" parameterType="map" resultType="com.team3.spring.vo.BoardVO2">
 	    SELECT P_CATEGORY, P_ID, P_TITLE, P_WRITER, P_STATUS, DATE_FORMAT(P_CREATED, '%Y-%m-%d') as P_CREATED, P_HITCOUNT 
 	    FROM BOARD_INQUIRY 
-	    WHERE P_CATEGORY = #{p_category} AND ${searchKey} LIKE CONCAT('%', #{word}, '%') AND P_STATUS = 'F' 
+	    WHERE P_CATEGORY = #{p_category} AND ${searchKey} LIKE CONCAT('%', #{word}, '%') AND P_STATUS = #{p_status} 
 	    ORDER BY P_ID DESC 
 	    LIMIT #{page}, ${@com.team3.spring.config.BoardConfig@AMOUNT_PER_PAGE}
 	</select>
 	
 	<select id="getTotalCount" resultType="int">
 		SELECT COUNT(*) FROM BOARD_INQUIRY 
-		WHERE P_STATUS = 'F'
+		WHERE P_STATUS = #{p_status}
 	</select>
 		<select id="getTotalCountByCategory" resultType="int">
 		SELECT COUNT(*) FROM BOARD_INQUIRY 
-		WHERE P_CATEGORY = #{p_category} AND P_STATUS = 'F' 
+		WHERE P_CATEGORY = #{p_category} AND P_STATUS = #{p_status} 
 	</select>
 	
 	<select id="getSearchTotalCount" resultType="int">
 		SELECT COUNT(*) FROM BOARD_INQUIRY 
-		WHERE ${searchKey} LIKE CONCAT('%', #{word}, '%') AND P_STATUS = 'F'
+		WHERE ${searchKey} LIKE CONCAT('%', #{word}, '%') AND P_STATUS = #{p_status}
 	</select>
 	
 	<select id="getSearchTotalCountByCategory" resultType="int">
 		SELECT COUNT(*) FROM BOARD_INQUIRY 
-		WHERE P_CATEGORY = #{p_category} AND ${searchKey} LIKE CONCAT('%', #{word}, '%') AND P_STATUS = 'F'
+		WHERE P_CATEGORY = #{p_category} AND ${searchKey} LIKE CONCAT('%', #{word}, '%') AND P_STATUS = #{p_status}
 	</select>
 	
 	<delete id="del">
@@ -158,6 +158,21 @@
 	<update id="completQna">
 		UPDATE BOARD_INQUIRY SET P_STATUS = 'T' 
 		WHERE P_ID = #{p_id}
+	</update>
+	
+	<delete id="delQna">
+		DELETE FROM BOARD_INQUIRY 
+		WHERE P_ID = #{p_id}
+	</delete>
+	
+	<delete id="deleteFQnA">
+		DELETE FROM BOARD_INQUIRY
+		WHERE P_WRITER = #{account} AND P_STATUS = 'F' 
+	</delete>
+	
+	<update id="modifyTQnA">
+		UPDATE BOARD_INQUIRY SET P_WRITER = 'DEL_USER' 
+		WHERE P_WRITER = #{account} AND P_STATUS = 'T'
 	</update>
 	
 	<!-- 예매 관련 -->

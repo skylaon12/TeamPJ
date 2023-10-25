@@ -40,3 +40,6 @@
 <script src="../resources/js/admin/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="../resources/js/admin/dashboard.js"></script>
+
+
+<script src="https://kit.fontawesome.com/f718bdf914.js" crossorigin="anonymous"></script>

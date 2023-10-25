@@ -80,6 +80,11 @@ public class TicketingController {
 	@PostMapping("/getBookedSeat")
 	@ResponseBody
 	public List<String> getBookedSeat(@RequestBody TicketingVO vo){
+		log.info("theater_num : " + vo.getTheater_num());
+		log.info("region_detail : " + vo.getRegion_detail());
+		log.info("reserv_date : " + vo.getReserv_date());
+		log.info("str_hour : " + vo.getStr_hour());
+		log.info("m_title : " + vo.getM_title());
 		List<String> bookedSeats = ticketingService.getBookedSeat(vo);
 		log.info(bookedSeats);
 		return bookedSeats;

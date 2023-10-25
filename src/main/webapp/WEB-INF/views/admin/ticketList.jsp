@@ -13,6 +13,9 @@
   <div class="wrapper">
   	<%@include file="../admin/common/navbar.jsp" %>
 	<%@include file="../admin/common/sidebar.jsp" %>
+	<div class="preloader flex-column justify-content-center align-items-center">
+    <img class="animation" src="${cp}/resources/images/admin/loading-gif.gif" alt="AdminLTELogo" height="60" width="60">
+  </div>
     <!-- Main content -->
     <section class="content-wrapper">
      <!-- Content Header (Page header) -->

@@ -23,11 +23,11 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Q&A목록</h1>
+              <h1 class="m-0">문의완료Q&A</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-              	<li class="breadcrumb-item"><a href="${cp}/admin/QnACompleList"><button type="button" class="btn btn-block btn-outline-primary btn-sm">완료된 Q&A</button></a></li>
+              	<li class="breadcrumb-item"><a href="${cp}/admin/QnAList"><button type="button" class="btn btn-block btn-outline-primary btn-sm">미답변Q&A</button></a></li>
                 <li class="breadcrumb-item"><a href="${cp}/admin/main">메인</a>/Q&A</li>
               </ol>
             </div><!-- /.col -->
@@ -44,24 +44,24 @@
 			  <ul class="nav nav-pills ml-auto p-2">
 			    <c:choose>
 			      <c:when test="${empty param.p_category or param.p_category eq '전체'}">
-			      	<li class="nav-item"><a class="nav-link active" href="QnAList">전체</a></li>
-	            	<li class="nav-item"><a class="nav-link" href="QnAList?p_category=결제/환불">결제/환불</a></li>
-	            	<li class="nav-item"><a class="nav-link" href="QnAList?p_category=영화관">영화관</a></li>
+			      	<li class="nav-item"><a class="nav-link active" href="QnACompleList">전체</a></li>
+	            	<li class="nav-item"><a class="nav-link" href="QnACompleList?p_category=결제/환불">결제/환불</a></li>
+	            	<li class="nav-item"><a class="nav-link" href="QnACompleList?p_category=영화관">영화관</a></li>
 			      </c:when>
 				  <c:when test="${param.p_category eq '결제/환불'}">
-			      	<li class="nav-item"><a class="nav-link" href="QnAList">전체</a></li>
-	            	<li class="nav-item"><a class="nav-link active" href="QnAList?p_category=결제/환불">결제/환불</a></li>
-	            	<li class="nav-item"><a class="nav-link" href="QnAList?p_category=영화관">영화관</a></li>				  
+			      	<li class="nav-item"><a class="nav-link" href="QnACompleList">전체</a></li>
+	            	<li class="nav-item"><a class="nav-link active" href="QnACompleList?p_category=결제/환불">결제/환불</a></li>
+	            	<li class="nav-item"><a class="nav-link" href="QnACompleList?p_category=영화관">영화관</a></li>				  
 				  </c:when>
 				  <c:when test="${param.p_category eq '영화관'}">
-			      	<li class="nav-item"><a class="nav-link" href="QnAList">전체</a></li>
-	            	<li class="nav-item"><a class="nav-link" href="QnAList?p_category=결제/환불">결제/환불</a></li>
-	            	<li class="nav-item"><a class="nav-link active" href="QnAList?p_category=영화관">영화관</a></li>
+			      	<li class="nav-item"><a class="nav-link" href="QnACompleList">전체</a></li>
+	            	<li class="nav-item"><a class="nav-link" href="QnACompleList?p_category=결제/환불">결제/환불</a></li>
+	            	<li class="nav-item"><a class="nav-link active" href="QnACompleList?p_category=영화관">영화관</a></li>
 				  </c:when>
 				  <c:otherwise>
-			      	<li class="nav-item"><a class="nav-link" href="QnAList">전체</a></li>
-	            	<li class="nav-item"><a class="nav-link" href="QnAList?p_category=결제/환불">결제/환불</a></li>
-	            	<li class="nav-item"><a class="nav-link" href="QnAList?p_category=영화관">영화관</a></li>				  
+			      	<li class="nav-item"><a class="nav-link" href="QnACompleList">전체</a></li>
+	            	<li class="nav-item"><a class="nav-link" href="QnACompleList?p_category=결제/환불">결제/환불</a></li>
+	            	<li class="nav-item"><a class="nav-link" href="QnACompleList?p_category=영화관">영화관</a></li>				  
 				  </c:otherwise>			      
 			    </c:choose>
 	            <li class="nav-item dropdown">
@@ -106,7 +106,6 @@
                       <td>${dto.p_title}</td>
                       <td>${dto.p_created}</td>
                       <td><a href="${articleUrl}${dto.p_id}&page=${currentPage }"><button name="info-btn" type="button" class="btn btn-block btn-info btn-sm">문의 확인</button></a></td>
-                      <td><a href="completQnAProc?id=${dto.p_id}&page=${currentPage}&p_category=${p_category}&searchKey=${searchKey}&word=${word}"><button name="info-btn" type="button" class="btn btn-block btn-success btn-sm">문의 완료</button></a></td>
                       <td><a href="delQnAProc?id=${dto.p_id}&page=${currentPage}&p_category=${p_category}&searchKey=${searchKey}&word=${word}"><button name="delete-btn" type="button" class="btn btn-block btn-danger btn-sm">문의 삭제</button></a></td>
                   </tr>
                   </c:forEach>
@@ -196,9 +195,9 @@
 		var sWord = $("#word").val();
 		var url = "";
 			if (curCategory == null || curCategory === '') {
-				url = "QnAList?page="+ curPage +"&searchKey="+ sKey +"&word="+ sWord;
+				url = "QnACompleList?page="+ curPage +"&searchKey="+ sKey +"&word="+ sWord;
 			} else {
-				url = "QnAList?page="+ curPage +"&p_category="+ curCategory +"&searchKey="+ sKey +"&word="+ sWord;
+				url = "QnACompleList?page="+ curPage +"&p_category="+ curCategory +"&searchKey="+ sKey +"&word="+ sWord;
 			}
 			$("#searchForm").attr("action",url)
 			$("#searchForm").submit();

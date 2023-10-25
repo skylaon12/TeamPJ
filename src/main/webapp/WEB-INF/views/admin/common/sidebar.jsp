@@ -37,7 +37,7 @@
           </li>
           <li class="nav-item menu-open">
             <a href="#" id="info-bar" class="nav-link ">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="fa-solid fa-circle-info"></i>
               <p>
                 정보관리
                 <i class="right fas fa-angle-left"></i>
@@ -47,21 +47,21 @@
               <li class="nav-item">
 				<!-- a태그 id 내가 추가함 -->
                 <a id="member-info-bar" href="${cp}/admin/memberList" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fa-regular fa-user"></i>
                   <p>회원 관리</p>
                 </a>
               </li>
               <li class="nav-item">
               	<!-- a태그 id 내가 추가함 -->
                 <a id="ticket-info-bar" href="${cp}/admin/ticketList" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fa-solid fa-ticket"></i>
                   <p>예매 관리</p>
                 </a>
               </li>
               <li class="nav-item">
               	<!-- a태그 id 내가 추가함 -->
                 <a id="board-info-bar" href="${cp}/admin/QnAList?page=1" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fa-solid fa-q"></i>
                   <p>Q&A 관리</p>
                 </a>
               </li>
@@ -69,7 +69,7 @@
           </li>
           <li class="nav-item">
             <a href="${cp}/" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="fa-brands fa-golang"></i>
               <p>
                 메인 페이지로 가기
               </p>

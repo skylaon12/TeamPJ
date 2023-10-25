@@ -13,11 +13,10 @@
 <div class="wrapper">
 	<%@include file="../admin/common/navbar.jsp" %>
 	<%@include file="../admin/common/sidebar.jsp" %>
-  <!-- Preloader -->
+	  <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+    <img class="animation" src="${cp}/resources/images/admin/loading-gif.gif" alt="SOLCINEMA" height="60" width="60">
   </div>
-
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -51,7 +50,7 @@
                 <p>회원 수</p>
               </div>
               <div class="icon">
-                <i class="ion ion-bag"></i>
+                <i class="ion ion-person-add"></i>
               </div>
               <a href="${cp}/admin/memberList" class="small-box-footer">더보기</a>
             </div>
@@ -81,7 +80,7 @@
                 <p>대기중인 QnA</p>
               </div>
               <div class="icon">
-                <i class="ion ion-person-add"></i>
+                <i class="fa-regular fa-file"></i>
               </div>
               <a href="${cp}/admin/QnAList" class="small-box-footer">더보기</a>
             </div>
