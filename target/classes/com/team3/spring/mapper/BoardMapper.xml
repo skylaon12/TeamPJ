@@ -57,4 +57,7 @@
 	<select id="getMemberInfo" resultType="com.team3.spring.vo.MemberVO">
 		SELECT * FROM MEMBER WHERE ACCOUNT = #{account}
 	</select>
+	<select id="getMemberAuth" resultType="String">
+		SELECT AUTH FROM MEM_AUTH WHERE ACCOUNT = #{account}
+	</select>
 </mapper>

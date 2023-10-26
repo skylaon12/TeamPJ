@@ -12,8 +12,7 @@
   	<link rel="stylesheet" href="../resources/css/movieList.css" />
   	<link rel="stylesheet" href="../resources/css/navbar.css" />
   	<link rel="stylesheet" href="../resources/css/common.css" />
-<!--   	<script type="text/javascript" src="../resources/js/movie/movieFn.js"></script> -->
-  	<link rel="icon" href="../resources/images/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="../resources/images/logo/logo-s.png" type="image/x-icon">
 <title>SOL CINEMA</title>
 </head>
 <body>

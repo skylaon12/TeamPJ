@@ -18,7 +18,6 @@
 <!-- Ionicons -->
 <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
-
 <!-- 확인안함 -->
 <!-- Tempusdominus Bootstrap 4 -->
 <link rel="stylesheet" href="../resources/css/admin/tempusdominus-bootstrap-4.min.css">
@@ -32,4 +31,5 @@
 <link rel="stylesheet" href="../resources/css/admin/daterangepicker.css">
 <!-- summernote 캘린더 나오게함 -->
 <link rel="stylesheet" href="../resources/css/admin/summernote-bs4.min.css">
+<link rel="icon" href="../resources/images/logo/logo-s.png" type="image/x-icon">
 <title>SOL CINEMA_ADMIN</title>

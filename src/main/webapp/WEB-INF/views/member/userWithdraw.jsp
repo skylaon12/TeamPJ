@@ -11,7 +11,7 @@
 	  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
 <link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
-<link rel="icon" href="../resources/images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="../resources/images/logo/logo-s.png" type="image/x-icon">
 <script src="${cp}/resources/js/login.js"></script>
 <title>SOL CINEMA</title>
 <!-- CSS 스타일 추가 -->

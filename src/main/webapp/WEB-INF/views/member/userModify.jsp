@@ -17,7 +17,7 @@
 	href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
 <link rel="stylesheet"
 	href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
-	<link rel="icon" href="../resources/images/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="../resources/images/logo/logo-s.png" type="image/x-icon">
 <title>SOL CINEMA</title>
 <style>
 /* 페이지 스타일 */

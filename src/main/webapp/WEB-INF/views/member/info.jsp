@@ -11,7 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
 <link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
-<link rel="icon" href="../resources/images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="../resources/images/logo/logo-s.png" type="image/x-icon">
 <script src="${cp}/resources/js/login.js"></script>
 <script src="../resources/js/alertModal.js"></script>
 <title>SOL CINEMA</title>

@@ -19,7 +19,7 @@
 	<link rel="stylesheet" href="${cp}/resources/css/board.css" />
 	<link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
   	<link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
-
+	<link rel="icon" href="../resources/images/logo/logo-s.png" type="image/x-icon">
 	<script type="text/javascript">
 		window.onload = function() {
 		    // 현재 페이지 URL에서 파라미터를 읽어옴

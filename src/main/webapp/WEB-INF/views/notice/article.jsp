@@ -19,6 +19,7 @@
 	<link rel="stylesheet" href="${cp}/resources/css/board.css" />
 	<link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
   	<link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
+  	<link rel="icon" href="../resources/images/logo/logo-s.png" type="image/x-icon">
 </head>
 <body>
 	<%@include file="../common/tags.jsp" %>

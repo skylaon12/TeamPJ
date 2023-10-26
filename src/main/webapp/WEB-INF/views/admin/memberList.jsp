@@ -7,6 +7,7 @@
 <head>
   <%@include file="../admin/common/meta.jsp" %>
     <title>SOL CINEMA_ADMIN</title>
+    
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

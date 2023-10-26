@@ -131,4 +131,9 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.getMemberInfo(account);
 	}
 
+	@Override
+	public String getMemberAuth(String account) {
+		return mapper.getMemberAuth(account);
+	}
+
 }

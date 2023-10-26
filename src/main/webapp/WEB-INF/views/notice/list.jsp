@@ -20,6 +20,7 @@
 	<link rel="stylesheet" href="${cp}/resources/css/board.css" />
 	<link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
   	<link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
+  	<link rel="icon" href="../resources/images/logo/logo-s.png" type="image/x-icon">
 	<script type="text/javascript">
 		function sendIt(){
 			var f = document.searchForm;
@@ -165,8 +166,10 @@
 </body>
 <script>
 $(document).ready(function(){
-	$("#notice-bar").removeClass("select-last");
-	$("#notice-bar").addClass("select");
+	if("${auth}" == "[ROLE_USER]"){
+		$("#notice-bar").removeClass("select-last");
+		$("#notice-bar").addClass("select");		
+	}
 	if(${!empty msgType}){
 			$("#successModal").modal("show");
 		}

@@ -36,12 +36,16 @@ public class BoardController {
 	private HttpServletResponse response;
 	
 	@GetMapping("/list")
-	public void getList(Model m,
+	public void getList(Model m, Principal p,
 			@RequestParam(value = "page", defaultValue = "1") int page,
 	        @RequestParam(value = "searchKey", required = false) String searchKey,
 	        @RequestParam(value = "word", required = false) String word) {
 	    log.info("컨트롤러에서 호출 ==========");
-
+	    String auth = "";
+	    if(p != null) {
+	    	auth = service.getMemberAuth(p.getName());
+	    }
+	    m.addAttribute("auth", auth);
 	    // 기본 검색 조건 설정
 	    if (searchKey == null || searchKey.isEmpty()) {
 	        searchKey = "p_title";

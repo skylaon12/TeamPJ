@@ -32,4 +32,5 @@ public interface BoardMapper {
 	public Long getPreviousArticleId(Long currentArticleId);
 	
 	public MemberVO getMemberInfo(String account);
+	public String getMemberAuth(String account);
 }
