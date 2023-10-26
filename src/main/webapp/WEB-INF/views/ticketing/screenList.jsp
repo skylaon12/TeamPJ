@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="cp" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
-<html>
+<html oncontextmenu="return false">
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -58,7 +58,7 @@
     
             <!-- 관람일 선택 -->
             <div id="select-date" class="reserv-select-box">
-                <input name="select-date" type="date" id="reserv-date" class="select-reserv">
+                <input name="select-date" type="date" id="reserv-date" class="select-reserv" onkeydown="return false">
 
                 <script>
 				    const today = new Date();

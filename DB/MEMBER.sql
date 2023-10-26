@@ -4,7 +4,7 @@ use movie_db;
 
 # 사용자 테이블
 create table member(
-    id int auto_increment,	# 회원 일련번호
+    id int,	# 회원 일련번호
     account varchar(50) primary key,		# 회원 id
     name varchar(10) not null,			# 회원명
     pwd text not null,			# 회원 비밀번호

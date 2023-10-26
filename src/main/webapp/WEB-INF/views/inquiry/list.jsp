@@ -115,11 +115,11 @@
                     </colgroup>
                     <thead>
                         <tr>
-                            <th>번호</th>
-                            <th>제목</th>
-                            <th>문의 상태</th>
-                            <th>작성일</th>
-                            <th>조회</th>
+                            <th class="text-align-center">번호</th>
+                            <th class="text-align-center">제목</th>
+                            <th class="text-align-center">문의 상태</th>
+                            <th class="text-align-center">작성일</th>
+                            <th class="text-align-center">조회</th>
                         </tr>
                     </thead>
                     <tbody>

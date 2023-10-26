@@ -21,6 +21,20 @@
 	<link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
   	<link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
 	<script type="text/javascript">
+		function checkConfirmation(){
+			var checkBox = document.getElementById("write-check-agree");
+			var modifyBtn = document.getElementById("write-btn");
+			
+			if(checkBox.checked){
+				modifyBtn.classList.remove("btn-disable");
+				modifyBtn.classList.add("write-btn-class");
+			}else{
+				modifyBtn.classList.remove("write-btn-class");
+				modifyBtn.classList.add("btn-disable");
+			}
+		}
+	
+		
 		function isAgreementChecked() {
 	    	return document.getElementById('write-check-agree').checked;
 		}
@@ -113,7 +127,7 @@
                         </div>
                     </div>
                     <div id="write-text-area" style="border-bottom: 1px solid #cacaca;">
-                        <div class="write-category-text" style="width: 20%;">
+                        <div class="write-category-text" style="min-width: 20%;">
                             <span style="margin-left: 15px;">내용<span style="color: red;">*</span></span>
                         </div>
                         <div style="display: flex; align-items: center;">
@@ -121,9 +135,27 @@
                         </div>
                     </div>
 
-	                <label for="write-check-agree"><input type="checkbox" value="write-check-agree" id="write-check-agree">임시 체크박스 | write-agree</label>
+	                <div id="check-agree-container">
+					    <div id="check-box-line">
+					        <label for="write-check-agree" id="agree-label"><input type="checkbox" value="write-check-agree" id="write-check-agree" onchange="checkConfirmation()"> [필수] 개인정보 수집에 대한 동의</label>
+					    </div>
+					    <div>
+					        <div id="agree-content">
+					            <span>귀하께서 문의하신 다음의 내역은 법률에 의거 개인정보 수집 · 이용에 대한 본인 동의가 필요한 항목입니다.</span>
+					            <strong>[개인정보의 수집 및 이용목적]</strong>
+					            <span>회사는 1:1 문의 내역의 확인, 요청사항의 처리 또는 완료 시 원활한 의사소통 경로 확보를 위해 수집하고 있습니다.</span>
+					            <strong>[필수 수집하는 개인정보의 항목]</strong>
+					            <span>이름, 휴대전화, 이메일, 문의내용</span>
+					            <strong>[개인정보의 보유기간 및 이용기간]</strong>
+					            <span>문의 접수 ~ 처리 완료 후 6개월</span>
+					            <span>(단, 관계 법령의 규정에 의하여 보존 할 필요성이 있는 경우에는 관계 법령에 따라 보존)</span>
+					            <span>자세한 내용은 '개인정보 처리방침'을 확인하시기 바랍니다.</span>
+					            <strong>* 원활한 서비스 이용을 위한 최소한의 개인정보이므로, 동의하지 않을 경우 서비스를 이용하실 수 없습니다.</strong>
+					        </div>
+					    </div>
+					</div>
 	                <div id="btn-area" style="display: flex; justify-content: center;">
-	                    <input type="button" class="write-btn-class" id="write-btn" onclick="sendIt();" value="등록"/>
+	                    <input type="button" class="btn-disable" id="write-btn" onclick="sendIt();" value="등록"/>
 	                    <a href="javascript:location.href='<%=cp%>/inquiry/list?page=${writeCurrentPage}';" class="write-btn-class">돌아가기</a>
 	                </div>
 	           	</form>
