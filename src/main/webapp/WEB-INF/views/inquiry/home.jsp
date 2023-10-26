@@ -31,7 +31,7 @@
             <div id="content-container">
                 <h2 style="border-bottom: 1px solid #cacaca; padding-bottom: 0.5em; margin-bottom: 0.5em;">고객센터 홈</h2>
                 <div id="service-container">
-                	<security:authorize access="isAuthenticated()">
+                	<security:authorize access="hasRole('USER')">
                     <div class="home-content">
                         <a href="${cp}/inquiry/write?page=1" class="block">
                             <h2 class="service">1:1 문의</h2>
@@ -53,7 +53,7 @@
 </body>
 <script>
 $(document).ready(function(){
-	$("#notice-bar").removeClass("select");
+	$("#notice-bar").removeClass("select-last");
 	$("#home-bar").addClass("select");
 })
 </script>

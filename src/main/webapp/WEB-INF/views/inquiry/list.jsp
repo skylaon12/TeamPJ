@@ -267,7 +267,7 @@
 </body>
 <script>
 $(document).ready(function(){
-	$("#notice-bar").removeClass("select");
+	$("#notice-bar").removeClass("select-last");
 	$("#my-inquiry-bar").addClass("select");
 	if(${!empty msgType}){
 			$("#successModal").modal("show");

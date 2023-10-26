@@ -7,7 +7,7 @@
                         <li id="home-bar" class="left-nav">
                             <a href="${cp}/inquiry/home">고객센터 홈</a>
                         </li>
-                        <li id="notice-bar" class="left-nav select">
+                        <li id="notice-bar" class="left-nav select-last">
                             <a href="${cp}/notice/list?page=${writeCurrentPage}">공지사항</a>
                         </li>
                         <security:authorize access="hasRole('USER')">

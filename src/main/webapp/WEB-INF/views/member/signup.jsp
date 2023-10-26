@@ -242,7 +242,9 @@
 		var emailChecked = $("#emailChecked").val();
 		var phoneNumber = $("#phonenumber").val();
 		var birth = $("#birth").val();
-		
+		var birthDate = new Date(birth);
+	    var currentDate = new Date();
+	    var u_age = currentDate.getFullYear() - birthDate.getFullYear();		
 		// 체크용정규식
         // pw
         var regPwd = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{4,12}$/;
@@ -293,10 +295,10 @@
         }else if(!phoneNumberRegex.test(phoneNumber)){
         	pushModal("올바른 전화번호 형식이 아닙니다");
         	return;
+        }else if(u_age < 3){
+        	pushModal("만 4세 이상부터 가입이 가능합니다.");
+        	return;
         }
-		var birthDate = new Date(birth);
-	    var currentDate = new Date();
-	    var u_age = currentDate.getFullYear() - birthDate.getFullYear();
 	    
 	    $("#age").val(u_age);
 	    console.log("이메일 호스트 : " + $("[name='email1']").val());

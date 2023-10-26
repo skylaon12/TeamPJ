@@ -94,18 +94,7 @@ select {
     
 	<div>
 	    <label class="control-label" for="email">이메일</label>
-	    <input class="email_input" type="text" id="email1" name="email1" value="${LOGIN_USER.email1}"/>@
-	    <input class="email_input" type="text" id="email2" name="email2" value="${LOGIN_USER.email2}" />
-	    <select class="select" id="select-email" title="이메일 도메인 주소 선택" onchange="setEmail2(this.value)">
-	        <option value="">-선택-</option>
-	        <option value="naver.com">naver.com</option>
-	        <option value="gmail.com">gmail.com</option>
-	        <option value="hanmail.net">hanmail.net</option>
-	        <option value="hotmail.com">hotmail.com</option>
-	        <option value="korea.com">korea.com</option>
-	        <option value="nate.com">nate.com</option>
-	        <option value="yahoo.com">yahoo.com</option>
-	    </select>
+	    <input class="email_input" type="text" value="${LOGIN_USER.email1}@${LOGIN_USER.email2}" readonly="readonly"/>
 	</div>
 	<div>
 		<label class="control-label" for="phonenumber">전화번호</label>
@@ -130,11 +119,6 @@ select {
 <script src="../resources/js/alertModal.js"></script>
 <script>
 // select에서 선택하면 저절로 email2에 작성됨
-	function setEmail2(e){
-		var $email = $("#email2");
-		var $s_email = $("#select-email");
-		$email.val($s_email.val());
-	}
 	// 수정사항 유효성 검사
 	function validation(){
 		var name = $("#name").val();
@@ -144,14 +128,13 @@ select {
 		var birth = $("#birth").val();
 		
 		var regName = /^[가-힣a-zA-Z]{2,15}$/;
-        // 이메일
-        var email1Regex = /^[\w-]+$/; // 이메일 로컬 파트의 유효성 검사 정규 표현식
-		var email2Regex = /^(naver\.com|gmail\.com|hanmail\.net|hotmail\.com|korea\.com|nate\.com|yahoo\.com)$/; // 이메일 도메인의 유효성 검사 정규 표현식
 		// 전화번호
 		var phoneNumberRegex = /^010-\d{4}-\d{4}$/;
         // 년도
         var regYear = /^[1-2]{1}[0-9]{0,4}$/;
-		
+        var birthDate = new Date(birth);
+	    var currentDate = new Date();
+	    var u_age = currentDate.getFullYear() - birthDate.getFullYear();
      // 유효성 검사
 		if(name == ""){// 이름 공백
         	pushModal("이름을 입력하세요");
@@ -159,22 +142,16 @@ select {
         }else if(!regName.test(name)){// 이름 정규식 체크
         	pushModal("최소 2글자 이상, 한글과 영어만 입력해주십시오.");
         	return;
-        }else if (!email1Regex.test(email1)) {// email 로컬주소 체크
-            pushModal("올바른 이메일 로컬 파트 형식이 아닙니다.");
-            return;
-        }else if (!email2Regex.test(email2)) {// email 도메인파트 체크
-            pushModal("올바른 이메일 도메인 형식이 아닙니다.");
-            return;
         }else if(!phoneNumberRegex.test(phoneNumber)){
         	pushModal("올바른 전화번호 형식이 아닙니다");
         	return;
         }else if (birth == ""){
         	pushModal("생년월일을 입력해주십시오.");
         	return;
+        }else if(u_age < 3){
+        	pushModal("만 4세 이상부터 가입이 가능합니다.");
+        	return;
         }
-		var birthDate = new Date(birth);
-	    var currentDate = new Date();
-	    var u_age = currentDate.getFullYear() - birthDate.getFullYear();
 	    $("#age").val(u_age);
 	    $("#modify_form").attr("action", "userModifyProc");
 		$("#modify_form").submit();

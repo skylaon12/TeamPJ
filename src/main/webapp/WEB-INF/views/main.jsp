@@ -50,7 +50,7 @@ a:hover { color: #fff; text-decoration: underline;}
 					</a>
 				</div>
 				<div class="col-4 mb-5">
-					<a href="/ticketing/screenList">
+					<a href="#">
 						<img alt="" src="resources/images/main/ico-quick-reserve-main.png">
 					빠른예매 
 					</a>
@@ -58,6 +58,7 @@ a:hover { color: #fff; text-decoration: underline;}
 			</div>
 		</div>
 	</div>
+	<security:authorize access="hasRole('USER')">
 	<div class="container">
 	 	<div class="container mt-5 text-center">
 	 		<div class="row">
@@ -67,14 +68,15 @@ a:hover { color: #fff; text-decoration: underline;}
 			<div class="row text-center mt-3">
 				
 				<div class="col">
-					<a href="${cp}/notice/list?page=1"><img alt="" src="resources/images/supports/ico-oneandone.png">
+					<a href="${cp}/inquiry/write?page=1"><img alt="" src="resources/images/supports/ico-oneandone.png">
 						<p style="color:black;" class="mt-3">1:1 문의</p>
 					</a>
 				</div>
-				<div class="col"></div>
 			</div>
 		</div> 
 	</div>
+	</security:authorize>
+	
 <%@include file="common/footer.jsp"%>
 <!-- 오류 모달 -->
 <%@include file="common/alertModal.jsp" %>

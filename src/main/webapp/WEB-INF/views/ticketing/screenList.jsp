@@ -116,6 +116,7 @@
 	var initialColor = 'rgb(169, 169, 169)';
 	
 	function selectRegion(e){
+		selected.length = 0;
 		var regionID = $("#region").val();
 		var regionName = $("#region option:selected").data("region");
 		console.log("id : " + regionID);
@@ -142,6 +143,7 @@
 	
 	/* 상영관 선택 */
     function selectScreen(x){
+    	selected.length = 0;
     	var detailRegionID = $("#detail-region").val();
 		var detailRegionName = $("#detail-region option:selected").data("detail-region");
 		console.log("선택된 상세지역 id : " + detailRegionID);

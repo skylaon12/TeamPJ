@@ -146,9 +146,6 @@
 		console.log("입력한 email2 " + email2);
 		if(inputNum == authNum && inputNum != ''){
 			pushModal("인증이 완료되었습니다");
-			$targetBtn.removeAttr("onclick");
-			$targetBtn.text("인증완료");
-			$targetBtn.css("background-color", "gray");
 			
 			$.ajax({
 				type : "POST",
@@ -164,8 +161,11 @@
 				success: function(data){
 					if(data != ""){
 						pushModal("아이디는 " + data + "입니다.");
+						$targetBtn.removeAttr("onclick");
+						$targetBtn.text("인증완료");
+						$targetBtn.css("background-color", "gray");
 					}else{
-						pushModal("등록된 계정이 없습니다.")
+						pushModal("등록된 계정이 없습니다.");
 					}
 					return;
 				},

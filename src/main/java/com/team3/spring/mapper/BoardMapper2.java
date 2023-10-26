@@ -56,7 +56,7 @@ public interface BoardMapper2 {
 	public Long getPreviousArticleId(Long currentArticleId);
 	
 	// 댓글 관련
-	public void writeComment(CommentVO gvo);
+	public int writeComment(CommentVO gvo);
 	
 	public ArrayList<CommentVO> getCommentData(@Param("p_ori_id") long p_ori_id, @Param("page") int page);
 	

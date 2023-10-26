@@ -211,8 +211,8 @@
 // ticket 정보를 JavaScript 객체로 파싱
 var ticket = {
   reserv_date: "${ticket.reserv_date}",
-  str_hour: "${ticket.str_hour}",
-  str_min: "${ticket.str_min}"
+  str_hour: parseInt("${ticket.str_hour}"),
+  str_min: parseInt("${ticket.str_min}")
 };
 
 // 현재 날짜와 시간 정보 얻기
@@ -223,17 +223,30 @@ var currentDay = currentDate.getDate();
 var currentHour = currentDate.getHours();
 var currentMinute = currentDate.getMinutes();
 
+console.log("currentYear : " + currentYear);
+console.log("currentMonth : " + currentMonth);
+console.log("currentDay : " + currentDay);
+console.log("currentHour : " + currentHour);
+console.log("currentMinute : " + currentMinute);
+
 // 예매 정보의 날짜와 시간 얻기
 var reservedDate = new Date(ticket.reserv_date);
+reservedDate.setHours(ticket.str_hour);
+reservedDate.setMinutes(ticket.str_min);
 var reservedYear = reservedDate.getFullYear();
 var reservedMonth = reservedDate.getMonth() + 1;
 var reservedDay = reservedDate.getDate();
 var reservedHour = parseInt(ticket.str_hour);
 var reservedMinute = parseInt(ticket.str_min);
-
+console.log("reservedYear : " + reservedYear);
+console.log("reservedMonth : " + reservedMonth);
+console.log("reservedDay : " + reservedDay);
+console.log("reservedHour : " + reservedHour);
+console.log("reservedMinute : " + reservedMinute);
 // 예매 정보의 시간을 20분 앞당겨야함.
 reservedDate.setMinutes(reservedDate.getMinutes() - 20);
-
+console.log("reservedDate : " + reservedDate);
+console.log("currentDate : " + currentDate);
 // 날짜 및 시간 비교
 if (currentDate < reservedDate) {
   // 아직 상영시간 전인 경우

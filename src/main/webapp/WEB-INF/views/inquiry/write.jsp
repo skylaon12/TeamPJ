@@ -168,8 +168,8 @@
 <script src="../resources/js/alertModal.js"></script>
 <script>
 $(document).ready(function(){
-	$("#notice-bar").removeClass("select");
-	$("#write-inquiry-bar").addClass("select");
+	$("#notice-bar").removeClass("select-last");
+	$("#write-inquiry-bar").addClass("select-last");
 })
 </script>
 </html>

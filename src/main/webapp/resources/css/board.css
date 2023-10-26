@@ -293,6 +293,13 @@ tbody tr td:nth-child(2), tbody tr td:nth-child(3) {
     background: #e4e4e4;
 }
 
+#notice-category-text {
+    display: flex;
+    align-items: center;
+/*     min-width: 40%; */
+    background: #e4e4e4;
+}
+
 .write-category {
     padding: 8px 50px 8px 5px;
     margin-left: 10px;

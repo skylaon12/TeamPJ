@@ -87,14 +87,14 @@ public class MemberController {
 		log.info("세션에 저장된 pw : " + s_pwd);
 		if (pwd == null || pwd.equals("")) {
 			rttr.addFlashAttribute("msgType", "실패 메세지");
-			rttr.addFlashAttribute("msg", "아이디 또는 비밀번호를 작성해주세요.");
+			rttr.addFlashAttribute("msg", "비밀번호를 작성해주세요.");
 		}
 
 		if (pwEncoder.matches(pwd, s_pwd)) {
 			return "redirect:userModify";
 		} else {
 			rttr.addFlashAttribute("msgType", "실패 메세지");
-			rttr.addFlashAttribute("msg", "아이디 또는 비밀번호가 다릅니다.");
+			rttr.addFlashAttribute("msg", "비밀번호가 일치하지 않습니다.");
 		}
 		return "redirect:checkUserPw";
 	}

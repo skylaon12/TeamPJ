@@ -72,8 +72,6 @@
                 	
                 	<input type="hidden" name ="p_id" value="${article.p_id }">
                 	
-                	<input type="hidden" name ="p_writer" value="테스트">
-                	
                     <div id="category-select">
                         <div id="select-area-1">
                             <div class="write-category-text">
@@ -118,8 +116,8 @@
 <script src="../resources/js/alertModal.js"></script>
 <script>
 $(document).ready(function(){
-	$("#notice-bar").removeClass("select");
-	$("#write-inquiry-bar").addClass("select");
+	$("#notice-bar").removeClass("select-last");
+	$("#write-inquiry-bar").addClass("select-last");
 })
 </script>
 </html>

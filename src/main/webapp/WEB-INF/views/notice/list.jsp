@@ -165,6 +165,8 @@
 </body>
 <script>
 $(document).ready(function(){
+	$("#notice-bar").removeClass("select-last");
+	$("#notice-bar").addClass("select");
 	if(${!empty msgType}){
 			$("#successModal").modal("show");
 		}

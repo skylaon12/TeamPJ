@@ -168,8 +168,8 @@ public class BoardServiceImpl2 implements BoardService2 {
     
     // 댓글 쓰기
     @Override
-    public void writeComment(CommentVO gvo) {
-    	mapper.writeComment(gvo);
+    public int writeComment(CommentVO gvo) {
+    	return mapper.writeComment(gvo);
     }
     
     // 댓글 데이터 가져오기

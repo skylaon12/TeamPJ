@@ -88,4 +88,10 @@
     </div>
     <%@include file="../common/footer.jsp"%>
 </body>
+<script>
+$(document).ready(function(){
+	$("#notice-bar").removeClass("select-last");
+	$("#notice-bar").addClass("select");
+})
+</script>
 </html>

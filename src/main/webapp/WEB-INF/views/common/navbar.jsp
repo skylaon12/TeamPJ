@@ -12,8 +12,6 @@
 			id="navbar-top">
 			<div class="collapse navbar-collapse">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a href="#" class="nav-link">VIP LOUNGE</a></li>
-					<li class="nav-item"><a href="#" class="nav-link">멤버십</a></li>
 					<li class="nav-item"><a href="${cp}/notice/list" class="nav-link">1대1문의 및 공지사항</a></li>
 				</ul>
 				<security:authorize access="isAnonymous()"><!-- 인증확인 태그 / 인증이 되지않은 사용자용 --> 

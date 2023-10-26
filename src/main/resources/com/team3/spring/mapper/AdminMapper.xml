@@ -46,7 +46,10 @@
 	
 	<!-- 회원관련 -->
 	<select id="getMemberList" resultType="com.team3.spring.vo.MemberVO">
-		SELECT * FROM MEMBER
+		SELECT ID, M.ACCOUNT, AUTH, NAME, EMAIL1, EMAIL2, PHONENUMBER, AGE 
+		FROM MEMBER M 
+		INNER JOIN MEM_AUTH MA
+		ON M.ACCOUNT = MA.ACCOUNT
 	</select>
 	<select id="getMember" resultMap="memberMap">
 		SELECT * FROM MEMBER MEM

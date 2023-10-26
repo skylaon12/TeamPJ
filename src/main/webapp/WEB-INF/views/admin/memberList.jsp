@@ -44,6 +44,7 @@
                 <thead>
                   <tr>
                     <th>일련번호</th>
+                    <th>권한</th>
                     <th>아이디</th>
                     <th>비밀번호</th>
                     <th>이름</th>
@@ -56,6 +57,7 @@
                   <c:forEach var="member" items="${members}">
                     <tr>
                       <td>${member.id}</td>
+                      <td>${member.auth}</td>
                       <td>${member.account}</td>
                       <td>*******</td>
                       <td>${member.name}</td>

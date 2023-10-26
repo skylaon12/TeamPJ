@@ -56,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				// 이렇게 필터로 처리하게 되면 modal창을 띄우지를 못해서 컨트롤러 자체에서 권한 확인 진행함
 				.antMatchers("/admin/**").hasRole("ADMIN") // 권한이 있는 사용자만 접근 가능
 				.antMatchers("/notice/write").hasRole("ADMIN") // 권한이 있는 사용자만 접근 가능
+				.antMatchers("/inquiry/write").hasRole("USER") // 권한이 있는 사용자만 접근 가능
 				.and()
 			.formLogin() // 로그인 페이지와 기타 로그인 처리 및 성공 실패 처리를 사용하겠다는 의미
 				.loginPage("/member/login") // 사용자가 따로 만든 로그인 페이지를 사용하려고 할때 설정

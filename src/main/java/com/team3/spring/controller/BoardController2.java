@@ -115,12 +115,17 @@ public class BoardController2 {
 	}
 	
 	@GetMapping({"/article", "/modify"})
-	public void article(Model m, 
+	public void article(Model m, Principal p, 
 			@RequestParam("p_id") Long p_id, 
 			@RequestParam(value = "page", defaultValue = "1") int page, 
 			@RequestParam(value = "coPage", defaultValue = "1", required = false) int coPage) {
 		log.info("컨트롤러 글번호 읽기 =======>>>"+p_id);
 		
+		
+		MemberVO vo = service.getUserInfo(p.getName());
+		m.addAttribute("LOGIN_USER", vo);
+			
+			
 		String cp = request.getContextPath();
 		
 		// 조회수 중복 복사 방지 ( 쿠키 )
@@ -243,9 +248,16 @@ public class BoardController2 {
 	}
 	
 	@PostMapping("/writeComment")
-	public String writeComment(CommentVO gvo, @RequestParam("p_id") Long p_id, @RequestParam("page") int page) {
-		service.writeComment(gvo);
+	public String writeComment(RedirectAttributes rttr, CommentVO gvo, @RequestParam("p_id") Long p_id, @RequestParam("page") int page) {
+		int result = service.writeComment(gvo); 
 		
+		if(result == 1) {
+			rttr.addFlashAttribute("msgType", "성공 메세지");
+			rttr.addFlashAttribute("msg", "댓글이 작성되었습니다.");
+		}else {
+			rttr.addFlashAttribute("msgType", "오류 메세지");
+			rttr.addFlashAttribute("msg", "수정에 실패하였습니다.");
+		}
 		return "redirect:/inquiry/article?p_id=" + p_id + "&page=" + page;
 	}
 	

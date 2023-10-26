@@ -66,7 +66,7 @@
 		SELECT COUNT(*) FROM MEMBER WHERE EMAIL1 = #{email1} AND EMAIL2 = #{email2}
 	</select>
 	<update id="userInfoModify">
-		UPDATE MEMBER SET NAME = #{name}, EMAIL1 = #{email1}, EMAIL2 = #{email2}, PHONENUMBER = #{phonenumber}, AGE = #{age}
+		UPDATE MEMBER SET NAME = #{name}, PHONENUMBER = #{phonenumber}, AGE = #{age}
 		WHERE ID = #{id}
 	</update>
 	<update id="userPwdModify">

@@ -76,9 +76,6 @@
                 	
                     <div id="category-select">
                         <div id="select-area-1">
-                            
-                        </div>
-                        <div id="select-area-2">
                             <div class="write-category-text">
                                 <span style="margin-left: 15px;">제목<span style="color: red;">*</span></span>
                             </div>
@@ -88,7 +85,7 @@
                         </div>
                     </div>
                     <div id="write-text-area" style="border-bottom: 1px solid #cacaca;">
-                        <div class="write-category-text" style="width: 20%;">
+                        <div class="write-category-text">
                             <span style="margin-left: 15px;">내용<span style="color: red;">*</span></span>
                         </div>
                         <div style="display: flex; align-items: center;">
