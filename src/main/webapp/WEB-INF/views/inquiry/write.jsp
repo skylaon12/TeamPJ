@@ -123,7 +123,7 @@
                                 <span style="margin-left: 15px;">제목<span style="color: red;">*</span></span>
                             </div>
                             <div style="display: flex; justify-content: center; align-items: center;">
-                                <input type="text" name="p_title" id="write-post-title" class="write-category" style="padding-right: 0px;">
+                                <input type="text" name="p_title" id="write-post-title" class="write-category" style="padding-right: 0px;" maxlength="50">
                             </div>
                         </div>
                     </div>
@@ -132,7 +132,7 @@
                             <span style="margin-left: 15px;">내용<span style="color: red;">*</span></span>
                         </div>
                         <div style="display: flex; align-items: center;">
-                            <textarea name="p_text" id="text-area" cols="30" rows="10" maxlength="20"></textarea>
+                            <textarea name="p_text" id="text-area" cols="30" rows="10"></textarea>
                         </div>
                     </div>
 

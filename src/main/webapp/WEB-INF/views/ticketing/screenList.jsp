@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
 <link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
 <link rel="stylesheet" href="../resources/css/seat.css?ver=<%=System.currentTimeMillis()%>" />
-<link rel="icon" href="../resources/images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="../resources/images/logo/logo-s.png" type="image/x-icon">
 <title>SOL CINEMA</title>
 </head>
 <body>
@@ -385,7 +385,7 @@
 	    var popupTop = (screenHeight - popupHeight) / 2;
 		
 	    var popup = window.open(
-	    	    'popup?' +
+	    	    'reservation?' +
 	    	    'u_account=' + encodeURIComponent(u_account) +
 	    	    '&u_name=' + encodeURIComponent(u_name) + 
 	    	    '&ticket_cnt=' + encodeURIComponent(ticket_cnt)+

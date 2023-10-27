@@ -86,7 +86,7 @@
 					<input type="hidden" id="emailChecked">
 					<input type="hidden" id="authNum1">
 					<input type="text" id="authNum2" placeholder="인증번호를 입력하세요.">
-					<input type="button" id="email_auth_btn" onclick="checkEmail()" value="인증하기"/>
+					<input type="button" id="email_auth_btn" onclick="checkAuthenticationNum()" value="인증하기"/>
 				</td>
 			</tr>
 			<tr>
@@ -208,7 +208,7 @@
 		})		
 	}
 	
-	function checkEmail(){
+	function checkAuthenticationNum(){
 		var inputNum = $("#authNum1").val();
 		var authNum = $("#authNum2").val();
 		var $targetBtn = $("#email_auth_btn")

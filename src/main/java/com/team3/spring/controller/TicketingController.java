@@ -72,7 +72,7 @@ public class TicketingController {
 		return ticketingService.getTheater(detailRegionId);
 	}
 	
-	@RequestMapping("/popup")
+	@RequestMapping("/reservation")
 	public void popup(@ModelAttribute TicketingVO vo) {
 		ticketingService.bookTicket(vo);
 	}

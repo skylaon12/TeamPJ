@@ -71,7 +71,7 @@ public class BoardController2 {
 		    ArrayList<BoardVO2> lists = service.getLists(p_category, searchKey, word, index, vo.getAccount());
 
 		    // 페이징 처리
-		    service.updateModelWithPageInfo(m, page, p_category, searchKey, word);
+		    service.updateModelWithPageInfo(m, page, p_category, searchKey, word, vo.getAccount());
 		    
 		    // 댓글 관련 코드
 		    service.updateCommentInfo(lists);
@@ -199,8 +199,17 @@ public class BoardController2 {
 		m.addAttribute("previousArticleUrl", previousArticleUrl);
 	    m.addAttribute("nextArticleUrl", nextArticleUrl);
 	    
-	    m.addAttribute("previousArticleTitle", previousArticleTitle); // 이전 글의 제목 추가
-	    m.addAttribute("nextArticleTitle", nextArticleTitle); // 다음 글의 제목 추가
+	    if (previousArticleTitle != null && previousArticleTitle.length() > 20) {
+	        m.addAttribute("previousArticleTitle", previousArticleTitle.substring(0, 20) + "...");
+	    } else {
+	        m.addAttribute("previousArticleTitle", previousArticleTitle);
+	    }
+	    
+	    if (nextArticleTitle != null && nextArticleTitle.length() > 20) {
+	        m.addAttribute("nextArticleTitle", nextArticleTitle.substring(0, 20) + "...");
+	    } else {
+	        m.addAttribute("nextArticleTitle", nextArticleTitle);
+	    }
 	    
 	    m.addAttribute("previousArticleCategory", previousArticleCategory); // 이전 글의 카테고리 추가
 	    m.addAttribute("nextArticleCategory", nextArticleCategory); // 다음 글의 카테고리 추가
@@ -232,8 +241,7 @@ public class BoardController2 {
 		    // 댓글 현재 페이지 뷰로 전달
 		    m.addAttribute("commentCurrentPage", coPage);
 	    }
-	}
-	
+	}	
 	@PostMapping("/modify")
 	public String modify(RedirectAttributes rttr ,BoardVO2 gvo, @RequestParam("page") int page) {
 		int result = service.modify(gvo); 

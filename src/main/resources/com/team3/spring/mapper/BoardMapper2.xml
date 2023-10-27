@@ -45,21 +45,22 @@
 	</update>
 	
 	<select id="getTotalCount" resultType="int">
-		SELECT COUNT(*) FROM BOARD_INQUIRY
+		SELECT COUNT(*) FROM BOARD_INQUIRY 
+		WHERE P_WRITER = #{p_writer} 
 	</select>
 	
 	<select id="getTotalCountByCategory" resultType="int">
-		SELECT COUNT(*) FROM BOARD_INQUIRY WHERE P_CATEGORY = #{p_category}
+		SELECT COUNT(*) FROM BOARD_INQUIRY WHERE P_CATEGORY = #{p_category} AND P_WRITER = #{p_writer} 
 	</select>
 	
 	<select id="getSearchTotalCount" resultType="int">
 		SELECT COUNT(*) FROM BOARD_INQUIRY 
-		WHERE ${searchKey} LIKE CONCAT('%', #{word}, '%')
+		WHERE ${searchKey} LIKE CONCAT('%', #{word}, '%') AND P_WRITER = #{p_writer}
 	</select>
 	
 	<select id="getSearchTotalCountByCategory" resultType="int">
 		SELECT COUNT(*) FROM BOARD_INQUIRY 
-		WHERE P_CATEGORY = #{p_category} AND ${searchKey} LIKE CONCAT('%', #{word}, '%')
+		WHERE P_CATEGORY = #{p_category} AND ${searchKey} LIKE CONCAT('%', #{word}, '%') AND P_WRITER = #{p_writer}
 	</select>
 	
 	<update id="updateHitCount" parameterType="long">

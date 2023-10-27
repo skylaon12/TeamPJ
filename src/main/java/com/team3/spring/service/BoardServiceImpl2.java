@@ -83,40 +83,40 @@ public class BoardServiceImpl2 implements BoardService2 {
 	}
 
 	@Override
-	public int getTotalCount() {
-		return mapper.getTotalCount();
+	public int getTotalCount(String p_writer) {
+		return mapper.getTotalCount(p_writer);
 	}
 	
 	@Override
-	public int getTotalCountByCategory(String p_category) {
-		return mapper.getTotalCountByCategory(p_category);
+	public int getTotalCountByCategory(String p_category, String p_writer) {
+		return mapper.getTotalCountByCategory(p_category, p_writer);
 	}
 	
 	@Override
-	public int getSearchTotalCount(String searchKey, String word) {
-		return mapper.getSearchTotalCount(searchKey, word);
+	public int getSearchTotalCount(String searchKey, String word, String p_writer) {
+		return mapper.getSearchTotalCount(searchKey, word, p_writer);
 	}
 	
 	@Override
-	public int getSearchTotalCountByCategory(String p_category, String searchKey, String word) {
-		return mapper.getSearchTotalCountByCategory(p_category, searchKey, word);
+	public int getSearchTotalCountByCategory(String p_category, String searchKey, String word, String p_writer) {
+		return mapper.getSearchTotalCountByCategory(p_category, searchKey, word, p_writer);
 	}
 	
 	@Override
-	public int getTotalPageCount(String p_category, String searchKey, String word) {
+	public int getTotalPageCount(String p_category, String searchKey, String word, String p_writer) {
 		int totalCount;
 	    
 	    if ( word == null || word.equals("null") ) {
 	    	if ( p_category == null || p_category.isEmpty() ) {
-	            totalCount = getTotalCount(); // 전체 카테고리 글 수 가져오기
+	            totalCount = getTotalCount(p_writer); // 전체 카테고리 글 수 가져오기
 	        } else {
-	            totalCount = getTotalCountByCategory(p_category); // 특정 카테고리 글 수 가져오기
+	            totalCount = getTotalCountByCategory(p_category, p_writer); // 특정 카테고리 글 수 가져오기
 	        }
 	    } else {
 	    	if ( p_category == null || p_category.isEmpty() ) {
-	            totalCount = getSearchTotalCount(searchKey, word); // 전체 카테고리에서 검색한 글 수 가져오기
+	            totalCount = getSearchTotalCount(searchKey, word, p_writer); // 전체 카테고리에서 검색한 글 수 가져오기
 	        } else {
-	            totalCount = getSearchTotalCountByCategory(p_category, searchKey, word); // 특정 카테고리에서 검색한 글 수 가져오기
+	            totalCount = getSearchTotalCountByCategory(p_category, searchKey, word, p_writer); // 특정 카테고리에서 검색한 글 수 가져오기
 	        }
 	    }
 	    
@@ -255,8 +255,8 @@ public class BoardServiceImpl2 implements BoardService2 {
 	}
 	
 	@Override
-	public void updateModelWithPageInfo(Model model, int page, String p_category, String searchKey, String word) {
-        int totalCount = getTotalPageCount(p_category, searchKey, word);
+	public void updateModelWithPageInfo(Model model, int page, String p_category, String searchKey, String word, String p_writer) {
+        int totalCount = getTotalPageCount(p_category, searchKey, word, p_writer);
         int totalPage = getTotalPage(totalCount);
         int totalBlock = getTotalBlock(totalPage);
         int currentBlock = (int) Math.ceil((double) page / BoardConfig.PAGE_PER_BLOCK);

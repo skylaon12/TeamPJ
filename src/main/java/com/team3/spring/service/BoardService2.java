@@ -29,21 +29,21 @@ public interface BoardService2 {
 	// 페이징 처리 관련
 	public int getStartIndex(int page, boolean comment);
 	
-	public int getTotalCount();
+	public int getTotalCount(String p_writer);
 	
-	public int getTotalCountByCategory(String p_category);
+	public int getTotalCountByCategory(String p_category, String p_writer);
 	
-	public int getSearchTotalCount(String searchKey, String word);
+	public int getSearchTotalCount(String searchKey, String word, String p_writer);
 	
-	public int getSearchTotalCountByCategory(String p_category, String searchKey, String word);
+	public int getSearchTotalCountByCategory(String p_category, String searchKey, String word, String p_writer);
 	
-	public int getTotalPageCount(String p_category, String searchKey, String word);
+	public int getTotalPageCount(String p_category, String searchKey, String word, String p_writer);
 	
 	public int getTotalPage(int totalCount);
 	
 	public int getTotalBlock(int totalPage);
 	
-	public void updateModelWithPageInfo(Model model, int page, String p_category, String searchKey, String word);
+	public void updateModelWithPageInfo(Model model, int page, String p_category, String searchKey, String word, String p_writer);
 	
 	// 조회수
 	public void updateHitCount(long p_id);

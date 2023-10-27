@@ -16,7 +16,6 @@
 <link rel="stylesheet" href="../resources/css/navbar.css" />
 <link rel="stylesheet" href="../resources/css/common.css" />
 <link rel="icon" href="../resources/images/logo/logo-s.png" type="image/x-icon">
-	type="image/x-icon">
 <title>SOL CINEMA</title>
 </head>
 <body>
@@ -25,9 +24,12 @@
 		<div class="mt-5">
 			<h1>전체 영화</h1>
 		</div>
+		
 		<div id="movie-lists" class="tab-content" id="nav-tabContent">
 		<div class="row mt-3 poster">
-			<c:forEach var="movie" items="${movies}">
+		<c:choose>
+			<c:when test="${not empty movies}">
+				<c:forEach var="movie" items="${movies}">
 				<div class='col-3 mb-5' style='padding-left: 0px;'>
 					<a href="${cp}/movie/detail?no=${movie.id}"> <img
 						src='${movie.poster_path}' class='rounded card-img-top'
@@ -41,7 +43,12 @@
 							</a>
 					</div>
 				</div>
-			</c:forEach>
+			</c:forEach>			
+			</c:when>
+			<c:otherwise>
+				<h1>검색하신 결과는 목록에 없습니다. 다시 검색해주세요.</h1>
+			</c:otherwise>
+		</c:choose>
 			</div>
 		</div>
 </div>

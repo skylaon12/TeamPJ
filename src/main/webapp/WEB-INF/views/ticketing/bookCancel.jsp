@@ -187,28 +187,32 @@
             <p class="cinema-comment"> · 무대인사 예매 취소는 상영 시작 24시간 전까지 가능합니다.</p>
             <p class="cinema-comment"> · 결제수단에 따라, 환불까지 최소 1일 ~ 최대 14일이 소요될 수 있습니다.</p>
             <div style="margin-top: 10px;">
-                <input onclick="check()" type="checkbox" name="cancel-check" id="cancel-check" style="scale: 120%;">
+                <input onclick="cancel()" type="checkbox" name="cancel-check" id="cancel-check" style="scale: 120%;">
                 <label for="cancel-check" class="cinema-comment" style="color: black; position: relative; left: -10px; top: -2px; font-size: 90%;">상기 내용을 확인하였습니다.</label>
             </div>
         </div>
         <div>
             <div style="display: flex;"></div>
             <button id="redirect-home" style="border-radius: 10px; border: none; color: white; background-color: rgb(222, 0, 0); padding: 0.7em 2.5em; line-height: 20px; margin: 20px 50px 20px 20px;">홈으로 돌아가기</button>
-            <a id="cancelLink"><button id="cancel-button" class="cancel-button-disable">취소확인</button></a>
+            <a id="cancelLink" href=""><button id="cancel-button" class="cancel-button-disable">취소확인</button></a>
         </div>
     </div>
 </body>
+<%@include file="../common/alertModal.jsp" %>
 <script>
     let checkBox = false;
     let button = document.getElementById('cancel-button');
 	var link = document.getElementById('cancelLink');
-    function check() { 
-        checkBox = !checkBox;
+	
+	
+    function cancel() { 
+    	checkBox = !checkBox;
         if (checkBox == true) {
-        	link.href = "cancelProc?id=" + ${ticket.id};
+        	link.setAttribute("href", "cancelProc?id=" + ${ticket.id});
             button.classList.remove('cancel-button-disable');
             button.classList.add('cancel-button-enable');
         } else {
+        	link.removeAttribute("href");
             button.classList.remove('cancel-button-enable');
             button.classList.add('cancel-button-disable');
         }

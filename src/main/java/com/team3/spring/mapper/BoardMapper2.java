@@ -36,16 +36,17 @@ public interface BoardMapper2 {
 	public int modify(BoardVO2 gvo);
 	
 	// 전체 글 수
-	public int getTotalCount();
+	public int getTotalCount(@Param("p_writer")String p_writer);
 	
-	public int getTotalCountByCategory(@Param("p_category") String p_category);
+	public int getTotalCountByCategory(@Param("p_category") String p_category, @Param("p_writer")String p_writer);
 	
 	public int getSearchTotalCount(@Param("searchKey") String searchKey, 
-			@Param("word") String word);
+			@Param("word") String word, @Param("p_writer")String p_writer);
 	
 	public int getSearchTotalCountByCategory(@Param("p_category") String p_category, 
 			@Param("searchKey") String searchKey, 
-			@Param("word") String word);
+			@Param("word") String word,
+			@Param("p_writer")String p_writer);
 	
 	// 조회수
 	public void updateHitCount(long p_id);

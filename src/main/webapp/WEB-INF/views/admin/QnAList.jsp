@@ -102,8 +102,8 @@
                   <c:forEach var="dto" items="${lists}">
                     <tr>
                       <td>${dto.p_id}</td>
-                      <td>${dto.p_writer}</td>
-                      <td>${dto.p_title}</td>
+                      <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 0px;">${dto.p_writer}</td>
+					  <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;">${dto.p_title}</td>
                       <td>${dto.p_created}</td>
                       <td><a href="${articleUrl}${dto.p_id}&page=${currentPage }"><button name="info-btn" type="button" class="btn btn-block btn-info btn-sm">문의 확인</button></a></td>
                       <td><a href="completQnAProc?id=${dto.p_id}&page=${currentPage}&p_category=${p_category}&searchKey=${searchKey}&word=${word}"><button name="info-btn" type="button" class="btn btn-block btn-success btn-sm">문의 완료</button></a></td>
