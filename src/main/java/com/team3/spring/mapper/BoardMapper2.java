@@ -30,7 +30,7 @@ public interface BoardMapper2 {
 	public int write(BoardVO2 gvo);
 	
 	// 읽기
-	public BoardVO2 read(long p_id);
+	public BoardVO2 read(@Param("p_id")long p_id, @Param("p_writer")String account);
 	
 	// 수정
 	public int modify(BoardVO2 gvo);
@@ -52,9 +52,9 @@ public interface BoardMapper2 {
 	public void updateHitCount(long p_id);
 	
 	// 이전글 다음글
-	public Long getNextArticleId(Long currentArticleId);
+	public Long getNextArticleId(@Param("currentArticleId")long currentArticleId, @Param("p_writer")String account);
 	
-	public Long getPreviousArticleId(Long currentArticleId);
+	public Long getPreviousArticleId(@Param("currentArticleId")long currentArticleId, @Param("p_writer")String account);
 	
 	// 댓글 관련
 	public int writeComment(CommentVO gvo);

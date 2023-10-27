@@ -21,7 +21,7 @@ public interface BoardService2 {
 	public int write(BoardVO2 gvo);
 	
 	// 읽기
-	public BoardVO2 read(long p_id);
+	public BoardVO2 read(long p_id, String account);
 	
 	// 수정
 	public int modify(BoardVO2 gvo);
@@ -49,9 +49,9 @@ public interface BoardService2 {
 	public void updateHitCount(long p_id);
 	
 	// 이전 글, 다음 글
-	public Long getNextArticleId(Long currentArticleId);
+	public Long getNextArticleId(long currentArticleId, String account);
 
-	public Long getPreviousArticleId(Long currentArticleId);
+	public Long getPreviousArticleId(long currentArticleId, String account);
 	
 	// 댓글 관련
 	public int writeComment(CommentVO gvo);
