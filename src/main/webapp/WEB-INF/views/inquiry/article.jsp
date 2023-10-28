@@ -9,16 +9,16 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>MEET PLAY SHARE, 솔 시네마</title>
+	<title>SOL CINEMA</title>
 	
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	
+	<link rel="icon" href="../resources/images/logo/logo-s.png" type="image/x-icon">	
 	<link rel="stylesheet" href="${cp}/resources/css/board.css" />
 	<link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
   	<link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
-	
 	<script type="text/javascript">
 	
 		function sendIt(){
@@ -31,7 +31,7 @@
 			str = f.p_writer.value;
 			str = str.trim();
 			if(!str){
-				pushModal("\n이름을 입력하세요.");
+				alert("\n이름을 입력하세요.");
 				f.p_writer.focus();
 				return;
 			}		
@@ -41,7 +41,7 @@
 			str = f.p_comment.value;
 			str = str.trim();
 			if(!str){
-				pushModal("\n내용을 입력하세요.");
+				alert("\n내용을 입력하세요.");
 				f.p_comment.focus();
 				return;
 			}
@@ -49,6 +49,7 @@
 			
 			f.action = "<%=cp%>/inquiry/writeComment?p_id=" + id + "&page=" + page;
 			f.submit();
+			alert("댓글 등록이 완료 되었습니다.");
 		}
 		
 		
@@ -70,7 +71,7 @@
             <%@include file="../common/boardSideBar.jsp"%>
 
             <article id="content-container">
-                <h2 id="post-title" style="padding-bottom: 0.2em;">[${article.p_category }] ${article.p_title }</h2>
+                <h2 id="post-title">[${article.p_category }] ${article.p_title }</h2>
 
                 <div id="detail-area" style="display: flex; border-bottom: 1px solid #cacaca; padding-top: 0.5em; padding-bottom: 1em; margin-bottom: 1em; font-size: 13px;">
                     <div>등록일</div>
@@ -83,7 +84,7 @@
 							<span id="post-status" class="post-detail">완료</span>
 						</c:when>
 						<c:otherwise>
-							<span id="post-status" class="post-detail">진행중</span>
+							<span id="post-status" class="post-detail">접수</span>
 						</c:otherwise>
 					</c:choose>
                 </div>
@@ -150,21 +151,22 @@
                 
                 <c:choose>
 					<c:when test="${article.p_status == 'T'}">
-						<div class="comment" >
+						<div class="comment">
 							<span class="comment-text" style="margin-top: 0;">문의가 마감되었습니다.</span>
 						</div>
 					</c:when>
 					<c:otherwise>
 		               	<form action="" method="post" name="myForm" id="comment-write-area">
 		               		<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
-		               	
-		                    <input type="hidden" name="p_writer" id="write-author-set" value="${LOGIN_USER.account}" placeholder="이름">
-		                    
+							
 		                    <input type="hidden" name ="p_ori_id" value="${article.p_id }">
 		                    
 		                    <div style="width: 100%; max-width: 100%; display: flex; flex-direction: column; align-items: center;" >
 		                        <textarea name="p_comment" id="write-area" placeholder="댓글 입력"></textarea>
-		                        <input type="button" name="write-submit" id="write-submit" value="등록" onclick="sendIt();">
+								<div style="display: flex; width: 100%; align-items: center;">
+									<span id="wirter-name">여기이름</span>
+			                    	<input type="submit" name="write-submit" id="write-submit" value="등록" onclick="sendIt();">
+								</div>
 		                    </div>
 		               </form>
 		           </c:otherwise>
@@ -214,16 +216,11 @@
         </div>
     </div>
     <%@include file="../common/footer.jsp"%>
-    <%@include file="../common/alertModal.jsp" %>
 </body>
-<script src="../resources/js/alertModal.js"></script>
 <script>
 $(document).ready(function(){
-	$("#notice-bar").removeClass("select-last");
+	$("#notice-bar").removeClass("select");
 	$("#my-inquiry-bar").addClass("select");
-	if(${!empty msgType}){
-		$("#successModal").modal("show");
-	}
 })
 </script>
 </html>

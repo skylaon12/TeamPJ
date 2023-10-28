@@ -16,10 +16,10 @@
   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	
+	<link rel="icon" href="../resources/images/logo/logo-s.png" type="image/x-icon">
 	<link rel="stylesheet" href="${cp}/resources/css/board.css" />
 	<link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
   	<link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
-  	<link rel="icon" href="../resources/images/logo/logo-s.png" type="image/x-icon">
 </head>
 <body>
 	<%@include file="../common/tags.jsp" %>
@@ -29,7 +29,7 @@
             <%@include file="../common/boardSideBar.jsp"%>
 
             <article id="content-container">
-                <h2 id="post-title" style="padding-bottom: 0.2em;">${article.p_title }</h2>
+                <h2 id="post-title">${article.p_title }</h2>
 
                 <div id="detail-area" style="display: flex; border-bottom: 1px solid #cacaca; padding-top: 0.5em; padding-bottom: 1em; margin-bottom: 1em; font-size: 13px;">
                     <div>등록일</div>
@@ -89,10 +89,4 @@
     </div>
     <%@include file="../common/footer.jsp"%>
 </body>
-<script>
-$(document).ready(function(){
-	$("#notice-bar").removeClass("select-last");
-	$("#notice-bar").addClass("select");
-})
-</script>
 </html>

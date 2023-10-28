@@ -23,8 +23,9 @@
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/navbar.jsp"%>
-	<h1>회원 가입</h1>
+	<h1>아이디 찾기</h1>
 	<!-- 사용자 정보 수정 폼 -->
+	<form id="changPwForm" method="post">
 		<table class="styled-table">
 			<tr>
 				<td><label class="control-label" style="width: 120%" for="name">이름</label></td>
@@ -70,7 +71,7 @@
 				</td>
 			</tr>
 		</table>
-
+	</form>
 	
 	<%@include file="../common/footer.jsp"%>
 	<!-- alert 모달 -->
@@ -78,6 +79,7 @@
 </body>
 <script src="../resources/js/alertModal.js"></script>
 <script>
+	let idInfo = "";
 	var csrfHeaderName = "${_csrf.headerName}";
 	var csrfTokenValue = "${_csrf.token}";
 	$(document).ready(function(){ // 메세지 띄우기
@@ -96,6 +98,7 @@
 	
 	function sendEmail(){
 		var email_auth_cd = "";
+		var name = $("#name").val();
 		var email1 = $("#input_email1").val();
 		var email2 = $("#input_email2").val();
 		var email1Regex = /^[\w-]+$/; // 이메일 로컬 파트의 유효성 검사 정규 표현식
@@ -113,29 +116,76 @@
         }
 		var email = email1 + "@" + email2;
 		
+		
+		
 		$.ajax({
 			type : "POST",
-			url : "${cp}/member/findEmailAuth",
-			data : {email : email},
+			url : "${cp}/member/getAccount",
+			data : {
+				name : name,
+				email1 : email1,
+				email2 : email2
+			},
 			beforeSend: function(xhr){
 				xhr.setRequestHeader("X-CSRF-TOKEN", csrfTokenValue)
 			},
 			success: function(data){
-				email_auth_cd = data;
-					pushModal("인증번호가 발송되었습니다.");
-					$("#authNumRow").show();
-					$("#authNum1").val(email_auth_cd);
+				if(data != ""){
+					idInfo = data;
+					$.ajax({
+						type : "POST",
+						url : "${cp}/member/findEmailAuth",
+						data : {email : email},
+						beforeSend: function(xhr){
+							xhr.setRequestHeader("X-CSRF-TOKEN", csrfTokenValue)
+						},
+						success: function(auth_num){
+							email_auth_cd = auth_num;
+								pushModal("인증번호가 발송되었습니다.");
+								$("#authNumRow").show();
+								$("#authNum1").val(email_auth_cd);
+						},
+						error: function(){
+							pushModal("메일 발송에 실패했습니다.");
+							return;
+						}
+					})		
+				}else{
+					pushModal("등록된 계정이 없습니다.");
+					return;
+				}
 			},
 			error: function(){
-				pushModal("메일 발송에 실패했습니다.");
+				pushModal("오류가 발생하였습니다. 관리자에게 문의하세요.");
+				return;
 			}
-		})		
+		})
+		
+		
+		
+// 		$.ajax({
+// 			type : "POST",
+// 			url : "${cp}/member/findEmailAuth",
+// 			data : {email : email},
+// 			beforeSend: function(xhr){
+// 				xhr.setRequestHeader("X-CSRF-TOKEN", csrfTokenValue)
+// 			},
+// 			success: function(data){
+// 				email_auth_cd = data;
+// 					pushModal("인증번호가 발송되었습니다.");
+// 					$("#authNumRow").show();
+// 					$("#authNum1").val(email_auth_cd);
+// 			},
+// 			error: function(){
+// 				pushModal("메일 발송에 실패했습니다.");
+// 			}
+// 		})		
 	}
 	
 	function checkEmail(){
-		var name = $("#name").val();
-		var email1 = $("#input_email1").val();
-		var email2 = $("#input_email2").val();
+// 		var name = $("#name").val();
+// 		var email1 = $("#input_email1").val();
+// 		var email2 = $("#input_email2").val();
 // 		여기까지했음....
 		var inputNum = $("#authNum1").val();
 		var authNum = $("#authNum2").val();
@@ -144,37 +194,37 @@
 		console.log("입력한 email1 : " + email1);
 		console.log("입력한 email2 " + email2);
 		if(inputNum == authNum && inputNum != ''){
-			pushModal("인증이 완료되었습니다");
+			pushModal("[인증완료] 아이디는 " + idInfo + "입니다.");
+			$targetBtn.removeAttr("onclick");
+			$targetBtn.text("인증완료");
+			$targetBtn.css("background-color", "gray");
 			
-			$.ajax({
-				type : "POST",
-				url : "${cp}/member/getAccount",
-				data : {
-					name : name,
-					email1 : email1,
-					email2 : email2
-				},
-				beforeSend: function(xhr){
-					xhr.setRequestHeader("X-CSRF-TOKEN", csrfTokenValue)
-				},
-				success: function(data){
-					if(data != ""){
-						pushModal("아이디는 " + data + "입니다.");
-						$targetBtn.removeAttr("onclick");
-						$targetBtn.text("인증완료");
-						$targetBtn.css("background-color", "gray");
-					}else{
-						pushModal("등록된 계정이 없습니다.");
-					}
-					return;
-				},
-				error: function(){
-					pushModal("오류가 발생하였습니다. 관리자에게 문의하세요.");
-					return;
-				}
-			})
+// 			$.ajax({
+// 				type : "POST",
+// 				url : "${cp}/member/getAccount",
+// 				data : {
+// 					name : name,
+// 					email1 : email1,
+// 					email2 : email2
+// 				},
+// 				beforeSend: function(xhr){
+// 					xhr.setRequestHeader("X-CSRF-TOKEN", csrfTokenValue)
+// 				},
+// 				success: function(data){
+// 					if(data != ""){
+// 						pushModal("아이디는 " + data + "입니다.");
+// 					}else{
+// 						pushModal("등록된 계정이 없습니다.");
+// 					}
+// 					return;
+// 				},
+// 				error: function(){
+// 					pushModal("오류가 발생하였습니다. 관리자에게 문의하세요.");
+// 					return;
+// 				}
+// 			})
 		}else{
-			pushModal("인증번호가 올바르지 않습니다.");
+			pushModal("[인증실패] 인증번호가 올바르지 않습니다.");
 			return;
 		}
 	}

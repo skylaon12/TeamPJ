@@ -9,17 +9,16 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>MEET PLAY SHARE, 솔 시네마</title>
+	<title>SOL CINEMA</title>
 
 	
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	
+	<link rel="icon" href="../resources/images/logo/logo-s.png" type="image/x-icon">	
 	<link rel="stylesheet" href="${cp}/resources/css/board.css" />
 	<link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
   	<link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
-	<link rel="icon" href="../resources/images/logo/logo-s.png" type="image/x-icon">
 	<script type="text/javascript">
 		window.onload = function() {
 		    // 현재 페이지 URL에서 파라미터를 읽어옴

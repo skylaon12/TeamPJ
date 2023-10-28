@@ -23,7 +23,7 @@
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/navbar.jsp"%>
-	<h1>회원 가입</h1>
+	<h1>비밀번호 찾기</h1>
 	<!-- 사용자 정보 수정 폼 -->
 	<form id="changPwForm" method="post">
 		<table class="styled-table">
@@ -69,7 +69,7 @@
 				<td><input class="password_input" onkeyup="passwordCheck()" type="password" id="pwd" name="pwd" /></td>
 			</tr>
 			<tr id="pwReRow" style="display: none;">
-				<td><label class="control-label" for="pwd" style="width: 120%">재입력</label></td>
+				<td><label class="control-label" for="pwd">재입력</label></td>
 				<td><input class="password_input" onkeyup="passwordCheck()" type="password" id="pwd_re" name="pwd_re" /> 
 				<span id="passMessage" style="color: red"></span></td>
 			</tr>

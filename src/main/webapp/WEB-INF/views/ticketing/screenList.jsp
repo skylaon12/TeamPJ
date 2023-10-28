@@ -41,19 +41,23 @@
             </div>
         </div>
     
-        <!-- 선택 div 요소 box -->
-        <div id="reserv-select-box">
+        <!-- 선택 div 요소 container -->
+        <div id="reserv-select-container">
             <!-- 영화관 선택 -->
             <div id="select-cinema" class="reserv-select-box">
-                <select onchange="selectRegion(this)" id="region" name="reserv-location-1" id="reserv-location-1" class="select-reserv">
-                	<c:forEach var="region" items="${regions}">
-                		<option value="${region.id}" data-region="${region.region}">${region.region}</option>
-                	</c:forEach>
-                </select>
+				<div class="location-container">
+					<select onchange="selectRegion(this)" id="region" name="reserv-location-1" id="reserv-location-1" class="select-reserv">
+						<c:forEach var="region" items="${regions}">
+							<option value="${region.id}" data-region="${region.region}">${region.region}</option>
+						</c:forEach>
+					</select>
+				</div>
 
-                <select onchange="selectScreen(this)" id="detail-region" name="reserv-location-2" id="reserv-location-2" class="select-reserv" style="margin: -5px 0px 10px 10px;">
-                    <option>지역을 선택하세요</option>
-                </select>
+				<div class="location-container">
+                	<select onchange="selectScreen(this)" id="detail-region" name="reserv-location-2" id="reserv-location-2" class="select-reserv">
+                	    <option>지역을 선택하세요</option>
+                	</select>
+				</div>
             </div>
     
             <!-- 관람일 선택 -->
@@ -94,7 +98,7 @@
 
     <!-- 좌석 선택 box -->
     <div id="select-seat-box" class="select-seat-box">
-<!-- 		여기 좌석 들어감 -->
+	<!-- 여기 좌석 들어감 -->
     </div>
     <input type="hidden" id="m_title" value="${title}">
     <input type="hidden" id="m_runtime" value="${runtime}">
@@ -116,7 +120,6 @@
 	var initialColor = 'rgb(169, 169, 169)';
 	
 	function selectRegion(e){
-		selected.length = 0;
 		var regionID = $("#region").val();
 		var regionName = $("#region option:selected").data("region");
 		console.log("id : " + regionID);
@@ -143,7 +146,6 @@
 	
 	/* 상영관 선택 */
     function selectScreen(x){
-    	selected.length = 0;
     	var detailRegionID = $("#detail-region").val();
 		var detailRegionName = $("#detail-region option:selected").data("detail-region");
 		console.log("선택된 상세지역 id : " + detailRegionID);
@@ -190,7 +192,7 @@
 		    console.log("lockcount : " + lockCount);
 			console.log("seatcount : " + seatCount);
 
-		}else{
+		} else {
 			$targetDiv.removeClass("select-seat-row-selected");
 		    $targetDiv.addClass("select-seat-row");	
 			seatCount--;
@@ -285,11 +287,15 @@
         countScreen += "        <span id='temp-02'>0</span>"
         countScreen += "        <span>명</span>"
         countScreen += "    </div>"
-        countScreen += "    <button onclick='plusCount()' id='seatCount'>+</button>"
-        countScreen += "    <button onclick='minusCount()' id='seatCount'>-</button>"
-        countScreen += "    <button onclick='sell()' id='temp-03'>결제하기</button>"
-        countScreen += "    <span id='temp-01'>일반석 : 48/48석</span>"
-        countScreen += "    <p class='select-reserv-max'>※ 최대 8명 선택 가능</p>"
+        countScreen += "    <div id='count-area'>"
+        countScreen += "    	<div id='btn-set'>"
+        countScreen += "    		<button onclick='plusCount()' id='seatCount' class='btn-class'>+</button>"
+        countScreen += "    		<button onclick='minusCount()' id='seatCount' class='btn-class'>-</button>"
+        countScreen += "    		<button onclick='sell()' id='temp-03' class='btn-class'>결제</button>"
+        countScreen += "		</div>"
+        countScreen += "    		<span id='temp-01'>일반석 : 48/48석</span>"
+        countScreen += "    		<p class='select-reserv-max'>※ 최대 8명 선택 가능</p>"
+        countScreen += "	</div>"
         countScreen += "</div>"
         countScreen += "<div id='screen-box'>SCREEN</div>"
         	// 스크린 추가

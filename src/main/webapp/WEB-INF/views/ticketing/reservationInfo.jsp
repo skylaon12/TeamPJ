@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
 	<link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
 	<link rel="stylesheet" href="../resources/css/tickethistory.css?ver=<%=System.currentTimeMillis()%>">
-	<link rel="icon" href="../resources/images/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="../resources/images/logo/logo-s.png" type="image/x-icon">
     <title>SOL CINEMA</title>
     <style type="text/css">
     
@@ -19,16 +19,13 @@
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/navbar.jsp"%>
-    <!-- 임시 임시 임시 임시 임시 -->
 	<div id="reservation-container">
 		<c:if test="${empty tickets}">
 			<div id="history-container">
-        <!-- 기존 div 지우고 얘만 추가했음 -->
         <div id="history-empty">
             <div id="cross-img"></div>
             <span>예매 내역이 존재하지 않습니다.</span>
         </div>
-        <!-- 여기까지 추가했음 -->
     </div>
 		</c:if>
 		<c:if test="${not empty tickets}">
@@ -42,7 +39,9 @@
 			                <span class="text">${ticket.reserv_date} | ${ticket.str_hour}:${ticket.str_min} ~ ${ticket.end_hour}:${ticket.end_min}</span>
 			                <span class="text">${ticket.seat_num}</span>
 			                <span class="text"> 결제금액 ${ticket.cost}원</span>
-			                <a href="myTicketInfo?id=${ticket.id}"><span id="payment-1" class="payment">결제상세</span></a>
+							<div>
+			                	<a href="myTicketInfo?id=${ticket.id}"><span id="payment-1" class="payment">결제상세</span></a>
+							</div>
 			            </div>
 			        </div>
 			    </div>

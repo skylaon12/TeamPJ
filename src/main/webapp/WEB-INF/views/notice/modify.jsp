@@ -69,29 +69,26 @@
                 	<input type="hidden" name ="p_id" value="${article.p_id }">
                 	<input type="hidden" name ="p_writer" value="${admin.account}">
                 	
-                    <div id="category-select">
-                        <div id="select-area-1">
-                            
-                        </div>
-                        <div id="select-area-2">
+                    <div id="category-select" style="margin: 0px; border-top: none; width: 100%;">
+                        <div id="select-area-2" style="min-width: 20%">
                             <div class="write-category-text">
-                                <span style="margin-left: 15px;">제목<span style="color: red;">*</span></span>
+                                <span style="margin-left: 15px;">제목<span style="color: red;">*</span>
                             </div>
                             <div style="display: flex; justify-content: center; align-items: center;">
-                                <input type="text" name="p_title" id="write-post-title" class="write-category" style="padding-right: 0px;" value="${article.p_title }">
+                                <input type="text" name="p_title" id="write-post-title" class="write-category" style="padding-right: 0px;" value="${article.p_title }" placeholder="공지사항 제목" maxlength="50">
                             </div>
                         </div>
                     </div>
                     <div id="write-text-area" style="border-bottom: 1px solid #cacaca;">
-                        <div class="write-category-text" style="width: 20%;">
-                            <span style="margin-left: 15px;">내용<span style="color: red;">*</span></span>
+                        <div class="write-category-text" style="min-width: 20%;">
+                            <span style="margin-left: 15px;">내용<span style="color: red;">*</span>
                         </div>
-                        <div style="display: flex; align-items: center;">
-                            <textarea name="p_text" id="text-area" cols="30" rows="10" maxlength="20">${article.p_text }</textarea>
+                        <div style="display: flex; align-items: center; width: 100%;">
+                            <textarea name="p_text" id="text-area" placeholder="공지사항 내용 작성">${article.p_text }</textarea>
                         </div>
                     </div>
 
-	                <div id="btn-area" style="display: flex; justify-content: center;">
+	                <div id="btn-area" style="display: flex; justify-content: center; margin-top: 10px;">
 	                    <button class="write-btn-class" id="write-btn" onclick="sendIt();">수정하기</button>
 	                    <a href="javascript:location.href='<%=cp%>/notice/list?page=${articleCurrentPage}';" class="write-btn-class">돌아가기</a>
 	                </div>

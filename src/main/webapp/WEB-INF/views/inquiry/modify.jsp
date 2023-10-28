@@ -9,16 +9,17 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>MEET PLAY SHARE, 솔 시네마</title>
+	<title>SOL CINEMA</title>
 	
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	
+	<link rel="icon" href="../resources/images/logo/logo-s.png" type="image/x-icon">
 	<link rel="stylesheet" href="${cp}/resources/css/board.css" />
 	<link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
   	<link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
-	<link rel="icon" href="../resources/images/logo/logo-s.png" type="image/x-icon">
+	
 	<script type="text/javascript">
 	
 		function sendIt(){
@@ -72,6 +73,8 @@
                 	
                 	<input type="hidden" name ="p_id" value="${article.p_id }">
                 	
+                	<input type="hidden" name ="p_writer" value="테스트">
+                	
                     <div id="category-select">
                         <div id="select-area-1">
                             <div class="write-category-text">
@@ -89,7 +92,7 @@
                                 <span style="margin-left: 15px;">제목<span style="color: red;">*</span></span>
                             </div>
                             <div style="display: flex; justify-content: center; align-items: center;">
-                                <input type="text" name="p_title" id="write-post-title" class="write-category" style="padding-right: 0px;" value="${article.p_title }">
+                                <input type="text" name="p_title" id="write-post-title" class="write-category" style="padding-right: 0px;" value="${article.p_title }" maxlength="50" placeholder="제목 작성">
                             </div>
                         </div>
                     </div>
@@ -97,8 +100,8 @@
                         <div class="write-category-text" style="width: 20%;">
                             <span style="margin-left: 15px;">내용<span style="color: red;">*</span></span>
                         </div>
-                        <div style="display: flex; align-items: center;">
-                            <textarea name="p_text" id="text-area" cols="30" rows="10" maxlength="20">${article.p_text }</textarea>
+                        <div style="display: flex; align-items: center; width: 100%;">
+                            <textarea name="p_text" id="text-area" placeholder="문의 내용 작성">${article.p_text }</textarea>
                         </div>
                     </div>
 
@@ -116,8 +119,8 @@
 <script src="../resources/js/alertModal.js"></script>
 <script>
 $(document).ready(function(){
-	$("#notice-bar").removeClass("select-last");
-	$("#write-inquiry-bar").addClass("select-last");
+	$("#notice-bar").removeClass("select");
+	$("#write-inquiry-bar").addClass("select");
 })
 </script>
 </html>

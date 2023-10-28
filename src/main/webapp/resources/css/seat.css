@@ -1,81 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@100;200;300;400;500;600;700&display=swap');
+
 body {
+    font-family: Noto Sans KR, sans-serif;
+    font-weight: 400;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-select {
-    width: auto;
-    height: 23%;
-    padding: .8em .8em;
-    border: 1px solid #999;
-    border-radius: 3px;
-    background-color: rgba(70, 70, 70, 1.0);
-    color: whitesmoke;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-}
-
-    select:hover {
-        width: 85%;
-        height: 23%;
-        padding: .8em .8em;
-        border: 1px solid #999;
-        border-radius: 3px;
-        background-color: rgba(120, 120, 110, 1.0);
-        color: whitesmoke;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-    }
-
-#reserv-date {
-    width: 78%;
-    height: 22%;
-    padding: 0em 0.8em;
-    border: 1px solid #999;
-    border-radius: 3px;
-    background-color: rgba(70, 70, 70, 1.0);
-    color: whitesmoke;
-
-}
-
-    #reserv-date:hover {
-        width: 78%;
-        height: 22%;
-        padding: 0em 0.8em;
-        border: 1px solid #999;
-        border-radius: 3px;
-        background-color: rgba(110, 110, 110, 1.0);
-        color: whitesmoke;
-    }
-/* 여까지함 */
 #reserv-time { width: 80%; }
 
 #movie-reserv-box {
-    background-color: white;
-    color: black;
     margin: 50px;
-/*     height: 220px; */
     width: 780px;
-    border: 0.5px solid rgba(0, 0, 0, 0.3);
+    border: 1px solid #cacaca;
 }
 
     #movie-reserv-topline {
-        background-color: rgba(255, 255, 255, 1.0);
-        height: 25%;
-        width: 100%;
         display: flex;
+        background: white;
+        width: 100%;
+        height: 25%;
     }
 
         .movie-reserv-stepbox {
-            height: 100%;
-            width: 25%;
             display: flex;
             align-items: center;
+            height: 100%;
+            width: 25%;
+            border-right: 1px solid #cacaca;
             margin-left: 10px;
         }
+
+        .movie-reserv-stepbox:last-child { border-right: none; }
 
         .step-img {
             height: auto;
@@ -83,29 +40,36 @@ select {
             margin-right: 3px;
         }
 
-    #reserv-select-box {
-        height: 75%;
-        width: 100%;
+    #reserv-select-container {
         display: flex;
+        color: white;
+        width: 100%;
+        min-height: 80px;
     }
 
         .reserv-select-box {
-            background-color: rgba(244, 244, 244, 1.0);
-            border: 1px solid rgba(110, 110, 110, 0.2);
-            height: 100%;
-            width: 25%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            border-right: 1px solid #cacaca;
+            border-top: 1px solid #cacaca;
+            min-height: 100%;
+            max-height: 100%;
+            min-width: 25%;
+            max-width: 25%;
         }
+        
+        .reserv-select-box:last-child { border-right: none; }
 
         .reserv-text {
-            margin: 5px;
             font-size: 14px;
+            margin: 5px;
         }
 
-        .select-reserv { margin: 10px -10px 10px 10px; }
-
         #temp-01 {
-            margin: 5px;
             font-size: 14px;
+            margin: 5px;
         }
 
         .select-theater {
@@ -113,29 +77,34 @@ select {
             height: 10%;
             margin: 10px -0px 0px 10px;
             padding: .7em;
-            border: 1px solid #999;
+            border: 1px solid #cacaca;
             border-radius: 3px;
             background-color: rgba(70, 70, 70, 1.0);
             color: whitesmoke;
         }
 
 #select-seat-box {
-    background-color: rgba(222, 222, 222, 1.0);
-    height: 400px;
-    width: 780px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    background: #ececec;
+    border-top: 1px solid #cacaca;
+    width: 100%;
+    height: 450px;
 }
 
 	#seat-count-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
         background-color: rgba(150, 150, 150, 1.0);
         width: 180px;
         height: 180px;
         position: relative;
         left: -295px;
         top: -100px;
-        /* border-radius: 30px; */
     }
     
     #screen-box {
@@ -216,6 +185,7 @@ select {
             font-size: 75%;
             overflow: hidden;
         }
+
         .select-seat-row-selected:hover {
             background-color: rgb(14, 14, 110);
             margin: 2px 1px 0px 1px ;
@@ -229,6 +199,7 @@ select {
             cursor: pointer;
             overflow: hidden;
         }
+
         .select-seat-row-sell {
             background-color: darkcyan;
             margin: 2px 1px 0px 1px ;
@@ -243,6 +214,51 @@ select {
             overflow: hidden;
         }
         
-        .booked{
-        	background-color: rgb(0, 0, 0);
-        }
+        .booked{ background-color: rgb(0, 0, 0); }
+
+#select-cinema {
+    display: flex;
+    flex-direction: column;
+}
+
+.location-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 100%;
+    height: 50%;
+}
+.location-container:last-child { border-top: 1px solid #cacaca; }
+
+.select-reserv {
+    min-width: 160px;
+    border: 1px solid #cacaca;
+    border-radius: 3px;
+    color: black;
+    font-size: 13px;
+    padding: 3px 10px;
+    outline: none;
+}
+
+input[type="date"] { outline: none; }
+
+.select-reserv-max { font-size: 11px; }
+
+.count-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#btn-set {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-class {
+    border-radius: 3px;
+    border: 0.5px solid black;
+}
+.btn-class:last-child { font-size: 13px; }

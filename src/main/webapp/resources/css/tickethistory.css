@@ -1,25 +1,31 @@
 @charset "UTF-8";
-/* 기존 notosans import 대체 */
-    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@100;200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@100;200;300;400;500;600;700&display=swap');
+
+body {
+    font-family: Noto Sans KR, sans-serif;
+    margin: 0px;
+    padding: 0px;
+}
+
+a { text-decoration: none; }
+
 .ticket-status {
-        font-family: Noto Sans KR, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        font-size: 13px;
-        width: 250px;
-        border: 1px solid #ececec;
-        height: 50px;
-        margin: 10px 10px 0 -50px;
-        border-radius: 30px;
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 13px;
+    width: 250px;
+    border: 1px solid #cacaca;
+    height: 50px;
+    margin: 10px 10px 0 -50px;
+    border-radius: 30px;
+}
 
-    .hidden { display: none; }
-    .not-used { background: green; }
-    .used { background: #c41313 }
+.hidden { display: none; }
+.not-used { background: green; }
+.used { background: #c41313 }
 
-/* 이하 추가 */
 #history-empty {
     display: flex;
     flex-direction: column;
@@ -38,32 +44,25 @@
     width: 100px;
     height: 100px;
 }
-body {
-    margin: 0px;
-    padding: 0px;
-}
-
-span {
-    font-family: Noto Sans KR;
-}
 
 #history-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgb(200, 200, 200);
 }
 
 .main-container {
-    background-color: #fff;
-    margin: 10px;
-    width: 500px;
-    height: 180px;
-    border-radius: 20px;
-    box-shadow: 3px 3px 10px rgba(170, 170, 170, 0.5);
     display: flex;
     align-items: center;
+    box-shadow: 3px 3px 10px rgba(170, 170, 170, 0.5);
+    border: 1px solid #cacaca;
+    margin: 10px;
+    width: 500px;
+    min-height: 180px;
+    border-radius: 20px;
 }
+.main-container:first-child { margin-top: 10px; }
+.main-container:last-child { margin-bottom: 10px; }
 
 .movie-poster {
     width: 100px;
@@ -73,10 +72,9 @@ span {
 }
 
 .text-container {
-    height: 80%;
     display: flex;
     flex-direction: column;
-    /* background-color: red; */
+    height: 80%;
 }
 
 .text {
@@ -86,20 +84,15 @@ span {
 }
 
 .movie-name {
-    margin-bottom: 10px;
-    font-size: 125%;
+    font-size: 20px;
     font-weight: 600;
+    margin: -5px 5px 5px 0;
+    text-wrap: wrap;
 }
 
 .payment {
+    font-weight: 500;
     margin-top: 10px;
     color: #8b0bd6;
-    font-weight: 500;
 }
-
-.payment:hover {
-    margin-top: 10px;
-    color: #8b0bd6;
-    font-weight: 500;
-    cursor: pointer;
-}
+.payment:hover { cursor: pointer; }

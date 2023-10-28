@@ -1,12 +1,10 @@
 @charset "UTF-8";
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@100;200;300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
 
 /* movie detail */
-#movie-head h1, p{
-	color: white;
-}
+#movie-head h1, p{ color: white; }
 
 #title {
 	font-size: 50px;
@@ -20,23 +18,16 @@
     border-radius: 10px 10px 0 0;
 }
 
-#original-title {
-	font-size: 20px;
-}
+#original-title { font-size: 20px; }
 
-#movie-head div {
-    font-size: 18px;
-}
+#movie-head div { font-size: 18px; }
 
-.raing span {
-	color: white;
-}
+.raing span { color: white; }
 
 .ticketing {
     top: 425px;
     left: 288px;
     width: 290px;
-    font-weight: bold;
     font-size: 18px;
 }
 
@@ -48,15 +39,12 @@
 #nav-video div span{
 	color:black;
 	font-size: 20px;
+    margin-bottom: 3px;
 }
 
-#info-lists span, dt, dd, h2, a {
-	font-family: 'Nanum Gothic', sans-serif;
-}
+#info-lists span, dt, dd, h2, a { font-family: 'Nanum Gothic', sans-serif; }
 
-.review-btn {
-	font-family: 'Nanum Gothic', sans-serif;
-}
+.review-btn { font-family: 'Nanum Gothic', sans-serif; }
 
 .btn-outline-light{
 	margin-right: 525px;
@@ -65,26 +53,32 @@
 }
 
 .score-top p, .rating-top p, .audience-top p {
-	font-family: 'Nanum Gothic', sans-serif;
-	font-weight: 400px;
-	font-size: 15px;
+    font-family: Noto Sans KR, sans-serif;
+	font-weight: 400;
+	font-size: 16px;
 }
 
-.rating-top span, .audience-top span {
+.audience-top span {
 	color:white;
-	font-family: 'Nanum Gothic', sans-serif;
 	font-size: 18px;
 }
 
-.score-top span {
+.score {
+    font-family: Noto Sans KR, sans-serif;
 	color: #59bec9;
 	font-size: 30px;
+    font-weight: 500;
 }
 
-/* 리뷰 모달 */
-#reviewModal h4, h5, span {
-	font-family: 'Nanum Gothic', sans-serif;
+.title-score {
+    flex: 0 0 auto;
+    width: auto;
 }
+
+
+
+/* 리뷰 모달 */
+#reviewModal h4, h5, span { font-family: 'Nanum Gothic', sans-serif; }
 
 .star-rating {
 	border: 0;
@@ -97,22 +91,16 @@
 	margin-left: 137px;
 }
 
-.star-rating input {
-	display: none;
-}
+.star-rating input { display: none; }
 
 .star-rating label {
 	color: rgb(128, 128, 128);
 	cursor: pointer;
 }
 
-.star-rating :checked ~ label {
-	color: rgb(255, 212, 59);
-}
+.star-rating :checked ~ label { color: rgb(255, 212, 59); }
 
-.star-rating :hover ~ label {
-	color: rgb(250, 176, 5);
-}
+.star-rating :hover ~ label { color: rgb(250, 176, 5); }
 
 .review-point-circle {
 	margin: 0 5px;
@@ -129,9 +117,7 @@
     border-radius: 120px;
 }
 
-.review-point-circle :checked {
-	color: #6543b1;
-}
+.review-point-circle :checked { color: #6543b1; }
 
 .btn-check:checked +.circle-box {
 	color: #fff;
@@ -144,9 +130,7 @@
 	font-weight: bold;
 }
 
-#score-txt {
-	font-size: 30px;
-}
+#score-txt { font-size: 30px; }
 
 /* 페이지네이션 */
 .page-item.active .page-link {
@@ -155,17 +139,11 @@
     color: #fff;
 }
 
-.page-item .page-link {
-    color: #01738b;
-}
+.page-item .page-link { color: #01738b; }
 
-.btn-check:checked+.btn-outline-dark {
-	background-color: #01738b; 
-}
+.btn-check:checked+.btn-outline-dark { background-color: #01738b;  }
 
-.btn-outline-dark {
-	border-color: #c0c0c0;
-}
+.btn-outline-dark { border-color: #c0c0c0; }
 
 /* 드롭다운 */
 .dropstart .dropdown-toggle::before {
@@ -183,18 +161,14 @@
 	margin-top: 8px;
 }
 
-.dropdown-menu {
-	min-width: 0;
-}
+.dropdown-menu { min-width: 0; }
 
 .btn:focus {
 	outline: 0;
     box-shadow: 0; 
 }
 
-.dropdown-item {
-	font-family: 'Nanum Gothic', sans-serif;
-}
+.dropdown-item { font-family: 'Nanum Gothic', sans-serif; }
 
 .circle {
     width: 180px;
@@ -244,9 +218,7 @@
     flex-direction: column; /* 내부 요소들을 세로로 배치 */
 }
 
-.actor-info {
-    text-align: center; /* 내부 텍스트 가운데 정렬 (선택적) */
-}
+.actor-info { text-align: center; /* 내부 텍스트 가운데 정렬 (선택적) */ }
 
 /* 댓글 스타일 */
 .cmt_list {
@@ -287,6 +259,4 @@
 /* } */
 
 /* 댓글 입력창 버튼 스타일 */
-.comment-form button {
-    margin-top: 10px;
-}
+.comment-form button { margin-top: 10px; }

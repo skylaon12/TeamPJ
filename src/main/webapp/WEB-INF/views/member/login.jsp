@@ -22,11 +22,11 @@
 <style>
 /* 로그인 폼 컨테이너 */
 .login-container {
-	width: 100%;
-	height: 100vh; /* 화면 높이를 100%로 설정 */
 	display: flex;
 	justify-content: center; /* 수평 가운데 정렬 */
 	align-items: center; /* 수직 가운데 정렬 */
+	width: 100%;
+	height: 100vh; /* 화면 높이를 100%로 설정 */
 }
 
 /* 로그인 폼 스타일 */
@@ -52,8 +52,10 @@
 	color: #fff;
 	border: none;
 	cursor: pointer;
-	margin: 5px;
+	margin: 5px 0 4px 0;
 }
+.login-btn:last-child { margin: 0; }
+
 .forgot-links {
     width: 300px; /* 링크 너비를 폼과 동일하게 설정 */
     margin: 0 auto; /* 가운데 정렬 */
@@ -81,7 +83,9 @@
 				<input class="form-input" type="text" name="username" id="account" placeholder="아이디" required>
 				<input class="form-input" type="password" name="password" id="pwd" placeholder="비밀번호" required>
 				<button class="login-btn" type="submit">로그인</button>
-				<a href="${cp}/member/signup"><input type="button" class="login-btn" value="회원가입"></a>
+				<a href="${cp}/member/signup">
+					<input type="button" class="login-btn" value="회원가입">
+				</a>
 				<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
 			</form>
 			<div class="forgot-links">

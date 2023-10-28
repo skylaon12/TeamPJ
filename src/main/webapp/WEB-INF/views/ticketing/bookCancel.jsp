@@ -9,11 +9,11 @@
 	  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
 <link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
-<link rel="icon" href="../resources/images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="../resources/images/logo/logo-s.png" type="image/x-icon">
 <title>SOL CINEMA</title>
 </head>
 <style>
-    @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@100;200;300;400;500;600;700&display=swap');
     @font-face {
     font-family: 'NanumSquareNeo';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
@@ -22,21 +22,16 @@
     }
 
     body {
-        margin: 0px;
-        padding: 0px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        background-color: rgb(200, 200, 200);
+        margin: 0px;
+        padding: 0px;
     }
 
-    img {
-        overflow: hidden;
-    }
+    img { overflow: hidden; }
 
-    button:hover {
-        cursor: pointer;
-    }
+    button:hover { cursor: pointer; }
 
     button.cancel-button-disable {
         border-radius: 10px;
@@ -105,7 +100,7 @@
         padding: 0em 0.7em;
         border-top: 2px solid rgba(110, 110, 110, 0.1);
         font-size: 90%;
-        line-height: 55px;
+        line-height: 45px;
     }
 
     .payment-means {
@@ -115,20 +110,51 @@
         line-height: 25px;
         text-wrap: nowrap;
     }
+
+    #main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 70%;
+        min-width: 550px;
+        max-width: 780px;
+        height: 100%;
+    }
+
+    #detail-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1px solid #555555;
+        border-radius: 5px;
+        width: 100%;
+        height: 480px;
+    }
+
+    .flex-col-align-cen {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .flex-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 </style>
 <body>
 <%@include file="/WEB-INF/views/common/navbar.jsp"%>
 <!-- 메인 컨테이너 -->
-    <div style="width: 70%; min-width: 550px; max-width: 780px; height: 100%; color: black; display: flex; flex-direction: column; align-items: center;">
-
+    <div id="main-container">
         <!-- 결제 완료 이미지 -->
-        <div style="display: flex; flex-direction: column; align-items: center;">
+        <div class="flex-col-align-cen">
             <img src="../resources/images/movie/card.png" alt="결제 완료" style="height: 120px; margin-top: 20px; margin-bottom: -10px;"><br>
             <span style="margin-bottom: 20px; font-family: NanumSquareNeo; font-weight: 600; font-size: 90%; letter-spacing: 1px;">예매 취소 전 확인해주세요!</span>
         </div>
 
         <!-- 영화 상세 및 결제 수단 컨테이너 -->
-        <div style="display: flex; flex-direction: column; width: 100%; height: 480px; background-color: white; align-items: center;">
+        <div id="detail-container">
             <div style="display: flex; justify-content: center; width: 100%; height: 350px;">
 
                 <!-- 예매 영화 상세 -->
@@ -187,32 +213,28 @@
             <p class="cinema-comment"> · 무대인사 예매 취소는 상영 시작 24시간 전까지 가능합니다.</p>
             <p class="cinema-comment"> · 결제수단에 따라, 환불까지 최소 1일 ~ 최대 14일이 소요될 수 있습니다.</p>
             <div style="margin-top: 10px;">
-                <input onclick="cancel()" type="checkbox" name="cancel-check" id="cancel-check" style="scale: 120%;">
+                <input onclick="check()" type="checkbox" name="cancel-check" id="cancel-check" style="scale: 120%;">
                 <label for="cancel-check" class="cinema-comment" style="color: black; position: relative; left: -10px; top: -2px; font-size: 90%;">상기 내용을 확인하였습니다.</label>
             </div>
         </div>
         <div>
             <div style="display: flex;"></div>
             <button id="redirect-home" style="border-radius: 10px; border: none; color: white; background-color: rgb(222, 0, 0); padding: 0.7em 2.5em; line-height: 20px; margin: 20px 50px 20px 20px;">홈으로 돌아가기</button>
-            <a id="cancelLink" href=""><button id="cancel-button" class="cancel-button-disable">취소확인</button></a>
+            <a id="cancelLink"><button id="cancel-button" class="cancel-button-disable">취소확인</button></a>
         </div>
     </div>
 </body>
-<%@include file="../common/alertModal.jsp" %>
 <script>
     let checkBox = false;
     let button = document.getElementById('cancel-button');
 	var link = document.getElementById('cancelLink');
-	
-	
-    function cancel() { 
-    	checkBox = !checkBox;
+    function check() { 
+        checkBox = !checkBox;
         if (checkBox == true) {
-        	link.setAttribute("href", "cancelProc?id=" + ${ticket.id});
+        	link.href = "cancelProc?id=" + ${ticket.id};
             button.classList.remove('cancel-button-disable');
             button.classList.add('cancel-button-enable');
         } else {
-        	link.removeAttribute("href");
             button.classList.remove('cancel-button-enable');
             button.classList.add('cancel-button-disable');
         }

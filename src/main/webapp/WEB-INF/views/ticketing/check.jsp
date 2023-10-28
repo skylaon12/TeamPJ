@@ -11,12 +11,12 @@
 	  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="../resources/css/navbar.css?ver=<%=System.currentTimeMillis()%>" />
 <link rel="stylesheet" href="../resources/css/common.css?ver=<%=System.currentTimeMillis()%>" />
-<link rel="icon" href="../resources/images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="../resources/images/logo/logo-s.png" type="image/x-icon">
 <script src="${cp}/resources/js/login.js"></script>
 <title>SOL CINEMA</title>
 </head>
 <style>
-    @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@100;200;300;400;500;600;700&display=swap');
     @font-face {
     font-family: 'NanumSquareNeo';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
@@ -25,21 +25,16 @@
     }
 
     body {
-        margin: 0px;
-        padding: 0px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        background-color: rgb(200, 200, 200);
+        margin: 0px;
+        padding: 0px;
     }
 
-    img {
-        overflow: hidden;
-    }
+    img { overflow: hidden; }
 
-    button:hover {
-        cursor: pointer;
-    }
+    button:hover { cursor: pointer; }
 
     .detail-text {
         padding: 0.15em 0em;
@@ -85,31 +80,62 @@
         padding: 0em 0.7em;
         border-top: 2px solid rgba(110, 110, 110, 0.1);
         font-size: 90%;
-        line-height: 55px;
+        line-height: 45px;
     }
 
     .payment-means {
-        font-family: Noto Sans KR;
+        font-family: Noto Sans KR, sans-serif;
         font-weight: 500;
         font-size: 70%;
         line-height: 25px;
         text-wrap: nowrap;
+    }
+
+    #main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 70%;
+        min-width: 550px;
+        max-width: 780px;
+        height: 100%;
+    }
+
+    #detail-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1px solid #555555;
+        border-radius: 5px;
+        width: 100%;
+        height: 480px;
+    }
+
+    .flex-col-align-cen {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .flex-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 </style>
 <body>
 
 <%@include file="/WEB-INF/views/common/navbar.jsp"%>
     <!-- 메인 컨테이너 -->
-    <div style="width: 70%; min-width: 550px; max-width: 780px; height: 100%; color: black; display: flex; flex-direction: column; align-items: center;">
-
+    <div id="main-container">
         <!-- 결제 완료 이미지 -->
-        <div style="display: flex; flex-direction: column; align-items: center;">
+        <div class="flex-col-align-cen">
             <img src="../resources/images/movie/card.png" alt="결제 완료" style="height: 120px; margin-top: 20px; margin-bottom: -10px;"><br>
             <span style="margin-bottom: 20px; font-family: NanumSquareNeo; font-weight: 600; font-size: 90%; letter-spacing: 1px;">결제가 성공적으로 완료되었습니다.</span>
         </div>
 
         <!-- 영화 상세 및 결제 수단 컨테이너 -->
-        <div style="display: flex; flex-direction: column; width: 100%; height: 480px; background-color: white; align-items: center;">
+        <div id="detail-container">
             <div style="display: flex; justify-content: center; width: 100%; height: 350px;">
 
                 <!-- 예매 영화 상세 -->
@@ -126,12 +152,12 @@
                     </div>
 
                     <div style="margin: 20px 10px 10px 0px;">
-                        <div id="reserve-no" class="detail-text" style="width: 200px; padding: 0px 0px 10px 0px; border-bottom: 2px solid black;">reserve-no | ${ticket.id}</div>
-                        <div id="date-time" class="detail-text" style="width: 200px; padding: 0px; margin: 10px 0px 0.15em 0px;">date-time | ${ticket.reserv_date} | ${ticket.str_hour}시${ticket.str_min}분</div>
-                        <div id="cinema-screen" class="detail-text" style="width: 200px;">cinema-screen | ${ticket.region_detail}점 ${ticket.theater_num}</div>
-                        <div id="count" class="detail-text" style="width: 200px;">count | 성인 ${ticket.ticket_cnt}명</div>
-                        <div id="seat" class="detail-text" style="width: 200px;">seat | ${ticket.seat_num}</div>
-                        <button id="phone-ticket" style="border-radius: 10px; border: none; color: white; background-color: rgb(222, 0, 0); padding: 0.7em 2.5em; line-height: 20px; margin: 20px 10px 10px -30px;">카카오톡으로 티켓받기</button>
+                        <div id="reserve-no" class="detail-text" style="width: 200px; padding: 0px 0px 10px 0px; border-bottom: 2px solid black;">${ticket.id}</div>
+                        <div id="date-time" class="detail-text" style="width: 200px; padding: 0px; margin: 10px 0px 0.15em 0px;">${ticket.reserv_date} | ${ticket.str_hour}시${ticket.str_min}분</div>
+                        <div id="cinema-screen" class="detail-text" style="width: 200px;">${ticket.region_detail}점 ${ticket.theater_num}</div>
+                        <div id="count" class="detail-text" style="width: 200px;">성인 ${ticket.ticket_cnt}명</div>
+                        <div id="seat" class="detail-text" style="width: 200px;">${ticket.seat_num}</div>
+                        <!-- <button id="phone-ticket" style="border-radius: 10px; border: none; color: white; background-color: rgb(222, 0, 0); padding: 0.7em 2.5em; line-height: 20px; margin: 20px 10px 10px -30px;">카카오톡으로 티켓받기</button> -->
                     </div>
                 </div>
             </div>

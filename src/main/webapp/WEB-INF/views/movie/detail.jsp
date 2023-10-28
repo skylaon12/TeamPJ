@@ -23,26 +23,25 @@
 	<%@include file="../common/navbar.jsp"%>
 	<div>
 		<div class="mt-3 bg-dark movie-head">
-			<div class="container">
+			<div class="container" style="backdrop-filter: blur(10px);">
 				<div class="row" id="movie-head">
 					<div class="col ms-3 mt-5 mb-5">
 						<h1 id="title">${title}</h1>
 						<p id="original-title">${original_title}</p>
 						<div class="row" style="margin-top: 310px;">
-							<div class="col-3 rating-top">
+							<div class="title-score rating-top">
 								<p>개봉일</p>
-								<span class="score">${openDate}</span>
+								<span class="score" style="color: white;">${openDate}</span>
 							</div>
-							<div class="col-3 score-top">
+							<div class="title-score score-top">
 								<p>관람 평점</p>
 								<span class="score">${voteAverage}</span>
 							</div>
 						</div>
 					</div>
-					<div class="col mt-5 mb-5">
+					<div class="col mt-5 mb-5" style="display: flex; flex-direction: column; justify-content: center;">
 						<img class="rounded" id="poster" src="${poster}" style="width: 18rem;">
-						<a href="${cp}/ticketing/screenList?no=${id}"><button type='button' id="bookButton" class='ticketing btn btn-primary mt-3'>예매</button></a>
-						
+						<a href="${cp}/member/checkLoginStatus?id=${id}"><button type='button' id="bookButton" class='ticketing btn btn-primary mt-3' style="width: 18rem;">예매</button></a>
 					</div>
 				</div>
 			</div>
@@ -130,7 +129,7 @@
 			<div class="tab-pane fade" id="nav-video" role="tabpanel"
 				aria-labelledby="nav-video-tab">
 				<div class="row mt-3">
-					<span style="font-weight: bold">메인 예고편</span>
+					<span>메인 예고편</span>
 					<iframe height="600px" src="https://www.youtube.com/embed/${video}"></iframe>
 				</div>
 			</div>
