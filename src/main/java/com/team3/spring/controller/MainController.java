@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -33,5 +34,13 @@ public class MainController {
 	@GetMapping("/access-denied")
 	public void showAccessDenied() {
 
+	}
+	
+	@GetMapping("/sessionExpire")
+	public String sessionExprie(RedirectAttributes rttr) {
+		
+		rttr.addFlashAttribute("msgType", "만료 메세지");
+		rttr.addFlashAttribute("msg", "회원가입에 실패하였습니다.");
+		return "/member/login";
 	}
 }

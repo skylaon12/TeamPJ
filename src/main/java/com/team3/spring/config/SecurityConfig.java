@@ -58,6 +58,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/notice/write").hasRole("ADMIN") // 권한이 있는 사용자만 접근 가능
 				.antMatchers("/inquiry/write").hasRole("USER") // 권한이 있는 사용자만 접근 가능
 				.and()
+			.sessionManagement()
+				.invalidSessionUrl("/sessionExpire")
+				.and()
 			.formLogin() // 로그인 페이지와 기타 로그인 처리 및 성공 실패 처리를 사용하겠다는 의미
 				.loginPage("/member/login") // 사용자가 따로 만든 로그인 페이지를 사용하려고 할때 설정
 				.loginProcessingUrl("/member/loginProc").permitAll() // 로그인 즉 인증 처리를 하는 URL을 설정(인증처리필터 호출)
