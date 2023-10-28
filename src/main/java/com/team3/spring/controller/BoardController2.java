@@ -115,132 +115,136 @@ public class BoardController2 {
 	}
 	
 	@GetMapping({"/article", "/modify"})
-	public void article(Model m, Principal p, 
+	public void article(Model m,RedirectAttributes rttr, Principal p, 
 			@RequestParam("p_id") Long p_id, 
 			@RequestParam(value = "page", defaultValue = "1") int page, 
 			@RequestParam(value = "coPage", defaultValue = "1", required = false) int coPage) {
 		log.info("컨트롤러 글번호 읽기 =======>>>"+p_id);
 		
-		
-		MemberVO vo = service.getUserInfo(p.getName());
-		m.addAttribute("LOGIN_USER", vo);
+		if(p != null) {
+			MemberVO vo = service.getUserInfo(p.getName());
+			m.addAttribute("LOGIN_USER", vo);
+				
+				
+			String cp = request.getContextPath();
 			
+			// 조회수 중복 복사 방지 ( 쿠키 )
+			// 해당 글을 조회한 적이 있는지 쿠키를 통해 확인
+		    String cookieName = "article_viewed_inquiry_" + p_id;
+		    Cookie[] cookies = request.getCookies();
+		    boolean viewed = false;
+		    
+		    // 클라이언트로부터 받은 쿠키들을 확인하여 해당 글을 조회한 기록이 있는지 확인
+		    if (cookies != null) {
+		    	for (Cookie cookie : cookies) {
+		    		if (cookie.getName().equals(cookieName)) {
+		    			viewed = true;
+		    			
+		    			break;
+		    		}
+		    	}
+		    }
+		    
+		    // 해당 글을 처음 조회하는 경우 (쿠키를 찾을 수 없는 경우), 조회수를 증가시키고 쿠키를 설정
+		    if (!viewed) {
+		    	// 해당 글 조회수 증가
+		        service.updateHitCount(p_id);
+	
+		        // 해당 글 조회한 것을 표시하는 쿠키 하나 생성
+		        Cookie cookie = new Cookie(cookieName, "viewed");
+		        cookie.setMaxAge(60);  // 쿠키 60초 지속 ( 임시 )
+		        cookie.setPath("/");  // 어플리케이션 전역에서 접근 허용 코드
+		        response.addCookie(cookie);
+		    }
 			
-		String cp = request.getContextPath();
-		
-		// 조회수 중복 복사 방지 ( 쿠키 )
-		// 해당 글을 조회한 적이 있는지 쿠키를 통해 확인
-	    String cookieName = "article_viewed_inquiry_" + p_id;
-	    Cookie[] cookies = request.getCookies();
-	    boolean viewed = false;
-	    
-	    // 클라이언트로부터 받은 쿠키들을 확인하여 해당 글을 조회한 기록이 있는지 확인
-	    if (cookies != null) {
-	    	for (Cookie cookie : cookies) {
-	    		if (cookie.getName().equals(cookieName)) {
-	    			viewed = true;
-	    			
-	    			break;
-	    		}
-	    	}
-	    }
-	    
-	    // 해당 글을 처음 조회하는 경우 (쿠키를 찾을 수 없는 경우), 조회수를 증가시키고 쿠키를 설정
-	    if (!viewed) {
-	    	// 해당 글 조회수 증가
-	        service.updateHitCount(p_id);
-
-	        // 해당 글 조회한 것을 표시하는 쿠키 하나 생성
-	        Cookie cookie = new Cookie(cookieName, "viewed");
-	        cookie.setMaxAge(60);  // 쿠키 60초 지속 ( 임시 )
-	        cookie.setPath("/");  // 어플리케이션 전역에서 접근 허용 코드
-	        response.addCookie(cookie);
-	    }
-		
-	    // 게시글 관련 처리
-		BoardVO2 article = service.read(p_id);
-		
-		// 이전 글의 ID와 다음 글의 ID 가져오기
-		Long previousArticleId = service.getPreviousArticleId(p_id);
-		Long nextArticleId = service.getNextArticleId(p_id);
-		
-		// 이전 글의 제목 가져오기
-		BoardVO2 previousArticle = null;
-		String previousArticleTitle = null;
-		String previousArticleCategory = null; // 카테고리 변수 추가
-		if (previousArticleId != null) {
-		    previousArticle = service.read(previousArticleId);
-		    previousArticleTitle = previousArticle.getP_title();
-		    previousArticleCategory = previousArticle.getP_category(); // 이전 글의 카테고리 가져오기
-		}
-
-		// 다음 글의 제목 가져오기
-		BoardVO2 nextArticle = null;
-		String nextArticleTitle = null;
-		String nextArticleCategory = null; // 카테고리 변수 추가
-		if (nextArticleId != null) {
-		    nextArticle = service.read(nextArticleId);
-		    nextArticleTitle = nextArticle.getP_title();
-		    nextArticleCategory = nextArticle.getP_category(); // 다음 글의 카테고리 가져오기
-		}
-		
-		String previousArticleUrl = (previousArticleId != null) ? cp + "/inquiry/article?p_id=" + previousArticleId + "&page=" + page : null;
-	    String nextArticleUrl = (nextArticleId != null) ? cp + "/inquiry/article?p_id=" + nextArticleId + "&page=" + page : null;
-		
-	    // 글 엔터 처리
-		String con = article.getP_text().replace("\n", "<br>");
-		
-		// 게시글 처리 뷰로 전달
-		m.addAttribute("article", article);
-		m.addAttribute("articleContent", con);
-		
-		m.addAttribute("articleCurrentPage", page);
-		
-		m.addAttribute("previousArticleUrl", previousArticleUrl);
-	    m.addAttribute("nextArticleUrl", nextArticleUrl);
-	    
-	    if (previousArticleTitle != null && previousArticleTitle.length() > 20) {
-	        m.addAttribute("previousArticleTitle", previousArticleTitle.substring(0, 20) + "...");
-	    } else {
-	        m.addAttribute("previousArticleTitle", previousArticleTitle);
-	    }
-	    
-	    if (nextArticleTitle != null && nextArticleTitle.length() > 20) {
-	        m.addAttribute("nextArticleTitle", nextArticleTitle.substring(0, 20) + "...");
-	    } else {
-	        m.addAttribute("nextArticleTitle", nextArticleTitle);
-	    }
-	    
-	    m.addAttribute("previousArticleCategory", previousArticleCategory); // 이전 글의 카테고리 추가
-	    m.addAttribute("nextArticleCategory", nextArticleCategory); // 다음 글의 카테고리 추가
-		
-	    /**
-	     * 댓 글 관 련 코 드
-	     */
-	    
-		// 댓글 시작 인덱스
-		int index = service.getStartIndex(coPage, true);
-		
-		ArrayList<CommentVO> comment = service.getCommentData(p_id, index);
-		
-		// 댓글이 있을 때만
-		if ( comment != null ) {
+		    // 게시글 관련 처리
+			BoardVO2 article = service.read(p_id, vo.getAccount());
 			
-			// 댓글 엔터 처리
-			for (CommentVO commentVO : comment) {
-			    String modifiedComment = commentVO.getP_comment().replace("\n", "<br>");
-			    commentVO.setP_comment(modifiedComment);
+			// 이전 글의 ID와 다음 글의 ID 가져오기
+			Long previousArticleId = service.getPreviousArticleId(p_id, vo.getAccount());
+			Long nextArticleId = service.getNextArticleId(p_id, vo.getAccount());
+			
+			// 이전 글의 제목 가져오기
+			BoardVO2 previousArticle = null;
+			String previousArticleTitle = null;
+			String previousArticleCategory = null; // 카테고리 변수 추가
+			if (previousArticleId != null) {
+			    previousArticle = service.read(previousArticleId, vo.getAccount());
+			    previousArticleTitle = previousArticle.getP_title();
+			    previousArticleCategory = previousArticle.getP_category(); // 이전 글의 카테고리 가져오기
+			}
+	
+			// 다음 글의 제목 가져오기
+			BoardVO2 nextArticle = null;
+			String nextArticleTitle = null;
+			String nextArticleCategory = null; // 카테고리 변수 추가
+			if (nextArticleId != null) {
+			    nextArticle = service.read(nextArticleId, vo.getAccount());
+			    nextArticleTitle = nextArticle.getP_title();
+			    nextArticleCategory = nextArticle.getP_category(); // 다음 글의 카테고리 가져오기
 			}
 			
-			// 댓글 페이징 처리
-			service.calculateCommentPagingInfo(m, coPage, p_id);
-
-		    // 댓글 리스트 뷰로 전달
-		    m.addAttribute("commentLists", comment);
+			String previousArticleUrl = (previousArticleId != null) ? cp + "/inquiry/article?p_id=" + previousArticleId + "&page=" + page : null;
+		    String nextArticleUrl = (nextArticleId != null) ? cp + "/inquiry/article?p_id=" + nextArticleId + "&page=" + page : null;
+			
+		    // 글 엔터 처리
+			String con = article.getP_text().replace("\n", "<br>");
+			
+			// 게시글 처리 뷰로 전달
+			m.addAttribute("article", article);
+			m.addAttribute("articleContent", con);
+			
+			m.addAttribute("articleCurrentPage", page);
+			
+			m.addAttribute("previousArticleUrl", previousArticleUrl);
+		    m.addAttribute("nextArticleUrl", nextArticleUrl);
 		    
-		    // 댓글 현재 페이지 뷰로 전달
-		    m.addAttribute("commentCurrentPage", coPage);
-	    }
+		    if (previousArticleTitle != null && previousArticleTitle.length() > 20) {
+		        m.addAttribute("previousArticleTitle", previousArticleTitle.substring(0, 20) + "...");
+		    } else {
+		        m.addAttribute("previousArticleTitle", previousArticleTitle);
+		    }
+		    
+		    if (nextArticleTitle != null && nextArticleTitle.length() > 20) {
+		        m.addAttribute("nextArticleTitle", nextArticleTitle.substring(0, 20) + "...");
+		    } else {
+		        m.addAttribute("nextArticleTitle", nextArticleTitle);
+		    }
+		    
+		    m.addAttribute("previousArticleCategory", previousArticleCategory); // 이전 글의 카테고리 추가
+		    m.addAttribute("nextArticleCategory", nextArticleCategory); // 다음 글의 카테고리 추가
+			
+		    /**
+		     * 댓 글 관 련 코 드
+		     */
+		    
+			// 댓글 시작 인덱스
+			int index = service.getStartIndex(coPage, true);
+			
+			ArrayList<CommentVO> comment = service.getCommentData(p_id, index);
+			
+			// 댓글이 있을 때만
+			if ( comment != null ) {
+				
+				// 댓글 엔터 처리
+				for (CommentVO commentVO : comment) {
+				    String modifiedComment = commentVO.getP_comment().replace("\n", "<br>");
+				    commentVO.setP_comment(modifiedComment);
+				}
+				
+				// 댓글 페이징 처리
+				service.calculateCommentPagingInfo(m, coPage, p_id);
+	
+			    // 댓글 리스트 뷰로 전달
+			    m.addAttribute("commentLists", comment);
+			    
+			    // 댓글 현재 페이지 뷰로 전달
+			    m.addAttribute("commentCurrentPage", coPage);
+		    }
+		}else {
+			rttr.addFlashAttribute("msgType", "오류 메세지");
+			rttr.addFlashAttribute("msg", "로그인이 필요한 서비스입니다.");
+		}
 	}	
 	@PostMapping("/modify")
 	public String modify(RedirectAttributes rttr ,BoardVO2 gvo, @RequestParam("page") int page) {

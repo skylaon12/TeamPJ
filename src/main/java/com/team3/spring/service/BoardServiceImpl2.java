@@ -59,8 +59,8 @@ public class BoardServiceImpl2 implements BoardService2 {
 	
 	// 읽기
 	@Override
-	public BoardVO2 read(long p_id) {
-		return mapper.read(p_id);
+	public BoardVO2 read(long p_id, String account) {
+		return mapper.read(p_id, account);
 	}
 	
 	// 수정
@@ -156,14 +156,14 @@ public class BoardServiceImpl2 implements BoardService2 {
 	
 	// 다음 글의 ID 가져오기
     @Override
-    public Long getNextArticleId(Long currentArticleId) {
-        return mapper.getNextArticleId(currentArticleId);
+    public Long getNextArticleId(long currentArticleId, String account) {
+        return mapper.getNextArticleId(currentArticleId, account);
     }
 
     // 이전 글의 ID 가져오기
     @Override
-    public Long getPreviousArticleId(Long currentArticleId) {
-        return mapper.getPreviousArticleId(currentArticleId);
+    public Long getPreviousArticleId(long currentArticleId, String account) {
+        return mapper.getPreviousArticleId(currentArticleId, account);
     }
     
     // 댓글 쓰기
