@@ -61,7 +61,7 @@
 		<div class="mt-1 mb-3">
 		<div class="container">
 			<button id="searchMore" class="btn btn-light col-sm-12">더보기
-				<img alt="" src="/resources/images/movie/ico-btn-more-arr.png">
+				<img alt="" src="../resources/images/movie/ico-btn-more-arr.png">
 			</button>
 		</div>
 	</div>

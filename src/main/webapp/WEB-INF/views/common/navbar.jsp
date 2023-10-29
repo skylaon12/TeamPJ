@@ -66,21 +66,23 @@
 				</ul>
 			</div>
 			<div class="collapse navbar-collapse justify-content-end">
-				<ul class="navbar-nav util-list">
-					<security:authorize access="isAuthenticated()"><!-- 인증된 사용자 -->
-					<li class="nav-item">
-						<a class="nav-link" href="${cp}/ticketing/reservationInfo">
-							<img src="${cp}/resources/images/nav/ico-schedule.png">
-						</a>
-					</li>
-					</security:authorize>
-					<li class="nav-item">
-						<a class="nav-link" href="${cp}/member/info">
-							<img src="${cp}/resources/images/nav/ico-mymega.png">
-						</a>
-					</li>
-				</ul>
-			</div>
+    			<ul class="navbar-nav util-list">
+        			<security:authorize access="isAuthenticated()"><!-- 인증된 사용자 -->
+        				<li class="nav-item" style="display: flex; align-items: center; min-width: 40px; min-height: 40px; margin-right: 10px; text-wrap: nowrap;">
+            				<a class="nav-link" href="${cp}/ticketing/reservationInfo" style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0;">
+                				<img src="${cp}/resources/images/nav/ico-schedule-edit.png" style="min-height: 25px;" alt="바로 예매">
+                				<span style="font-size: 11px;">예매 내역</span>
+            				</a>
+        				</li>
+        			</security:authorize>
+        			<li class="nav-item" style="display: flex; align-items: center; min-width: 40px; min-height: 40px; margin-left: 10px;">
+            			<a class="nav-link" href="${cp}/member/info" style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0;">
+                			<img src="${cp}/resources/images/nav/ico-mymega.png" style="min-height: 25px;" alt="내 정보">
+                			<span style="font-size: 11px;">내 정보</span>
+            			</a>
+        			</li>
+    			</ul>
+			</div> <!-- 87행까지 -->
 		</nav>
 	</div>
 </div>

@@ -41,7 +41,7 @@
 					</div>
 					<div class="col mt-5 mb-5" style="display: flex; flex-direction: column; justify-content: center;">
 						<img class="rounded" id="poster" src="${poster}" style="width: 18rem;">
-						<a href="${cp}/member/checkLoginStatus?id=${id}"><button type='button' id="bookButton" class='ticketing btn btn-primary mt-3' style="width: 18rem;">예매</button></a>
+						<a href="${cp}/ticketing/screenList?no=${id}"><button type='button' id="bookButton" class='ticketing btn btn-primary mt-3' style="width: 18rem;">예매</button></a>
 					</div>
 				</div>
 			</div>
@@ -114,14 +114,16 @@
 		       	</c:forEach>
 			    </div>
 			    <security:authorize access="isAuthenticated()"><!-- 인증된 사용자 -->
-			    <form id="comment-form" action="${cp}/movie/setComment" method="POST" class="comment-form">
-			    	<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
-			    	<input type="hidden" id="m_id" name="m_id" value="${id}"/>
-			    	<input type="hidden" id="u_name" name="u_name" value="${LOGIN_USER.name}"/>
-			    	<input type="hidden" id="u_account" name="u_account" value="${LOGIN_USER.account}"/>
-			        <textarea id="r_text" name="r_text" placeholder="댓글을 입력하세요..." rows="4"></textarea>
-			        <button type="submit" class="btn btn-dark">댓글 등록</button>
-			    </form>
+			    	<form id="comment-form" action="${cp}/movie/setComment" method="POST" class="comment-form">
+    					<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
+    					<input type="hidden" id="m_id" name="m_id" value="${id}"/>
+    					<input type="hidden" id="u_name" name="u_name" value="${LOGIN_USER.name}"/>
+    					<input type="hidden" id="u_account" name="u_account" value="${LOGIN_USER.account}"/>
+    					<div id="comment-input">
+        					<textarea id="r_text" name="r_text" placeholder="댓글을 입력하세요..."></textarea>
+        					<button id="comment-submit" type="submit" class="btn btn-dark">등록</button>
+    					</div>
+					</form> <!-- 126행까지 -->
 			    </security:authorize>
 			</div>
 			
