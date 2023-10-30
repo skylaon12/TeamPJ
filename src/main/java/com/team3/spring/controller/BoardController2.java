@@ -124,8 +124,8 @@ public class BoardController2 {
 		if(p != null) {
 			MemberVO vo = service.getUserInfo(p.getName());
 			m.addAttribute("LOGIN_USER", vo);
-				
-				
+			String writer = service.getWriter(p_id);
+			
 			String cp = request.getContextPath();
 			
 			// 조회수 중복 복사 방지 ( 쿠키 )
@@ -158,18 +158,18 @@ public class BoardController2 {
 		    }
 			
 		    // 게시글 관련 처리
-			BoardVO2 article = service.read(p_id, vo.getAccount());
+			BoardVO2 article = service.read(p_id, writer);
 			
 			// 이전 글의 ID와 다음 글의 ID 가져오기
-			Long previousArticleId = service.getPreviousArticleId(p_id, vo.getAccount());
-			Long nextArticleId = service.getNextArticleId(p_id, vo.getAccount());
+			Long previousArticleId = service.getPreviousArticleId(p_id, writer);
+			Long nextArticleId = service.getNextArticleId(p_id, writer);
 			
 			// 이전 글의 제목 가져오기
 			BoardVO2 previousArticle = null;
 			String previousArticleTitle = null;
 			String previousArticleCategory = null; // 카테고리 변수 추가
 			if (previousArticleId != null) {
-			    previousArticle = service.read(previousArticleId, vo.getAccount());
+			    previousArticle = service.read(previousArticleId, writer);
 			    previousArticleTitle = previousArticle.getP_title();
 			    previousArticleCategory = previousArticle.getP_category(); // 이전 글의 카테고리 가져오기
 			}
@@ -179,7 +179,7 @@ public class BoardController2 {
 			String nextArticleTitle = null;
 			String nextArticleCategory = null; // 카테고리 변수 추가
 			if (nextArticleId != null) {
-			    nextArticle = service.read(nextArticleId, vo.getAccount());
+			    nextArticle = service.read(nextArticleId, writer);
 			    nextArticleTitle = nextArticle.getP_title();
 			    nextArticleCategory = nextArticle.getP_category(); // 다음 글의 카테고리 가져오기
 			}
@@ -192,6 +192,7 @@ public class BoardController2 {
 			
 			// 게시글 처리 뷰로 전달
 			m.addAttribute("article", article);
+			m.addAttribute("c_writer", vo.getAccount());
 			m.addAttribute("articleContent", con);
 			
 			m.addAttribute("articleCurrentPage", page);

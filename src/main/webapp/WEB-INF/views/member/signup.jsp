@@ -41,7 +41,7 @@
 					type="password" id="pwd" name="pwd" /></td>
 			</tr>
 			<tr>
-				<td><label class="control-label" for="pwd">비밀번호 재입력</label></td>
+				<td><label class="control-label" for="pwd" style="width:120%">비밀번호 확인</label></td>
 				<td><input class="password_input" onkeyup="passwordCheck()" type="password" id="pwd_re" name="pwd_re" /> 
 				<span id="passMessage" style="color: red"></span></td>
 			</tr>

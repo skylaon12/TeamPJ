@@ -169,7 +169,7 @@
 <script src="../resources/js/alertModal.js"></script>
 <script>
 $(document).ready(function(){
-	$("#notice-bar").removeClass("select");
+	$("#notice-bar").removeClass("select-last");
 	$("#write-inquiry-bar").addClass("select");
 })
 </script>

@@ -10,6 +10,8 @@ import com.team3.spring.vo.BoardVO2;
 import com.team3.spring.vo.CommentVO;
 
 public interface BoardMapper2 {
+	// 게시글 작성자 아이디 가져오기
+	public String getWriter(@Param("p_id")Long p_id);
 	// 리스트 ( 검색, 카테고리 )
 	public ArrayList<BoardVO2> list(int page, @Param("p_writer")String account);
 	

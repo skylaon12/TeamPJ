@@ -31,6 +31,11 @@ public class BoardServiceImpl2 implements BoardService2 {
 	}
 	
 	@Override
+	public String getWriter(Long p_id) {
+		return mapper.getWriter(p_id);
+	}
+	
+	@Override
 	public ArrayList<BoardVO2> getLists(String p_category, String searchKey, String word, int page, String account) {
 	    if ( word == null || word.equals("null") ) {
 	    	if ( p_category == null || p_category.isEmpty() ) {
@@ -335,5 +340,6 @@ public class BoardServiceImpl2 implements BoardService2 {
 	    model.addAttribute("commentPrevPage", prevPage);
 	    model.addAttribute("commentNextPage", nextPage);
 	}
+
 
 }

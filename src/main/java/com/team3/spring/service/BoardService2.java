@@ -14,6 +14,8 @@ import com.team3.spring.vo.MemberVO;
 public interface BoardService2 {
 	// 회원정보 가져오기
 	public MemberVO getUserInfo(String account);
+	// 작성자 id 가져오기
+	public String getWriter(Long p_id);
 	// 리스트 ( 검색, 카테고리 )
 	public ArrayList<BoardVO2> getLists(String p_category, String searchKey, String word, int page, String account);
 	

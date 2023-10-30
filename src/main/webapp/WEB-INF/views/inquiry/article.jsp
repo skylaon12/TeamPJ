@@ -160,11 +160,12 @@
 		               		<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
 							
 		                    <input type="hidden" name ="p_ori_id" value="${article.p_id }">
+		                    <input type="hidden" name ="p_writer" value="${c_writer}">
 		                    
 		                    <div style="width: 100%; max-width: 100%; display: flex; flex-direction: column; align-items: center;" >
 		                        <textarea name="p_comment" id="write-area" placeholder="댓글 입력"></textarea>
 								<div style="display: flex; width: 100%; align-items: center;">
-									<span id="wirter-name">여기이름</span>
+									<span id="writer-name">${c_writer}</span>
 			                    	<input type="submit" name="write-submit" id="write-submit" value="등록" onclick="sendIt();">
 								</div>
 		                    </div>
