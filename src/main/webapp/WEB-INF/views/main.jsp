@@ -13,7 +13,6 @@
   	<link rel="stylesheet" href="resources/css/navbar.css" />
   	<link rel="stylesheet" href="resources/css/common.css" />
   	<link rel="icon" href="resources/images/logo/logo-s.png" type="image/x-icon">
-  	<script src="${cp}/resources/js/login.js"></script>
 	<title>SOL CINEMA</title>
 </head>
 <style>

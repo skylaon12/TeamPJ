@@ -97,7 +97,7 @@
                         </div>
                     </div>
                     <div id="write-text-area" style="border-bottom: 1px solid #cacaca;">
-                        <div class="write-category-text" style="width: 20%;">
+                        <div class="write-category-text" style="min-width: 20%;">
                             <span style="margin-left: 15px;">내용<span style="color: red;">*</span></span>
                         </div>
                         <div style="display: flex; align-items: center; width: 100%;">
@@ -105,7 +105,7 @@
                         </div>
                     </div>
 
-	                <div id="btn-area" style="display: flex; justify-content: center;">
+	                <div id="btn-area" style="display: flex; justify-content: center; margin: 10px 0 10px 0;">
 	                    <input type="button" class="write-btn-class" id="write-btn" onclick="sendIt();" value="수정하기">
 	                    <a href="javascript:location.href='<%=cp%>/inquiry/list?page=${articleCurrentPage}';" class="write-btn-class">돌아가기</a>
 	                </div>
@@ -119,7 +119,7 @@
 <script src="../resources/js/alertModal.js"></script>
 <script>
 $(document).ready(function(){
-	$("#notice-bar").removeClass("select");
+	$("#notice-bar").removeClass("select-last");
 	$("#write-inquiry-bar").addClass("select");
 })
 </script>

@@ -148,6 +148,7 @@ tbody tr td:nth-child(2), tbody tr td:nth-child(3) {
     font-size: 14px;
     width: 100%;
     max-width: 640px;
+    min-height: 250px;
     height: auto;
     margin-bottom: 10px;
 }

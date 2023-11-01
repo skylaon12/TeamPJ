@@ -102,7 +102,7 @@
                 <h2 style="padding-bottom: 0.5em; border-bottom: 1px solid #cacaca;">문의하기</h2>
                 
                 <form action="" method="post" name="myForm" id="post-write-area">
-                	<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/>
+<%--                 	<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}"/> --%>
                 	
                 	<input type="hidden" name ="p_writer" value="${LOGIN_USER.account}">
                 	

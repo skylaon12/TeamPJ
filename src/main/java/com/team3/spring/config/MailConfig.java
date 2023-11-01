@@ -24,8 +24,8 @@ public class MailConfig {
 		mailSender.setJavaMailProperties(mailProperties);
 		mailSender.setHost("smtp.gmail.com");
 		mailSender.setPort(587);
-		mailSender.setUsername("skylaon12@gmail.com");
-		mailSender.setPassword("tuyneetqtbfnoxuq");
+		mailSender.setUsername("이메일 주소 입력");
+		mailSender.setPassword("패스워드 입력");
 		mailSender.setDefaultEncoding("utf-8");
 		
 		return mailSender;

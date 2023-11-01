@@ -279,20 +279,17 @@ public class MemberController {
 		return "redirect:/";
 	}
 
-	// 비밀번호 변경 시에는 다시 로그인 하도록
+	// 비밀번호 재설정
 	@RequestMapping(value = "/setPwdProc")
 	public String userPwdModify(RedirectAttributes rttr, MemberVO vo,
 			@RequestParam("pwd_input") String ori_pwd, @RequestParam("pwd_ori") String sessionPwd) {
-		log.info("사용자가 입력한 현재 비밀번호 : " + ori_pwd);
-		log.info("사용자가 입력한 바꿀 비밀번호 : " + vo.getPwd());
-		log.info("세션에서 넘긴 사용자 입력 pw : " + sessionPwd);
-
+			
+		// 기존 pw와 사용자가 입력한 pw를 비교함
+		// 기존 pw는 암호화 되어있기 때문에 암호화 상태로 비교해야한다. 
 		if (pwEncoder.matches(ori_pwd, sessionPwd)) {
 			String encyptPw = pwEncoder.encode(vo.getPwd());
 			vo.setPwd(encyptPw);
 			service.userPwdModify(vo);
-//			s.invalidate();
-			//로그아웃처리
 			return "redirect:logout?id=setNewPwd";
 		} else {
 			rttr.addFlashAttribute("msgType", "가입 메세지");

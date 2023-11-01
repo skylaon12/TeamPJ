@@ -429,7 +429,9 @@ public class AdminController {
 	public void read(Model m, @RequestParam("id") int id, Principal p) {
 		MemberVO vo = service.loadInfo(p.getName());
 		m.addAttribute("admin", vo);
-		m.addAttribute("board", service.read(id));
+		BoardVO bvo = service.read(id);
+		bvo.setP_text(bvo.getP_text().replace("\n", "<br>"));
+		m.addAttribute("board", bvo);
 	}
 	
 	@GetMapping("/boardDel")

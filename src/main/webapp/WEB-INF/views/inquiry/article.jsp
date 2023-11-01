@@ -31,7 +31,7 @@
 			str = f.p_writer.value;
 			str = str.trim();
 			if(!str){
-				alert("\n이름을 입력하세요.");
+				pushModal("\n이름을 입력하세요.");
 				f.p_writer.focus();
 				return;
 			}		
@@ -41,7 +41,7 @@
 			str = f.p_comment.value;
 			str = str.trim();
 			if(!str){
-				alert("\n내용을 입력하세요.");
+				pushModal("\n내용을 입력하세요.");
 				f.p_comment.focus();
 				return;
 			}
@@ -49,7 +49,6 @@
 			
 			f.action = "<%=cp%>/inquiry/writeComment?p_id=" + id + "&page=" + page;
 			f.submit();
-			alert("댓글 등록이 완료 되었습니다.");
 		}
 		
 		
@@ -166,7 +165,7 @@
 		                        <textarea name="p_comment" id="write-area" placeholder="댓글 입력"></textarea>
 								<div style="display: flex; width: 100%; align-items: center;">
 									<span id="writer-name">${c_writer}</span>
-			                    	<input type="submit" name="write-submit" id="write-submit" value="등록" onclick="sendIt();">
+			                    	<input type="button" name="write-submit" id="write-submit" value="등록" onclick="sendIt();">
 								</div>
 		                    </div>
 		               </form>
@@ -217,11 +216,16 @@
         </div>
     </div>
     <%@include file="../common/footer.jsp"%>
+    <%@include file="../common/alertModal.jsp" %>
 </body>
+<script src="../resources/js/alertModal.js"></script>
 <script>
 $(document).ready(function(){
-	$("#notice-bar").removeClass("select");
+	$("#notice-bar").removeClass("select-last");
 	$("#my-inquiry-bar").addClass("select");
+	if(${!empty msgType}){
+		$("#successModal").modal("show");
+	}
 })
 </script>
 </html>

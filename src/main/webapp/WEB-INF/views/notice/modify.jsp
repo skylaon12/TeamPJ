@@ -88,7 +88,7 @@
                         </div>
                     </div>
 
-	                <div id="btn-area" style="display: flex; justify-content: center; margin-top: 10px;">
+	                <div id="btn-area" style="display: flex; justify-content: center; margin: 10px 0 10px 0;">
 	                    <button class="write-btn-class" id="write-btn" onclick="sendIt();">수정하기</button>
 	                    <a href="javascript:location.href='<%=cp%>/notice/list?page=${articleCurrentPage}';" class="write-btn-class">돌아가기</a>
 	                </div>

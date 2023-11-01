@@ -40,7 +40,7 @@ public class MainController {
 	public String sessionExprie(RedirectAttributes rttr) {
 		
 		rttr.addFlashAttribute("msgType", "만료 메세지");
-		rttr.addFlashAttribute("msg", "회원가입에 실패하였습니다.");
-		return "/member/login";
+		rttr.addFlashAttribute("msg", "세션이 만료되었습니다. 다시 로그인 해 주십시오");
+		return "member/login";
 	}
 }

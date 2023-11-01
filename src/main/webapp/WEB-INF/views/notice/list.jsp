@@ -112,7 +112,7 @@
                 </form>
                     
 
-                <div id="paging-area" style="display: flex; justify-content: center;">
+                <div id="paging-area" style="display: flex; justify-content: center; margin-bottom: 10px;">
                 	<c:if test="${totalCount != 0}">
 						<c:choose>
 							<c:when test="${hasPrev}">

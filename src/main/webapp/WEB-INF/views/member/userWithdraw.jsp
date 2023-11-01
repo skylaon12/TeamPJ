@@ -47,7 +47,7 @@
 <p class="disclaimer">회원 탈퇴 시 사용자의 모든 데이터가 삭제됩니다.</p>
     <p class="disclaimer">삭제되는 데이터</p>
     <p class="disclaimer">사용자의 기본 정보</p>
-    <p class="disclaimer">게시물 작성 이력 (아직안함)</p>
+    <p class="disclaimer">1:1문의사항 작성 이력</p>
     <p class="disclaimer">영화 관람평 작성 이력</p>
     <p class="disclaimer">예매 및 결제 내역</p>
     <p class="disclaimer">탈퇴하는 즉시 모든 데이터는 복구 할 수 없습니다.</p>
